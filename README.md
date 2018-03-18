@@ -24,6 +24,12 @@ Install the dependencies of the grunt:
 $ npm install
 ```
 
+Install the dependencies with composer:
+
+```bash
+$ composer update
+```
+
 ## Commands: ##
 
 Lint, compile and compress the files:

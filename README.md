@@ -30,6 +30,25 @@ Install the dependencies with composer:
 $ composer update
 ```
 
+Install WordPress Coding Standards:
+
+```bash
+$ vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs
+```
+
+To verify that the new rules have been added, we can ask PHP CodeSniffer to report to us the sets of rules that it currently has available. In the Terminal, enter the following command:
+
+```bash
+$ vendor/bin/phpcs -i
+```
+
+You should see:
+
+```bash
+The installed coding standards are PEAR, Zend, PSR2, MySource, Squiz, PSR1, WordPress-VIP, WordPress, WordPress-Extra, WordPress-Docs and WordPress-Core
+```
+
+
 ## Commands: ##
 
 Lint, compile and compress the files:

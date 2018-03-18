@@ -1,26 +1,26 @@
 <?php
 /*
 
-  @package    Kuetemeier Essentials
-  @author     Jörg Kütemeier (https://kuetemeier.de/kontakt)
-  @license    Apache License, Version 2.0
-  @link       https://kuetemeier.de
-  @copyright  2018 Jörg Kütemeier
+	@package    Kuetemeier Essentials
+	@author     Jörg Kütemeier (https://kuetemeier.de/kontakt)
+	@license    Apache License, Version 2.0
+	@link       https://kuetemeier.de
+	@copyright  2018 Jörg Kütemeier
 
 
-  @wordpress-plugin
+	@wordpress-plugin
 
 	Plugin Name: Kuetemeier Essentials
-  Plugin URI: http://wordpress.org/extend/plugins/kuetemeier-essentials/
-  Version: 0.1.0
-  Author: Jörg Kütemeier
-  Author URI: https://kuetemeier.de
-  Description: Essential and fast addons for WordPress websites
-  Text Domain: kuetemeier-essentials
-  Domain Path: /languages
-  GitHub Plugin URI: https://github.com/<owner>/<repo>
-  License: Apache License, Version 2.0
-  License URI: http://www.apache.org/licenses/LICENSE-2.0
+	Plugin URI: http://wordpress.org/extend/plugins/kuetemeier-essentials/
+	Version: 0.1.0
+	Author: Jörg Kütemeier
+	Author URI: https://kuetemeier.de
+	Description: Essential and fast addons for WordPress websites
+	Text Domain: kuetemeier-essentials
+	Domain Path: /languages
+	GitHub Plugin URI: https://github.com/<owner>/<repo>
+	License: Apache License, Version 2.0
+	License URI: http://www.apache.org/licenses/LICENSE-2.0
 
 */
 
@@ -31,7 +31,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-  http://www.apache.org/licenses/LICENSE-2.0
+	http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,22 +59,22 @@ $KuetemeierEssentials_minimalRequiredPhpVersion = '5.0';
  * an error message on the Admin page
  */
 function KuetemeierEssentials_noticePhpVersionWrong() {
-    global $KuetemeierEssentials_minimalRequiredPhpVersion;
-    echo '<div class="updated fade">' .
-      __('Error: plugin "Kuetemeier Essentials" requires a newer version of PHP to be running.',  'kuetemeier-essentials').
-            '<br/>' . __('Minimal version of PHP required: ', 'kuetemeier-essentials') . '<strong>' . $KuetemeierEssentials_minimalRequiredPhpVersion . '</strong>' .
-            '<br/>' . __('Your server\'s PHP version: ', 'kuetemeier-essentials') . '<strong>' . phpversion() . '</strong>' .
-         '</div>';
+		global $KuetemeierEssentials_minimalRequiredPhpVersion;
+		echo '<div class="updated fade">' .
+			__('Error: plugin "Kuetemeier Essentials" requires a newer version of PHP to be running.',  'kuetemeier-essentials').
+						'<br/>' . __('Minimal version of PHP required: ', 'kuetemeier-essentials') . '<strong>' . $KuetemeierEssentials_minimalRequiredPhpVersion . '</strong>' .
+						'<br/>' . __('Your server\'s PHP version: ', 'kuetemeier-essentials') . '<strong>' . phpversion() . '</strong>' .
+				 '</div>';
 }
 
 
 function KuetemeierEssentials_PhpVersionCheck() {
-    global $KuetemeierEssentials_minimalRequiredPhpVersion;
-    if (version_compare(phpversion(), $KuetemeierEssentials_minimalRequiredPhpVersion) < 0) {
-        add_action('admin_notices', 'KuetemeierEssentials_noticePhpVersionWrong');
-        return false;
-    }
-    return true;
+		global $KuetemeierEssentials_minimalRequiredPhpVersion;
+		if (version_compare(phpversion(), $KuetemeierEssentials_minimalRequiredPhpVersion) < 0) {
+				add_action('admin_notices', 'KuetemeierEssentials_noticePhpVersionWrong');
+				return false;
+		}
+		return true;
 }
 
 
@@ -86,8 +86,8 @@ function KuetemeierEssentials_PhpVersionCheck() {
  * @return void
  */
 function KuetemeierEssentials_i18n_init() {
-    $pluginDir = dirname(plugin_basename(__FILE__));
-    load_plugin_textdomain('kuetemeier-essentials', false, $pluginDir . '/languages/');
+		$pluginDir = dirname(plugin_basename(__FILE__));
+		load_plugin_textdomain('kuetemeier-essentials', false, $pluginDir . '/languages/');
 }
 
 
@@ -100,7 +100,7 @@ add_action('plugins_loadedi','KuetemeierEssentials_i18n_init');
 
 // check PHP Version requirements
 if (KuetemeierEssentials_CheckPHPVersion()) {
-    // Only load and run the init function if we know PHP version can parse it
-    include_once('kuetemeier-essentials_init.php');
-    KuetemeierEssentials_init(__FILE__);
+		// Only load and run the init function if we know PHP version can parse it
+		include_once('kuetemeier-essentials_init.php');
+		KuetemeierEssentials_init(__FILE__);
 }

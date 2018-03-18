@@ -57,13 +57,16 @@ define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6' );
 
 /**
  * Initialize internationalization (i18n) for this plugin.
+ * WordPress Hook, not called directly.
  * References:
  *      http://codex.wordpress.org/I18n_for_WordPress_Developers
  *      http://www.wdmac.com/how-to-create-a-po-language-translation#more-631
  *
  * @return void
+ *
+ * @since 1.0.0
  */
-function kuetemeier_essentials_i18n_init() {
+function kuetemeier_essentials_hook_i18n_init() {
 
 	$_plugin_dir = dirname( plugin_basename( __FILE__ ) );
 	load_plugin_textdomain( 'kuetemeier-essentials', false, $_plugin_dir . '/languages/' );
@@ -71,10 +74,12 @@ function kuetemeier_essentials_i18n_init() {
 }
 
 /**
- * Hook function, called by WordPress (not to be called directly)
  * Display an error notice to the admin area
+ * WordPress Hook, not called directly.
  *
  * @return void
+ *
+ * @since 1.0.0
  */
 function kuetemeier_essentials_hook_display_admin_notice() {
 
@@ -92,8 +97,11 @@ function kuetemeier_essentials_hook_display_admin_notice() {
 
 /**
  * Checks the PHP version against the required version
+ * If not met, displays an error to the admin area.
  *
  * @return boolean true if requirements are met, false otherwise
+ *
+ * @since 1.0.0
  */
 function kuetemeier_essentials_is_php_version_requirements_fulfilled() {
 
@@ -110,7 +118,7 @@ function kuetemeier_essentials_is_php_version_requirements_fulfilled() {
  */
 
 // Initialize i18n.
-add_action( 'plugins_loaded', 'kuetemeier_essentials_i18n_init' );
+add_action( 'plugins_loaded', 'kuetemeier_essentials_hook_i18n_init' );
 
 // Check PHP version requirements.
 if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {

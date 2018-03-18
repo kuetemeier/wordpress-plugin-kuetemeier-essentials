@@ -120,8 +120,8 @@ function kuetemeier_essentials_is_php_version_requirements_fulfilled() {
  * @since 1.0.0
  */
 function kuetemeier_essentials_hook_activate() {
-	require_once plugin_dir_path( __FILE__ ) . 'src/class-kuetemeier-essentials-activator.php';
-	\Kuetemeier_Essentials\Kuetemeier_Essentials_Activator::activate();
+	require_once plugin_dir_path( __FILE__ ) . 'src/admin/class-activator.php';
+	\Kuetemeier_Essentials\admin\Activator::activate();
 }
 /**
  * This code runs during plugin deactivation.
@@ -132,8 +132,8 @@ function kuetemeier_essentials_hook_activate() {
  * @since 1.0.0
  */
 function kuetemeier_essentials_hook_deactivate() {
-	require_once plugin_dir_path( __FILE__ ) . 'src/class-kuetemeier-essentials-deactivator.php';
-	\Kuetemeier_Essentials\Kuetemeier_Essentials_Deactivator::deactivate();
+	require_once plugin_dir_path( __FILE__ ) . 'src/admin/class-deactivator.php';
+	\Kuetemeier_Essentials\admin\Deactivator::deactivate();
 }
 
 
@@ -152,8 +152,11 @@ function kuetemeier_essentials_init() {
 	// Check PHP version requirements.
 	if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {
 
-		register_activation_hook( __FILE__, 'kuetemeier_essentials_hook_activate' );
-		register_deactivation_hook( __FILE__, 'kuetemeier_essentials_hook_deactivate' );
+		// TODO: check if this works with WP-CLI.
+		if ( is_admin() ) {
+			register_activation_hook( __FILE__, 'kuetemeier_essentials_hook_activate' );
+			register_deactivation_hook( __FILE__, 'kuetemeier_essentials_hook_deactivate' );
+		}
 
 		// Everything O.K., let's go! Include the main Kuetemeier_Essentials class.
 		if ( ! class_exists( \Kuetemeier_Essentials\Kuetemeier_Essentials::class ) ) {
@@ -161,9 +164,7 @@ function kuetemeier_essentials_init() {
 		}
 
 		// Initialize plugin.
-		$kuetemeier_essentials = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
-
-		$kuetemeier_essentials->debug_to_console( 'Hallo Welt' );
+		\Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
 	}
 }
 

@@ -161,7 +161,9 @@ function kuetemeier_essentials_init() {
 		}
 
 		// Initialize plugin.
-		\Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
+		$kuetemeier_essentials = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
+
+		$kuetemeier_essentials->debug_to_console( 'Hallo Welt' );
 	}
 }
 

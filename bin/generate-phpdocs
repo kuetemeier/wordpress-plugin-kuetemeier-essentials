@@ -1,0 +1,1 @@
+phpdoc -f kuetemeier-essentials.php -d ./src -t ./phpdocs

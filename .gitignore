@@ -9,3 +9,5 @@ phpcs.xml
 kuetemeier-essentials.sublime-project
 kuetemeier-essentials.sublime-workspace
 **/*.po~
+**/.DS_Store
+phpdocs

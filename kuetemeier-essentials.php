@@ -49,7 +49,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 define( 'KUETEMEIER_ESSENTIALS_NAME', 'Kuetemeier Essentials' );
 define( 'KUETEMEIER_ESSENTIALS_VERSION', '0.1.0' );
 define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6' );
-define( 'KUETEMEIER_ESSENTIALS_PLUGIN_DIR', dirname( plugin_basename( __FILE__ ) ) );
+define( 'KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 
 /***************************************
@@ -111,22 +111,58 @@ function kuetemeier_essentials_is_php_version_requirements_fulfilled() {
 	return true;
 }
 
-
-/************************
- * Plugin initialization
+/**
+ * This code runs during plugin activation.
+ * WordPress Hook, not called directly.
+ *
+ * @return void
+ *
+ * @since 1.0.0
  */
-
-// Initialize i18n.
-add_action( 'plugins_loaded', 'kuetemeier_essentials_hook_i18n_init' );
-
-// Check PHP version requirements.
-if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {
-
-	// Everything O.K., let's go! Include the main Kuetemeier_Essentials class.
-	if ( ! class_exists( \Kuetemeier_Essentials\Kuetemeier_Essentials::class ) ) {
-		include_once KUETEMEIER_ESSENTIALS_PLUGIN_DIR . '/src/class-kuetemeier-essentials.php';
-	}
-
-	// Initialize plugin.
-	\Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
+function kuetemeier_essentials_hook_activate() {
+	require_once plugin_dir_path( __FILE__ ) . 'src/class-kuetemeier-essentials-activator.php';
+	\Kuetemeier_Essentials\Kuetemeier_Essentials_Activator::activate();
 }
+/**
+ * This code runs during plugin deactivation.
+ * WordPress Hook, not called directly.
+ *
+ * @return void
+ *
+ * @since 1.0.0
+ */
+function kuetemeier_essentials_hook_deactivate() {
+	require_once plugin_dir_path( __FILE__ ) . 'src/class-kuetemeier-essentials-deactivator.php';
+	\Kuetemeier_Essentials\Kuetemeier_Essentials_Deactivator::deactivate();
+}
+
+
+/**
+ * Plugin initialization
+ *
+ * Everything is registered via hooks and should not effect page life cycle.
+ *
+ * @since 1.0.0
+ */
+function kuetemeier_essentials_init() {
+
+	// Initialize i18n.
+	add_action( 'plugins_loaded', 'kuetemeier_essentials_hook_i18n_init' );
+
+	// Check PHP version requirements.
+	if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {
+
+		register_activation_hook( __FILE__, 'kuetemeier_essentials_hook_activate' );
+		register_deactivation_hook( __FILE__, 'kuetemeier_essentials_hook_deactivate' );
+
+		// Everything O.K., let's go! Include the main Kuetemeier_Essentials class.
+		if ( ! class_exists( \Kuetemeier_Essentials\Kuetemeier_Essentials::class ) ) {
+			include_once KUETEMEIER_ESSENTIALS_PLUGIN_DIR . '/src/class-kuetemeier-essentials.php';
+		}
+
+		// Initialize plugin.
+		\Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
+	}
+}
+
+kuetemeier_essentials_init();

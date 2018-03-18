@@ -6,3 +6,5 @@ composer.lock
 phpunit.xml
 phpcs.xml
 .phpcs.xml
+kuetemeier-essentials.sublime-project
+kuetemeier-essentials.sublime-workspace

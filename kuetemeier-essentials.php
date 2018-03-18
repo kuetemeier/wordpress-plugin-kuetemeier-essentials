@@ -49,6 +49,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 define( 'KUETEMEIER_ESSENTIALS_NAME', 'Kuetemeier Essentials' );
 define( 'KUETEMEIER_ESSENTIALS_VERSION', '0.1.0' );
 define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6' );
+define( 'KUETEMEIER_ESSENTIALS_PLUGIN_DIR', dirname( plugin_basename( __FILE__ ) ) );
 
 
 /***************************************
@@ -68,9 +69,7 @@ define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6' );
  */
 function kuetemeier_essentials_hook_i18n_init() {
 
-	$_plugin_dir = dirname( plugin_basename( __FILE__ ) );
-	load_plugin_textdomain( 'kuetemeier-essentials', false, $_plugin_dir . '/languages/' );
-
+	load_plugin_textdomain( 'kuetemeier-essentials', false, KUETEMEIER_ESSENTIALS_PLUGIN_DIR . '/languages/' );
 }
 
 /**
@@ -122,4 +121,12 @@ add_action( 'plugins_loaded', 'kuetemeier_essentials_hook_i18n_init' );
 
 // Check PHP version requirements.
 if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {
+
+	// Everything O.K., let's go! Include the main Kuetemeier_Essentials class.
+	if ( ! class_exists( \Kuetemeier_Essentials\Kuetemeier_Essentials::class ) ) {
+		include_once KUETEMEIER_ESSENTIALS_PLUGIN_DIR . '/src/class-kuetemeier-essentials.php';
+	}
+
+	// Initialize plugin.
+	\Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
 }

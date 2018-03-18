@@ -36,42 +36,24 @@
  * limitations under the License.
  */
 
-/*
+/*********************************
  * KEEP THIS for security reasons
  * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
  */
-defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
-
-/* define constants, use old style for php version check */
-define( 'KUETEMEIER_ESSENTIALS_VERSION', '0.1.0' );
-define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.0' );
+defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 
-/**
- * Check the PHP version and give a useful error message if the user's version is less than the required version
- *
- * @return boolean true if version check passed. If false, triggers an error which WP will handle, by displaying
- * an error message on the Admin page
+/********************************************************
+ * Define constants, use old style for php version check
  */
-function KuetemeierEssentials_noticePhpVersionWrong() {
-		global $KuetemeierEssentials_minimalRequiredPhpVersion;
-		echo '<div class="updated fade">' .
-			__( 'Error: plugin "Kuetemeier Essentials" requires a newer version of PHP to be running.', 'kuetemeier-essentials' ) .
-						'<br/>' . __( 'Minimal version of PHP required: ', 'kuetemeier-essentials' ) . '<strong>' . $KuetemeierEssentials_minimalRequiredPhpVersion . '</strong>' .
-						'<br/>' . __( 'Your server\'s PHP version: ', 'kuetemeier-essentials' ) . '<strong>' . phpversion() . '</strong>' .
-				 '</div>';
-}
+define( 'KUETEMEIER_ESSENTIALS_NAME', 'Kuetemeier Essentials' );
+define( 'KUETEMEIER_ESSENTIALS_VERSION', '0.1.0' );
+define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6' );
 
 
-function KuetemeierEssentials_PhpVersionCheck() {
-		global $KuetemeierEssentials_minimalRequiredPhpVersion;
-	if ( version_compare( phpversion(), $KuetemeierEssentials_minimalRequiredPhpVersion ) < 0 ) {
-			add_action( 'admin_notices', 'KuetemeierEssentials_noticePhpVersionWrong' );
-			return false;
-	}
-		return true;
-}
-
+/***************************************
+ * Helper functions for initialisation
+ */
 
 /**
  * Initialize internationalization (i18n) for this plugin.
@@ -81,22 +63,55 @@ function KuetemeierEssentials_PhpVersionCheck() {
  *
  * @return void
  */
-function KuetemeierEssentials_i18n_init() {
-		$pluginDir = dirname( plugin_basename( __FILE__ ) );
-		load_plugin_textdomain( 'kuetemeier-essentials', false, $pluginDir . '/languages/' );
+function kuetemeier_essentials_i18n_init() {
+
+	$_plugin_dir = dirname( plugin_basename( __FILE__ ) );
+	load_plugin_textdomain( 'kuetemeier-essentials', false, $_plugin_dir . '/languages/' );
+
+}
+
+/**
+ * Hook function, called by WordPress (not to be called directly)
+ * Display an error notice to the admin area
+ *
+ * @return void
+ */
+function kuetemeier_essentials_hook_display_admin_notice() {
+
+	printf( '<div class="error fade">' .
+		/* translators: %1$s Plugin Version */
+		esc_html__( 'Error: Plugin "%s" requires a newer version of PHP.', 'kuetemeier-essentials' ) . '<br/>' .
+		esc_html__( 'Minimal PHP version required:', 'kuetemeier-essentials' ) .
+		' <strong>' . esc_html( KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION ) . '</strong><br/>' .
+		esc_html__( 'Current PHP version running on this server:', 'kuetemeier-essentials' ) .
+		' <strong>' . esc_html( phpversion() ) . '</strong>' .
+		'</div>',
+		esc_html( KUETEMEIER_ESSENTIALS_NAME )
+	);
+}
+
+/**
+ * Checks the PHP version against the required version
+ *
+ * @return boolean true if requirements are met, false otherwise
+ */
+function kuetemeier_essentials_is_php_version_requirements_fulfilled() {
+
+	if ( version_compare( phpversion(), KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION ) < 0 ) {
+		add_action( 'admin_notices', 'kuetemeier_essentials_hook_display_admin_notice' );
+		return false;
+	}
+	return true;
 }
 
 
-//////////////////////////////////
-// Run initialization
-/////////////////////////////////
+/************************
+ * Plugin initialization
+ */
 
-// Initialize i18n
-add_action( 'plugins_loadedi', 'KuetemeierEssentials_i18n_init' );
+// Initialize i18n.
+add_action( 'plugins_loaded', 'kuetemeier_essentials_i18n_init' );
 
-// check PHP Version requirements
-if ( KuetemeierEssentials_CheckPHPVersion() ) {
-		// Only load and run the init function if we know PHP version can parse it
-		include_once 'kuetemeier-essentials_init.php';
-		KuetemeierEssentials_init( __FILE__ );
+// Check PHP version requirements.
+if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {
 }

@@ -1,5 +1,17 @@
 {
-    "require": {
-        "squizlabs/php_codesniffer": "2.*"
-    }
+	"name"       : "kuetemeiernet/kuetemeier-essentials",
+	"description": "WordPress PlugIn",
+	"keywords"   : ["kuetemeier", "WordPress"],
+	"license"    : "Apache License, Version 2.0",
+	"authors"    : [
+		{
+			"name"    : "Jörg Kütemeier",
+			"homepage": "https://kuetemeier.de"
+
+		}
+	],
+	"require"    : {
+		"php" : ">=5.3",
+		"squizlabs/php_codesniffer": "^2.9.0 || ^3.0.2"
+	}
 }

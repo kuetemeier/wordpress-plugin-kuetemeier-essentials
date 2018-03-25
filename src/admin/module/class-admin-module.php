@@ -22,7 +22,7 @@
  * limitations under the License.
  */
 
-namespace Kuetemeier_Essentials\Admin;
+namespace Kuetemeier_Essentials\Admin\Module;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -31,18 +31,10 @@ namespace Kuetemeier_Essentials\Admin;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 /**
- * Class Activator
+ * Class Kuetemeier_Essentials
  */
-class Deactivator {
+abstract class Admin_Module {
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function deactivate() {
-	}
-
+	abstract public function options_page_setup();
 }
+

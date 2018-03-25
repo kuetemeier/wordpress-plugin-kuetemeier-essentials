@@ -136,6 +136,12 @@ function kuetemeier_essentials_hook_deactivate() {
 	\Kuetemeier_Essentials\admin\Deactivator::deactivate();
 }
 
+function kuetemeier_essentials_admin_init() {
+	register_activation_hook( __FILE__, 'kuetemeier_essentials_hook_activate' );
+	register_deactivation_hook( __FILE__, 'kuetemeier_essentials_hook_deactivate' );
+
+	\Kuetemeier_Essentials\Kuetemeier_Essentials::instance()->admin_init();
+}
 
 /**
  * Plugin initialization
@@ -152,11 +158,6 @@ function kuetemeier_essentials_init() {
 	// Check PHP version requirements.
 	if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {
 
-		// TODO: check if this works with WP-CLI.
-		if ( is_admin() ) {
-			register_activation_hook( __FILE__, 'kuetemeier_essentials_hook_activate' );
-			register_deactivation_hook( __FILE__, 'kuetemeier_essentials_hook_deactivate' );
-		}
 
 		// Everything O.K., let's go! Include the main Kuetemeier_Essentials class.
 		if ( ! class_exists( \Kuetemeier_Essentials\Kuetemeier_Essentials::class ) ) {
@@ -164,7 +165,14 @@ function kuetemeier_essentials_init() {
 		}
 
 		// Initialize plugin.
-		\Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
+		$instance = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
+
+		if ($instance) {
+			// init our admin functions
+			add_action( 'admin_init', 'kuetemeier_essentials_admin_init');
+			add_action( 'admin_menu', array( $instance, 'options_page' ) );
+
+		}
 	}
 }
 

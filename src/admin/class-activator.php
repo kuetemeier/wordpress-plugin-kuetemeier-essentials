@@ -22,7 +22,7 @@
  * limitations under the License.
  */
 
-namespace Kuetemeier_Essentials\admin;
+namespace Kuetemeier_Essentials\Admin;
 
 /*********************************
  * KEEP THIS for security reasons

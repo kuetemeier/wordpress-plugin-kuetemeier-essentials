@@ -22,7 +22,9 @@
  * limitations under the License.
  */
 
-namespace Kuetemeier_Essentials\Admin;
+namespace Kuetemeier_Essentials\Frontend\Module;
+
+require_once( dirname(__FILE__) . '/class-frontend-module.php' );
 
 /*********************************
  * KEEP THIS for security reasons
@@ -31,18 +33,20 @@ namespace Kuetemeier_Essentials\Admin;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 /**
- * Class Activator
+ * Class Kuetemeier_Essentials
  */
-class Deactivator {
+class Data_Privacy_Frontend extends Frontend_Module {
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function deactivate() {
+	public function get_id() {
+		return 'data-privacy';
+	}
+
+	public function get_name() {
+		return 'Data Privacy';
+	}
+
+	public function settings_init() {
+
 	}
 
 }

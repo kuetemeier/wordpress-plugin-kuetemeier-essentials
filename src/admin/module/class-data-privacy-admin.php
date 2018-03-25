@@ -22,7 +22,9 @@
  * limitations under the License.
  */
 
-namespace Kuetemeier_Essentials\Admin;
+namespace Kuetemeier_Essentials\Admin\Module;
+
+require_once( dirname(__FILE__) . '/class-admin-module.php' );
 
 /*********************************
  * KEEP THIS for security reasons
@@ -31,18 +33,11 @@ namespace Kuetemeier_Essentials\Admin;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 /**
- * Class Activator
+ * Class Kuetemeier_Essentials
  */
-class Deactivator {
+class Data_Privacy_Admin extends Admin_Module {
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function deactivate() {
-	}
-
+    function __construct() {
+        parent::__construct();
+    }
 }

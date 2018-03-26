@@ -88,6 +88,14 @@ class Core_Admin extends Admin_Module {
  	}
 
 
+ 	public function oenology_get_settings_page_tabs() {
+		$tabs = array(
+			'general' => 'General',
+			'varietals' => 'Varietals'
+			);
+		return $tabs;
+	}
+
 	public function _callback_settings_dashboard_common( $args ) {
 		$modules = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance()->get_modules();
 
@@ -123,6 +131,7 @@ print_r ($options);
 		} // end if
 */
 
+/*
 	    $key = 'module_load_data_privacy';
 	    $value = 0;
 	    if ( array_key_exists( 'core', $options ) ) {
@@ -135,10 +144,20 @@ print_r ($options);
 			    }
 			}
 		}
+*/
+	    $key = 'module_load_data_privacy';
+	    $value = 0;
+	    if ( array_key_exists( $key, $options ) ) {
+		    $_value = $options[$key];
+		    if ( ! empty( $_value ) ) {
+	    		$value = $_value;
+			}
+		}
+print_r ($value);
 
 	    // Next, we update the name attribute to access this element's ID in the context of the display options array
 	    // We also access the show_header element of the options collection in the call to the checked() helper function
-	    $html = '<input type="checkbox" id="' .$key. '" name="'.\Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY.'[core][' .$key . ']" value="1" ' . checked(1, $value, false) . '/>';
+	    $html = '<input type="checkbox" id="' .$key. '" name="'.\Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY.'[' .$key . ']" value="1" ' . checked(1, $value, false) . '/>';
 
 	    // Here, we'll take the first argument of the array and add it to a label next to the checkbox
 	    $html .= '<label for="' . $key . '"> '  . $args[0] . '</label>';
@@ -154,20 +173,16 @@ print_r ($options);
 
 	    $key = 'module_load_develop';
 	    $value = 0;
-	    if ( array_key_exists( 'core', $options ) ) {
-		    $_value = $options['core'];
+	    if ( array_key_exists( $key, $options ) ) {
+		    $_value = $options[$key];
 		    if ( ! empty( $_value ) ) {
-			    if ( array_key_exists( $key, $_value ) ) {
-			    	$_value = $_value[$key];
-			    	if ( ! empty ($_value) )
-			    		$value = $_value;
-			    }
+	    		$value = $_value;
 			}
 		}
 
 	    // Next, we update the name attribute to access this element's ID in the context of the display options array
 	    // We also access the show_header element of the options collection in the call to the checked() helper function
-	    $html = '<input type="checkbox" id="' .$key. '" name="'.\Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY.'[core][' .$key . ']" value="1" ' . checked(1, $value, false) . '/>';
+	    $html = '<input type="checkbox" id="' .$key. '" name="'.\Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY.'[' .$key . ']" value="1" ' . checked(1, $value, false) . '/>';
 
 	    // Here, we'll take the first argument of the array and add it to a label next to the checkbox
 	    $html .= '<label for="' . $key . '"> '  . $args[0] . '</label>';
@@ -175,6 +190,38 @@ print_r ($options);
 	    echo $html;
 	} // end sandbox_toggle_header_callback
 
+	public function _options_validate( $input ) {
+		$_options = get_option(  \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY );
+		$valid_input = $_options;
+
+		// Determine which form action was submitted
+		$submit_general = ( ! empty( $input['submit-general']) ? true : false );
+		$reset_general = ( ! empty($input['reset-general']) ? true : false );
+		$submit_varietals = ( ! empty($input['submit-varietals']) ? true : false );
+		$reset_varietals = ( ! empty($input['reset-varietals']) ? true : false );
+
+
+		if ( $submit_general ) { // if General Settings Submit
+/*
+			$valid_input['header_nav_menu_position'] = ( 'below' == $input['header_nav_menu_position'] ? 'below' : 'above' );
+			$valid_input['header_nav_menu_depth'] = ( ( 1 || 2 || 3 ) == $input['header_nav_menu_depth'] ? $input['header_nav_menu_depth'] : $valid_input['header_nav_menu_depth'] );
+*/
+			$valid_input['module_load_data_privacy'] = ( '1' == $input['module_load_data_privacy'] ? 1 : 0 );
+		} elseif ( $reset_general ) { // if General Settings Reset Defaults
+/*
+			$oenology_default_options = oenology_get_default_options();
+			$valid_input['header_nav_menu_position'] = $oenology_default_options['header_nav_menu_position'];
+			$valid_input['header_nav_menu_depth'] = $oenology_default_options['header_nav_menu_depth'];
+			$valid_input['display_footer_credit'] = $oenology_default_options['display_footer_credit'];
+*/
+			$valid_input['module_load_data_privacy'] = 1;
+		} elseif ( $submit_varietals ) {
+			$valid_input['module_load_develop'] = ( '1' == $input['module_load_develop'] ? 1 : 0 );
+		}
+//print_r ($valid_input);
+//exit (0);
+		return $valid_input;
+	}
 
  	public function _callback_admin_init_settings() {
 
@@ -196,46 +243,72 @@ print_r ($options);
 	    );
 
 
-	    // Next, we'll introduce the fields for toggling the visibility of content elements.
-	    add_settings_field(
-	    	// ID used to identify the field throughout the theme
-	        'module_load_data_privacy',
-	        // The label to the left of the option interface element
-	        'Data Privacy Module',
-	        // The name of the function responsible for rendering the option interface
-	        array( &$this, '_callback_setting_toggle_module_privacy'),
-	        // The page on which this option will be displayed
-	        \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG,
-	        // The name of the section to which this field belongs
-	        \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY,
-	        // The array of arguments to pass to the callback. In this case, just a description.
-	        array(
-	            'Activate this setting to load the data privacy module.'
-	        )
-	    );
-
-
-	    // Next, we'll introduce the fields for toggling the visibility of content elements.
-	    add_settings_field(
-	    	// ID used to identify the field throughout the theme
-	        'module_load_develop',
-	        // The label to the left of the option interface element
-	        'Develop Module',
-	        // The name of the function responsible for rendering the option interface
-	        array( &$this, '_callback_setting_toggle_module_develop'),
-	        // The page on which this option will be displayed
-	        \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG,
-	        // The name of the section to which this field belongs
-	        \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY,
-	        // The array of arguments to pass to the callback. In this case, just a description.
-	        array(
-	            'Activate this setting to load the develop module.'
-	        )
-	    );
 
 
 
-		register_setting( \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG, \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY );
+
+
+		register_setting( \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG, \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY, array( &$this, '_options_validate') );
+
+		register_setting( 'theme_oenology_options', 'theme_oenology_options', 'oenology_options_validate' );
+
+		global $pagenow;
+		if ( 'admin.php' == $pagenow && isset( $_GET['page'] ) && 'kuetemeier_essentials' == $_GET['page'] ) :
+     		if ( isset ( $_GET['tab'] ) ) :
+          		$tab = $_GET['tab'];
+     		else:
+        		$tab = 'general';
+     		endif;
+     		switch ( $tab ) :
+        		case 'general' :
+               		//require( get_template_directory() . '/functions/options-register-general.php' );
+
+				    // Next, we'll introduce the fields for toggling the visibility of content elements.
+				    add_settings_field(
+				    	// ID used to identify the field throughout the theme
+				        'module_load_data_privacy',
+				        // The label to the left of the option interface element
+				        'Data Privacy Module',
+				        // The name of the function responsible for rendering the option interface
+				        array( &$this, '_callback_setting_toggle_module_privacy'),
+				        // The page on which this option will be displayed
+				        \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG,
+				        // The name of the section to which this field belongs
+				        \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY,
+				        // The array of arguments to pass to the callback. In this case, just a description.
+				        array(
+				            'Activate this setting to load the data privacy module.'
+				        )
+				    );
+
+
+               		break;
+          		case 'varietals' :
+
+
+				    // Next, we'll introduce the fields for toggling the visibility of content elements.
+				    add_settings_field(
+				    	// ID used to identify the field throughout the theme
+				        'module_load_develop',
+				        // The label to the left of the option interface element
+				        'Develop Module',
+				        // The name of the function responsible for rendering the option interface
+				        array( &$this, '_callback_setting_toggle_module_develop'),
+				        // The page on which this option will be displayed
+				        \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG,
+				        // The name of the section to which this field belongs
+				        \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY,
+				        // The array of arguments to pass to the callback. In this case, just a description.
+				        array(
+				            'Activate this setting to load the develop module.'
+				        )
+				    );
+
+
+               		//require( get_template_directory() . '/functions/options-register-varietals.php' );
+               		break;
+     		endswitch;
+		endif;
 
  	}
 

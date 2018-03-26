@@ -30,11 +30,65 @@ namespace Kuetemeier_Essentials\Admin\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
+require_once( plugin_dir_path( __FILE__ ) . '/../../config.php' );
+
 /**
  * Class Kuetemeier_Essentials
  */
 abstract class Admin_Module {
 
-	abstract public function options_page_setup();
+	function __construct() {
+
+	}
+
+	abstract public function _callback_admin_menu();
+
+	abstract public function _callback_admin_init();
+
+
+ 	protected function _display_option_page( $page_slug, $capabilitiy_level = \Kuetemeier_Essentials\ADMIN_PAGE_CAPABILITY ) {
+		// check user capabilities
+		if ( ! current_user_can( $capabilitiy_level ) ) {
+			return;
+		}
+
+		// add error/update messages
+
+		// check if the user have submitted the settings
+		// wordpress will add the "settings-updated" $_GET parameter to the url
+		if ( isset( $_GET['settings-updated'] ) ) {
+		// add settings saved message with the class of "updated"
+			add_settings_error( 'kuetemeier_essentials_messages', 'kuetemeier_essentials_message', __( 'Settings Saved', 'kuetemeier_essentials' ), 'updated' );
+		}
+
+		// show error/update messages
+		// settings_errors( 'kuetemeier_essentials_messages' );
+		?>
+
+		<!-- Create a header in the default WordPress 'wrap' container -->
+		<div class="wrap">
+
+			<!-- Add the icon to the page -->
+			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
+
+			<!-- Make a call to the WordPress function for rendering errors when settings are saved. -->
+			<?php settings_errors(); ?>
+
+			<form action="options.php" method="post">
+				<?php
+				// output fields for the registered setting
+				settings_fields( $page_slug );
+
+				// output setting sections and their fields
+				do_settings_sections( $page_slug );
+
+				// output save settings button
+				submit_button( esc_html__( 'Save Settings', \Kuetemeier_Essentials\TEXTDOMAIN ) );
+				?>
+			</form>
+		</div>
+		<?php
+  	}
+
 }
 

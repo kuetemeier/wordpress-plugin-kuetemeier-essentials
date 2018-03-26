@@ -22,7 +22,7 @@
  * limitations under the License.
  */
 
-namespace Kuetemeier_Essentials\Frontend\Module;
+namespace Kuetemeier_Essentials;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -30,14 +30,12 @@ namespace Kuetemeier_Essentials\Frontend\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-/**
- * Class Kuetemeier_Essentials
- */
-abstract class Frontend_Module {
+const TEXTDOMAIN = 'kuetemeier_essentials';
 
-	abstract public function get_id();
+const ADMIN_MENU_SLUG = 'kuetemeier_essentials';
+const ADMIN_PAGE_SLUG = 'kuetemeier_essentials';
+const ADMIN_PAGE_CAPABILITY = 'administrator';
 
-	abstract public function get_name();
-
-}
-
+const CORE_ADMIN_PAGE_SLUG = 'kuetemeier_essentials_dashboard';
+const CORE_SETTINGS_GROUP = 'kuetemeier_essentials_options';
+const CORE_OPTIONS_KEY = CORE_SETTINGS_GROUP;

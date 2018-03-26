@@ -22,7 +22,7 @@
  * limitations under the License.
  */
 
-namespace Kuetemeier_Essentials\Frontend\Module;
+namespace Kuetemeier_Essentials;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -31,13 +31,50 @@ namespace Kuetemeier_Essentials\Frontend\Module;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 /**
- * Class Kuetemeier_Essentials
+ * Class Modules - mangae kuetemeier_essential module classes
  */
-abstract class Frontend_Module {
+class Options {
 
-	abstract public function get_id();
+	/*protected $_options = array();*/
 
-	abstract public function get_name();
+	function __construct() {
+/*		$_temp_options = get_option( self::OPTIONS_KEY, false);
 
+		if ( isset ( $_temp_options ) ) {
+
+		} else {
+			$this->init_with_default_values();
+		}*/
+
+
+
+
+	}
+
+
+
+
+/*
+	public function init_with_default_values() {
+		$_options = array(
+			'test' => 'Juhu!'
+		);
+	}
+
+	public function get( $key, $default = false ) {
+		$key = trim( $key );
+    	if ( empty( $key ) )
+        	return $default;
+
+        $value = $_options[$key];
+        if ( empty( $value) )
+        	return $default;
+
+		return $value;
+	}
+
+	public function init() {
+
+	}
+*/
 }
-

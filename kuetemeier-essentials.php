@@ -119,10 +119,11 @@ function kuetemeier_essentials_is_php_version_requirements_fulfilled() {
  *
  * @since 1.0.0
  */
-function kuetemeier_essentials_hook_activate() {
-	require_once plugin_dir_path( __FILE__ ) . 'src/admin/class-activator.php';
+function kuetemeier_essentials_activation_hook() {
+	include_once plugin_dir_path( __FILE__ ) . 'src/admin/class-activator.php';
 	\Kuetemeier_Essentials\admin\Activator::activate();
 }
+
 /**
  * This code runs during plugin deactivation.
  * WordPress Hook, not called directly.
@@ -131,16 +132,15 @@ function kuetemeier_essentials_hook_activate() {
  *
  * @since 1.0.0
  */
-function kuetemeier_essentials_hook_deactivate() {
-	require_once plugin_dir_path( __FILE__ ) . 'src/admin/class-deactivator.php';
+function kuetemeier_essentials_deactivation_hook() {
+	include_once plugin_dir_path( __FILE__ ) . 'src/admin/class-deactivator.php';
 	\Kuetemeier_Essentials\admin\Deactivator::deactivate();
 }
 
-function kuetemeier_essentials_admin_init() {
-	register_activation_hook( __FILE__, 'kuetemeier_essentials_hook_activate' );
-	register_deactivation_hook( __FILE__, 'kuetemeier_essentials_hook_deactivate' );
 
-	\Kuetemeier_Essentials\Kuetemeier_Essentials::instance()->admin_init();
+function kuetemeier_essentials_callback_admin_init() {
+	register_activation_hook( __FILE__, 'kuetemeier_essentials_activation_hook' );
+	register_deactivation_hook( __FILE__, 'kuetemeier_essentials_deactivation_hook' );
 }
 
 /**
@@ -158,6 +158,8 @@ function kuetemeier_essentials_init() {
 	// Check PHP version requirements.
 	if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {
 
+		// register activation and deactivation hooks
+		add_action( 'admin_init', 'kuetemeier_essentials_callback_admin_init' );
 
 		// Everything O.K., let's go! Include the main Kuetemeier_Essentials class.
 		if ( ! class_exists( \Kuetemeier_Essentials\Kuetemeier_Essentials::class ) ) {
@@ -165,14 +167,7 @@ function kuetemeier_essentials_init() {
 		}
 
 		// Initialize plugin.
-		$instance = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
-
-		if ($instance) {
-			// init our admin functions
-			add_action( 'admin_init', 'kuetemeier_essentials_admin_init');
-			add_action( 'admin_menu', array( $instance, 'options_page' ) );
-
-		}
+		\Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
 	}
 }
 

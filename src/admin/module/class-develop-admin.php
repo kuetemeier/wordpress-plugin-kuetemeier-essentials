@@ -24,20 +24,133 @@
 
 namespace Kuetemeier_Essentials\Admin\Module;
 
-require_once( dirname(__FILE__) . '/class-admin-module.php' );
-
 /*********************************
  * KEEP THIS for security reasons
  * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
+require_once( dirname(__FILE__) . '/class-admin-module.php' );
+
 /**
  * Class Kuetemeier_Essentials
  */
-class Data_Privacy_Admin extends Admin_Module {
+class Develop_Admin extends Admin_Module {
+
+	const OPTION_CAPABILITY = 'administrator';
 
     function __construct() {
         parent::__construct();
     }
+
+    public function option_page_init() {
+
+    }
+
+
+	/**
+	 * custom option and settings:
+	 * callback functions
+	 */
+
+	// developers section cb
+
+	// section callbacks can accept an $args parameter, which is an array.
+	// $args have the following keys defined: title, id, callback.
+	// the values are defined at the add_settings_section() function.
+	public function _settings_section_developers_cb( $args ) {
+		?>
+		<p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Follow the white rabbit.', 'wporg' ); ?></p>
+		<?php
+	}
+
+	// pill field cb
+
+	// field callbacks can accept an $args parameter, which is an array.
+	// $args is defined at the add_settings_field() function.
+	// wordpress has magic interaction with the following keys: label_for, class.
+	// the "label_for" key value is used for the "for" attribute of the <label>.
+	// the "class" key value is used for the "class" attribute of the <tr> containing the field.
+	// you can add custom key value pairs to be used inside your callbacks.
+	public function _settings_field_pill_cb( $args ) {
+		// get the value of the setting we've registered with register_setting()
+		$options = get_option( 'kuetemeier_essentials_options' );
+		// output the field
+		?>
+		<select id="<?php echo esc_attr( $args['label_for'] ); ?>"
+		data-custom="<?php echo esc_attr( $args['wporg_custom_data'] ); ?>"
+		name="wporg_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		>
+		<option value="red" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
+		<?php esc_html_e( 'red pill', 'wporg' ); ?>
+		</option>
+		<option value="blue" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
+		<?php esc_html_e( 'blue pill', 'wporg' ); ?>
+		</option>
+		</select>
+		<p class="description">
+		<?php esc_html_e( 'You take the blue pill and the story ends. You wake in your bed and you believe whatever you want to believe.', 'wporg' ); ?>
+		</p>
+		<p class="description">
+		<?php esc_html_e( 'You take the red pill and you stay in Wonderland and I show you how deep the rabbit-hole goes.', 'wporg' ); ?>
+		</p>
+		<?php
+	}
+
+	public function settings_init() {
+
+
+		// register a new section in the "wporg" page
+		add_settings_section(
+			'kuetemeier_essentials_section_developers',
+			__( 'The Matrix has you.', 'kuetemeier_essentials_develop' ),
+			array( &$this, '_settings_section_developers_cb' ),
+			'kuetemeier_essentials'
+	 	);
+
+		add_settings_section(
+			'kuetemeier_essentials_section_test',
+			__( 'The Matrix has you.', 'kuetemeier-essentials' ),
+			array( &$this, '_settings_section_developers_cb' ),
+			'kuetemeier_essentials'
+	 	);
+
+
+		// register a new field in the "wporg_section_developers" section, inside the "wporg" page
+		add_settings_field(
+			'kuetemeier_essentials_field_pill', // as of WP 4.6 this value is used only internally
+			// use $args' label_for to populate the id inside the callback
+			__( 'Pill', 'kuetemeier_essentials' ),
+			array( &$this, '_settings_field_pill_cb'),
+			'kuetemeier_essentials',
+			'kuetemeier_essentials_section_developers',
+			[
+				'label_for' => 'kuetemeier_essentials_field_pill',
+				'class' => 'kuetemeier_essentials_row',
+				'kuetemeier_essentials_custom_data' => 'custom',
+			]
+		);
+
+
+	}
+
+	function _callback_option_page_develop() {
+		$this->option_page( self::OPTION_CAPABILITY, 'kuetemeier_essentials_develop' );
+	}
+
+    public function _callback_admin_menu() {
+		add_submenu_page(
+			'kuetemeier_essentials',
+			'Develop',
+			'Develop',
+			'administrator',
+			'kuetemeier_essentials_develop',
+			array( &$this, '_callback_option_page_develop' )
+		);
+    }
+
+	public function _callback_admin_init() {
+
+	}
+
 }

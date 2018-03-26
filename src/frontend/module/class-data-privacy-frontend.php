@@ -45,8 +45,4 @@ class Data_Privacy_Frontend extends Frontend_Module {
 		return 'Data Privacy';
 	}
 
-	public function settings_init() {
-
-	}
-
 }

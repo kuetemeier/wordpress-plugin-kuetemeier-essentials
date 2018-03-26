@@ -24,6 +24,8 @@
 
 namespace Kuetemeier_Essentials\Frontend\Module;
 
+require_once( dirname(__FILE__) . '/class-frontend-module.php' );
+
 /*********************************
  * KEEP THIS for security reasons
  * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
@@ -33,11 +35,14 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Class Kuetemeier_Essentials
  */
-abstract class Frontend_Module {
+class Core_Frontend extends Frontend_Module {
 
-	abstract public function get_id();
+	public function get_id() {
+		return 'core';
+	}
 
-	abstract public function get_name();
+	public function get_name() {
+		return 'Core';
+	}
 
 }
-

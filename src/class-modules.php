@@ -36,55 +36,76 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 class Modules {
 
 	protected $_modules = array();
+	protected $_frontend_classes_loaded = false;
+	protected $_admin_classes_loaded = false;
 
 	const AVAILABLE_MODULES = array(
-		'develop' => 'Develop',
-		'data-privacy' => 'Data_Privacy'
+		'core' => 'Core',
+		'data-privacy' => 'Data_Privacy',
+		'develop' => 'Develop'
 	);
 
 	function __construct() {
+		$this->_init_all_frontend_classes();
 
+		add_action( 'admin_menu', array( &$this, '_callback_admin_menu__init_all_admin_modules_for_admin_menu' ) );
+
+		add_action( 'admin_init', array( &$this, '_callback_admin_init__init_all_admin_modules_for_admin_init' ) );
 	}
 
+/*
 	function __destruct() {
 
 	}
+*/
 
-	public function init_all_frontend_modules() {
-		foreach( array_keys( self::AVAILABLE_MODULES) as $module_id) {
-			$this->init_frontend($module_id);
-		}
+	public function _callback_admin_init__init_all_admin_modules_for_admin_init() {
+		$this->_ensure_admin_classes_are_loaded();
+		$this->foreach_admin( '_callback_admin_init' );
 	}
 
-	public function init_all_admin_modules() {
-		foreach( array_keys( self::AVAILABLE_MODULES) as $module_id) {
-			$this->init_frontend($module_id);
-		}
+	public function _callback_admin_menu__init_all_admin_modules_for_admin_menu() {
+		$this->_ensure_admin_classes_are_loaded();
+		$this->foreach_admin( '_callback_admin_menu' );
 	}
 
-	public function init_frontend( $module_id ) {
+	protected function _ensure_admin_classes_are_loaded() {
+		if ( !$this->_admin_classes_loaded )
+			$this->_init_all_admin_classes();
+	}
+
+	protected function _init_all_frontend_classes() {
+		foreach( array_keys( self::AVAILABLE_MODULES ) as $module_id) {
+			$this->_init_module_frontend_class( $module_id );
+		}
+		$this->_frontend_classes_loaded = true;
+	}
+
+	protected function _init_all_admin_classes() {
+		foreach( array_keys( self::AVAILABLE_MODULES ) as $module_id) {
+			$this->_init_module_admin_class( $module_id );
+		}
+		$this->_admin_classes_loaded = true;
+	}
+
+	protected function _init_module_frontend_class( $module_id ) {
 		require_once( dirname(__FILE__) . '/frontend/module/class-'.$module_id.'-frontend.php' );
 		$class_name = 'Kuetemeier_Essentials\\Frontend\Module\\'.self::AVAILABLE_MODULES[ $module_id ].'_Frontend';
 		$this->set_frontend_class( $module_id, new $class_name() );
 	}
 
-	public function init_admin( $module_id ) {
+	protected function _init_module_admin_class( $module_id ) {
 		require_once( dirname(__FILE__) . '/admin/module/class-'.$module_id.'-admin.php' );
 		$class_name = 'Kuetemeier_Essentials\\Admin\Module\\'.self::AVAILABLE_MODULES[ $module_id ].'_Admin';
 		$this->set_admin_class( $module_id, new $class_name() );
 	}
 
-	public function add( $module_id, $frontend_class=null, $admin_class=null ) {
-		$this->_modules[$module_id]['frontend_class'] = $frontend_class;
-		$this->_modules[$module_id]['admin_class'] = $admin_class;
-	}
-
-	public function set_frontend_class( $module_id, $frontend_class ) {
+	protected function set_frontend_class( $module_id, $frontend_class ) {
 		$this->_modules[$module_id]['frontend_class'] = $frontend_class;
 	}
 
-	public function set_admin_class( $module_id, $frontend_class ) {
-		$this->_modules[$module_id]['frontend_class'] = $frontend_class;
+	protected function set_admin_class( $module_id, $frontend_class ) {
+		$this->_modules[$module_id]['admin_class'] = $frontend_class;
 	}
 
 	public function foreach_frontend( $func, $args=null ) {

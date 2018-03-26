@@ -32,10 +32,10 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 const TEXTDOMAIN = 'kuetemeier_essentials';
 
-const ADMIN_MENU_SLUG = 'kuetemeier_essentials';
-const ADMIN_PAGE_SLUG = 'kuetemeier_essentials';
-const ADMIN_PAGE_CAPABILITY = 'administrator';
+const CORE_OPTION_PAGE_CAPABILITY = 'administrator';
+const CORE_OPTION_PAGE_SLUG = 'kuetemeier_essentials';
 
-const CORE_ADMIN_PAGE_SLUG = 'kuetemeier_essentials_dashboard';
-const CORE_SETTINGS_GROUP = 'kuetemeier_essentials_options';
-const CORE_OPTIONS_KEY = CORE_SETTINGS_GROUP;
+const CORE_OPTION_SETTINGS_KEY = 'kuetemeier_essentials';
+
+const DATA_PRIVACY_OPTION_PAGE_SLUG = 'kuetemeier_essentials_data_privacy';
+const DATA_PRIVACY_OPTION_SETTINGS_KEY = 'kuetemeier_essentials_data_privacy';

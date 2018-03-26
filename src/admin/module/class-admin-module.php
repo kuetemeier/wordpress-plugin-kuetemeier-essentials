@@ -46,20 +46,21 @@ abstract class Admin_Module {
 	abstract public function _callback_admin_init();
 
 
- 	protected function _display_option_page( $page_slug, $capabilitiy_level = \Kuetemeier_Essentials\ADMIN_PAGE_CAPABILITY ) {
+ 	protected function _display_option_page( $page_slug, $capabilitiy_level = \Kuetemeier_Essentials\CORE_OPTION_PAGE_CAPABILITY ) {
 		// check user capabilities
 		if ( ! current_user_can( $capabilitiy_level ) ) {
 			return;
 		}
 
-		// add error/update messages
+
+/*		// add error/update messages
 
 		// check if the user have submitted the settings
 		// wordpress will add the "settings-updated" $_GET parameter to the url
 		if ( isset( $_GET['settings-updated'] ) ) {
 		// add settings saved message with the class of "updated"
 			add_settings_error( 'kuetemeier_essentials_messages', 'kuetemeier_essentials_message', __( 'Settings Saved', 'kuetemeier_essentials' ), 'updated' );
-		}
+		}*/
 
 		// show error/update messages
 		// settings_errors( 'kuetemeier_essentials_messages' );

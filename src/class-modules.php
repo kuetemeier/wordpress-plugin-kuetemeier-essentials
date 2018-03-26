@@ -38,6 +38,7 @@ class Modules {
 	protected $_modules = array();
 	protected $_frontend_classes_loaded = false;
 	protected $_admin_classes_loaded = false;
+	protected $_options;
 
 	const AVAILABLE_MODULES = array(
 		'core' => 'Core',
@@ -45,7 +46,9 @@ class Modules {
 		'develop' => 'Develop'
 	);
 
-	function __construct() {
+	function __construct( $options ) {
+		$this->_options = $options;
+
 		$this->_init_all_frontend_classes();
 
 		add_action( 'admin_menu', array( &$this, '_callback_admin_menu__init_all_admin_modules_for_admin_menu' ) );
@@ -91,13 +94,13 @@ class Modules {
 	protected function _init_module_frontend_class( $module_id ) {
 		require_once( dirname(__FILE__) . '/frontend/module/class-'.$module_id.'-frontend.php' );
 		$class_name = 'Kuetemeier_Essentials\\Frontend\Module\\'.self::AVAILABLE_MODULES[ $module_id ].'_Frontend';
-		$this->set_frontend_class( $module_id, new $class_name() );
+		$this->set_frontend_class( $module_id, new $class_name( $this->_options ) );
 	}
 
 	protected function _init_module_admin_class( $module_id ) {
 		require_once( dirname(__FILE__) . '/admin/module/class-'.$module_id.'-admin.php' );
 		$class_name = 'Kuetemeier_Essentials\\Admin\Module\\'.self::AVAILABLE_MODULES[ $module_id ].'_Admin';
-		$this->set_admin_class( $module_id, new $class_name() );
+		$this->set_admin_class( $module_id, new $class_name( $this->_options ) );
 	}
 
 	protected function set_frontend_class( $module_id, $frontend_class ) {

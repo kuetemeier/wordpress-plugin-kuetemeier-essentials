@@ -37,8 +37,10 @@ require_once( plugin_dir_path( __FILE__ ) . '/../../config.php' );
  */
 abstract class Admin_Module {
 
-	function __construct() {
+	protected $_options;
 
+	function __construct( $options ) {
+		$this->_options = $options;
 	}
 
 	abstract public function _callback_admin_menu();

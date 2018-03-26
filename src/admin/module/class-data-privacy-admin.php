@@ -39,8 +39,13 @@ require_once( plugin_dir_path( __FILE__ ) . '/../../class-kuetemeier-essentials.
  */
 class Data_Privacy_Admin extends Admin_Module {
 
-    function __construct() {
-        parent::__construct();
+    function __construct( $options ) {
+        parent::__construct( $options );
+        $this->_options->add_admin_options_subpage(
+        	'kuetemeier_essentials_data_privacy',
+        	'Data Privacy',
+        	'Data Privacy'
+        );
     }
 
     public function _callback_admin_menu() {
@@ -53,7 +58,7 @@ class Data_Privacy_Admin extends Admin_Module {
 	}
 
 	public function _callback_admin_menu_page_create() {
-
+/*
 		// add dashboard (same as top-level)
 		add_submenu_page(
 			// parent_slug - The slug name for the parent menu (or the file name of a standard WordPress admin page).
@@ -70,7 +75,7 @@ class Data_Privacy_Admin extends Admin_Module {
 		);
 
 		//do_action( 'kuetemeier_essentials_menu_page_create' );
-
+*/
 	}
 
 	public function _callback_menu_page_display() {

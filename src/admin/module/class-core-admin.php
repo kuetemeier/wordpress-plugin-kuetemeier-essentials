@@ -39,8 +39,8 @@ require_once( plugin_dir_path( __FILE__ ) . '/../../class-kuetemeier-essentials.
  */
 class Core_Admin extends Admin_Module {
 
-    function __construct() {
-        parent::__construct();
+    function __construct( $options ) {
+        parent::__construct( $options );
     }
 
     public function _callback_admin_menu() {
@@ -53,11 +53,11 @@ class Core_Admin extends Admin_Module {
 	}
 
 	public function _callback_admin_menu_page_create() {
-
+/*
 		// add top level menu page
 		add_menu_page(
-			'Kuetemeier - Essentials', // page title
-			'Kuetemeier - Essentials', // menu title
+			'Kuetemeier', // page title
+			'Kuetemeier', // menu title
 			\Kuetemeier_Essentials\CORE_OPTION_PAGE_CAPABILITY, // capability
 			\Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG, // menu slug
 			array( &$this, '_callback_menu_page_display' ) // function
@@ -69,9 +69,9 @@ class Core_Admin extends Admin_Module {
 			// parent_slug - The slug name for the parent menu (or the file name of a standard WordPress admin page).
 			\Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG,
 			// page_title - The text to be displayed in the title tags of the page when the menu is selected.
-			'Kuetemeier-Essentials - Dashboard',
+			'Kuetemeier - Essentials',
 			// menu_title - The text to be used for the menu.
-			'Dashbaord',
+			'Essentials',
 			// capability - The capability required for this menu to be displayed to the user.
 			\Kuetemeier_Essentials\CORE_OPTION_PAGE_CAPABILITY,
 			// menu_slug - The slug name to refer to this menu by. Should be unique for this menu and only include lowercase alphanumeric, dashes, and underscores characters to be compatible with sanitize_key().
@@ -80,7 +80,7 @@ class Core_Admin extends Admin_Module {
 		);
 
 		do_action( 'kuetemeier_essentials_menu_page_create' );
-
+*/
 	}
 
 	public function _callback_menu_page_display() {
@@ -120,6 +120,12 @@ print_r ($options);
 
 	}
 
+	protected $_test_value = "Hallo Welt";
+
+	public function _callback_test_action( $arg ) {
+		$this->_test_value = $arg;
+	}
+
 	public function _callback_setting_toggle_module_privacy( $args ) {
 
 	    // First, we read the options collection
@@ -153,7 +159,12 @@ print_r ($options);
 	    		$value = $_value;
 			}
 		}
-print_r ($value);
+
+		add_action('test_action', array( &$this, '_callback_test_action' ) );
+
+		do_action('test_action', 'Ein Test');
+
+print_r ($this->_test_value);
 
 	    // Next, we update the name attribute to access this element's ID in the context of the display options array
 	    // We also access the show_header element of the options collection in the call to the checked() helper function

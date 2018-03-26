@@ -39,8 +39,14 @@ class Develop_Admin extends Admin_Module {
 
 	const OPTION_CAPABILITY = 'administrator';
 
-    function __construct() {
-        parent::__construct();
+    function __construct( $options ) {
+        parent::__construct( $options );
+        $this->_options->add_admin_options_subpage(
+        	'kuetemeier_essentials_develop',
+        	'Develop',
+        	'Develop'
+        );
+
     }
 
     public function option_page_init() {
@@ -139,6 +145,7 @@ class Develop_Admin extends Admin_Module {
 	}
 
     public function _callback_admin_menu() {
+/*
 		add_submenu_page(
 			'kuetemeier_essentials',
 			'Develop',
@@ -146,7 +153,7 @@ class Develop_Admin extends Admin_Module {
 			'administrator',
 			'kuetemeier_essentials_develop',
 			array( &$this, '_callback_option_page_develop' )
-		);
+		);*/
     }
 
 	public function _callback_admin_init() {

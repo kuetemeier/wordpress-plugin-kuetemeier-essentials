@@ -76,18 +76,19 @@ class Kuetemeier_Essentials {
 		$this->_options = new Options();
 		do_action( 'kuetemeier_essentials_options_loaded' );
 
-		$this->_modules = new Modules();
+		$this->_modules = new Modules( $this->_options );
 		do_action( 'kuetemeier_essentials_modules_loaded' );
 
+		$this->_options->init_admin_hooks();
 
-		add_action( 'admin_init', array( &$this, '_callback_admin_init' ) );
+		// add_action( 'admin_init', array( &$this, '_callback_admin_init' ) );
 	}
 
-
+/*
 	public function _callback_admin_init() {
 
 	}
-
+*/
 
 	/**
 	 * Send a debug message to the browser console.

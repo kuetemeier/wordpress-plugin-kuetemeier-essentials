@@ -43,155 +43,22 @@ abstract class Admin_Module {
 		$this->_options = $options;
 	}
 
-	abstract public function _callback_admin_menu();
 
-	abstract public function _callback_admin_init();
-
-	public function oenology_get_settings_page_tabs() {
-		$tabs = array(
-			'general' => 'General',
-			'varietals' => 'Varietals'
-			);
-		return $tabs;
-
+	/**
+	 * This function can be used as callbacks for admin_menu.
+	 * Use this function, because Admin modules will be loaded AFTER the normal callback is fired
+	 */
+	public function _callback_admin_menu() {
+		// intentionally empty
 	}
 
-	protected function _options_page_tabs( $current = 'general' ) {
-
-		if ( isset ( $_GET['tab'] ) ) :
-			$current = $_GET['tab'];
-		else:
-			$current = 'general';
-		endif;
-
-
-		$tabs = $this->oenology_get_settings_page_tabs();
-		$links = array();
-		foreach( $tabs as $tab => $name ) {
-			if ( $tab == $current ) {
-				$links[] = '<a class="nav-tab nav-tab-active" href="?page=oenology-settings&tab=$tab">' . $name . '</a>';
-			} else {
-				$links[] = '<a class="nav-tab" href="?page=kuetemeier_essentials&tab=' . $tab . '">' . $name .'</a>';
-			}
-		}
-
-		echo '<div id="icon-themes" class="icon32"><br /></div>';
-		echo '<h2 class="nav-tab-wrapper">';
-
-
-		foreach ( $links as $link ) {
-		  echo $link;
-		}
-		echo '</h2>';
-
+	/**
+	 * This function can be used as callbacks for admin_init.
+	 * Use this function, because Admin modules will be loaded AFTER the normal callback is fired
+	 */
+	public function _callback_admin_init() {
+		// intentionally empty
 	}
-
- 	protected function _display_option_page( $page_slug, $capabilitiy_level = \Kuetemeier_Essentials\CORE_OPTION_PAGE_CAPABILITY ) {
-		// check user capabilities
-		if ( ! current_user_can( $capabilitiy_level ) ) {
-			return;
-		}
-
-
-/*		// add error/update messages
-
-		// check if the user have submitted the settings
-		// wordpress will add the "settings-updated" $_GET parameter to the url
-		if ( isset( $_GET['settings-updated'] ) ) {
-		// add settings saved message with the class of "updated"
-			add_settings_error( 'kuetemeier_essentials_messages', 'kuetemeier_essentials_message', __( 'Settings Saved', 'kuetemeier_essentials' ), 'updated' );
-		}*/
-
-		// show error/update messages
-		// settings_errors( 'kuetemeier_essentials_messages' );
-
-
-/*
-		?>
-
-		<!-- Create a header in the default WordPress 'wrap' container -->
-		<div class="wrap">
-
-			<!-- Add the icon to the page -->
-			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-
-			<!-- Make a call to the WordPress function for rendering errors when settings are saved. -->
-			<?php settings_errors(); ?>
-
-			<form action="options.php" method="post">
-				<?php
-				// output fields for the registered setting
-				settings_fields( $page_slug );
-
-				// output setting sections and their fields
-				do_settings_sections( $page_slug );
-
-				// output save settings button
-				submit_button( esc_html__( 'Save Settings', \Kuetemeier_Essentials\TEXTDOMAIN ) );
-				?>
-			</form>
-		</div>
-		<?php
-*/
-
-
-/*
-		?>
-
-
-		<div class="wrap">
-
-			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-
-			<?php $this->_options_page_tabs(); ?>
-
-			<!-- Make a call to the WordPress function for rendering errors when settings are saved. -->
-			<?php settings_errors(); ?>
-
-			<form action="options.php" method="post">
-				<?php
-				// output fields for the registered setting
-				settings_fields( $page_slug );
-
-				// output setting sections and their fields
-				do_settings_sections( $page_slug );
-
-				// output save settings button
-				submit_button( esc_html__( 'Save Settings', \Kuetemeier_Essentials\TEXTDOMAIN ) );
-				?>
-			</form>
-		</div>
-
-		<?php
-*/
-
-		?>
-     <div class="wrap">
-
-			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-
-          <?php $this->_options_page_tabs(); ?>
-          <?php /*if ( isset( $_GET['settings-updated'] ) ) {
-               echo "<div class='updated'><p>Settings updated successfully.</p></div>";
-          } */?>
-			<?php settings_errors(); ?>
-     <form action="options.php" method="post">
-     <?php
-     settings_fields( $page_slug );
-     do_settings_sections( $page_slug );
-     ?>
-     <?php $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'general' ); ?>
-     <input name="kuetemeier_essentials[submit-<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'oenology'); ?>" />
-     <input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e('Reset Defaults', 'oenology'); ?>" />
-     </form>
-     </div>
-<?php
-
-
-
-
-
-  	}
 
 }
 

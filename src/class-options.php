@@ -71,6 +71,18 @@ class Options {
 		$this->add_option_setting( new Option_Setting( 'core', 'third',  'V:3', 'Third',  'kuetemeier_essentials_data_privacy', '', '', 'This is the first option' ) );
 	}
 
+// TODO: set default values if there is no database entry
+
+/*
+
+	    if( false == get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY ) ) {
+    		update_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY, array( 'core' => array( 'version' => '1.0' ) ) );
+		} // end if
+
+*/
+
+
+
 	/**
 	 * Main Kueteemier_Essentials Instance
 	 * Ensures only one instance of Kuetemeier_Essentials is loaded or can be loaded.
@@ -387,6 +399,43 @@ class Options {
 
 	}
 }
+
+
+/*
+	// pill field cb
+
+	// field callbacks can accept an $args parameter, which is an array.
+	// $args is defined at the add_settings_field() function.
+	// wordpress has magic interaction with the following keys: label_for, class.
+	// the "label_for" key value is used for the "for" attribute of the <label>.
+	// the "class" key value is used for the "class" attribute of the <tr> containing the field.
+	// you can add custom key value pairs to be used inside your callbacks.
+	public function _settings_field_pill_cb( $args ) {
+		// get the value of the setting we've registered with register_setting()
+		$options = get_option( 'kuetemeier_essentials_options' );
+		// output the field
+		?>
+		<select id="<?php echo esc_attr( $args['label_for'] ); ?>"
+		data-custom="<?php echo esc_attr( $args['wporg_custom_data'] ); ?>"
+		name="wporg_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
+		>
+		<option value="red" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
+		<?php esc_html_e( 'red pill', 'wporg' ); ?>
+		</option>
+		<option value="blue" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
+		<?php esc_html_e( 'blue pill', 'wporg' ); ?>
+		</option>
+		</select>
+		<p class="description">
+		<?php esc_html_e( 'You take the blue pill and the story ends. You wake in your bed and you believe whatever you want to believe.', 'wporg' ); ?>
+		</p>
+		<p class="description">
+		<?php esc_html_e( 'You take the red pill and you stay in Wonderland and I show you how deep the rabbit-hole goes.', 'wporg' ); ?>
+		</p>
+		<?php
+	}
+
+*/
 
 class Option_Section {
 	protected $_id = '';

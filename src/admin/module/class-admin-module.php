@@ -37,12 +37,31 @@ require_once( plugin_dir_path( __FILE__ ) . '/../../config.php' );
  */
 abstract class Admin_Module {
 
+	/**
+	 * Holds an instance of the @see \Kuetemeier_Essentials\Options class
+	 */
 	protected $_options;
+
+	/**
+	 * end part of the admin page (option settings) slug
+	 *
+	 * @see get_admin_page_slug()
+	 *
+	 */
+	protected $_admin_page_slug_part = '';
 
 	function __construct( $options ) {
 		$this->_options = $options;
 	}
 
+	protected function _set_admin_page_slug_part( $page_slug ) {
+		$this->_admin_page_slug_part = $page_slug;
+	}
+
+	public function get_admin_page_slug() {
+		// TODO: escape
+		return 'kuetemeier_essentials_'.$this->_admin_page_slug_part;
+	}
 
 	/**
 	 * This function can be used as callbacks for admin_menu.

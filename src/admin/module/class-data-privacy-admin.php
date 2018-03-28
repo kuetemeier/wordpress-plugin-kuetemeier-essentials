@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 require_once( plugin_dir_path(__FILE__) . '/class-admin-module.php' );
 require_once( plugin_dir_path( __FILE__ ) . '/../../config.php' );
-require_once( plugin_dir_path( __FILE__ ) . '/../../class-kuetemeier-essentials.php' );
+require_once( plugin_dir_path( __FILE__ ) . '/../../class-options.php' );
 
 /**
  * Class Kuetemeier_Essentials
@@ -41,11 +41,59 @@ class Data_Privacy_Admin extends Admin_Module {
 
     function __construct( $options ) {
         parent::__construct( $options );
+
+        $this->_set_admin_page_slug_part( 'data_privacy' );
+
+        // add admin menu page
         $this->_options->add_admin_options_subpage(
-        	'kuetemeier_essentials_data_privacy',
-        	'Data Privacy',
-        	'Data Privacy'
+        	$this->get_admin_page_slug(),
+        	'Kuetemeier > ' . __( 'Data Privacy', 'kuetemeier-essentials' ),
+        	__( 'Data Privacy', 'kuetemeier-essentials' )
         );
+
+        // --------------------------------------------------------
+        // Sections
+
+        $this->_options->add_option_section(
+        	new \Kuetemeier_Essentials\Option_Section(
+	        	// ID
+	        	'ke_dp_wp_comments',
+	        	// title
+	        	__('WordPress Comments', 'kuetemeier-essentials' ),
+	        	// page
+	        	$this->get_admin_page_slug(),
+	        	// tab
+	        	'',
+	        	// content
+	        	__( 'Users of the comment system should agree to our privacy policy', 'kuetemeier-essentials' )
+	        )
+	    );
+
+		$this->_options->add_option_setting(
+			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+				// module
+				'data_privacy',
+				// id
+				'add_privacy_field_to_comments',
+				// default
+				false,
+				// label
+				__( 'Privacy Checkbox', 'kuetemeier-essentials' ),
+				// page
+				$this->get_admin_page_slug(),
+				// tab
+				'',
+				// section
+				'ke_dp_wp_comments',
+				// description
+				__( 'Add privacy checkbox to comment fields', 'kuetemeier-essentials' )
+			)
+		);
+
+    }
+
+    public function _callback_admin_init() {
+
     }
 
 }

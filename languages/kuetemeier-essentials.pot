@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kuetemeier Essentials\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-18 16:58+0000\n"
+"POT-Creation-Date: 2018-03-27 16:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,108 +14,61 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: KuetemeierEssentials_OptionsManager.php:327
-msgid ""
-"(WARNING: This plugin may not work properly with versions earlier than MySQL "
-"5.0)"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:316
-msgid ""
-"(WARNING: This plugin may not work properly with versions earlier than PHP 5."
-"2)"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:437
-msgid "Administrator"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:447
-msgid "Anyone"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:441
-msgid "Author"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:443
-msgid "Contributor"
-msgstr ""
-
-#: kuetemeier-essentials.php:63
-msgid "Current PHP version running on this server: "
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:439
-msgid "Editor"
-msgstr ""
-
 #. %1$s Plugin Version
-#: kuetemeier-essentials.php:60
+#: kuetemeier-essentials.php:86
 #, php-format
 msgid "Error: Plugin \"%s\" requires a newer version of PHP."
 msgstr ""
 
-#. Description of the plugin
-msgid "Essential and fast addons for WordPress websites"
+#: kuetemeier-essentials.php:87
+msgid "Minimal PHP version required:"
 msgstr ""
 
-#: KuetemeierEssentials_OptionsManager.php:434
-msgid "false"
+#: kuetemeier-essentials.php:89
+msgid "Current PHP version running on this server:"
 msgstr ""
 
-#. URI of the plugin
-msgid "http://wordpress.org/extend/plugins/kuetemeier-essentials/"
+#: src/admin/module/class-data-privacy-admin.php:50
+#: src/admin/module/class-data-privacy-admin.php:51
+msgid "Data Privacy"
 msgstr ""
 
-#. Author URI of the plugin
-msgid "https://kuetemeier.de"
+#. title
+#: src/admin/module/class-data-privacy-admin.php:62
+msgid "WordPress Comments"
 msgstr ""
 
-#. Author of the plugin
-msgid "Jörg Kütemeier"
+#. content
+#: src/admin/module/class-data-privacy-admin.php:68
+msgid "Users of the comment system should agree to our privacy policy"
+msgstr ""
+
+#. label
+#: src/admin/module/class-data-privacy-admin.php:81
+msgid "Privacy Checkbox"
+msgstr ""
+
+#. description
+#: src/admin/module/class-data-privacy-admin.php:89
+msgid "Add privacy checkbox to comment fields"
 msgstr ""
 
 #. Name of the plugin
 msgid "Kuetemeier Essentials"
 msgstr ""
 
-#: kuetemeier-essentials.php:61
-msgid "Minimal PHP version required: "
+#. Description of the plugin
+msgid "Essential and fast addons for WordPress websites"
 msgstr ""
 
-#: KuetemeierEssentials_OptionsManager.php:322
-msgid "MySQL Version"
+#. URI of the plugin
+msgid "http://wordpress.org/extend/plugins/kuetemeier-essentials/"
 msgstr ""
 
-#: KuetemeierEssentials_OptionsManager.php:311
-msgid "PHP Version"
+#. Author of the plugin
+msgid "Jörg Kütemeier"
 msgstr ""
 
-#: KuetemeierEssentials_OptionsManager.php:373
-msgid "Save Changes"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:339
-msgid "Settings"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:445
-msgid "Subscriber"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:310
-msgid "System"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:308
-msgid "System Settings"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:432
-msgid "true"
-msgstr ""
-
-#: KuetemeierEssentials_OptionsManager.php:290
-msgid "You do not have sufficient permissions to access this page."
+#. Author URI of the plugin
+msgid "https://kuetemeier.de"
 msgstr ""

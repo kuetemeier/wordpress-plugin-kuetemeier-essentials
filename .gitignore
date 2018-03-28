@@ -11,3 +11,4 @@ kuetemeier-essentials.sublime-workspace
 **/*.po~
 **/.DS_Store
 phpdocs
+**/*.pot~

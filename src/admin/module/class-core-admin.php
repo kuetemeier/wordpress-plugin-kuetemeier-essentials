@@ -44,7 +44,7 @@ class Core_Admin extends Admin_Module {
     }
 
     public function _callback_admin_menu() {
-    	// $this->_callback_admin_menu_page_create();
+    	//$this->_callback_admin_menu_page_create();
     }
 
 	public function _callback_admin_init() {

@@ -50,6 +50,8 @@ class Options {
 	protected $_option_settings = array();
 	protected $_option_sections = array();
 
+	protected $_page_sections;
+
 	public static $_instance = null;
 
 	function __construct() {
@@ -57,18 +59,25 @@ class Options {
 		if ( ! is_null( self::$_instance ) )
 			die ('You tried to create to instances of \Kuetemeier_Essentials\Options');
 
+		// Tracks new sections for whitelist_custom_options_page()
+		$this->_page_sections = array();
+		// Must run after wp's `option_update_filter()`, so priority > 10
+		add_action( 'whitelist_options', array( $this, 'whitelist_custom_options_page' ), 11 );
+
 		$this->add_core_admin_options_subpage();
 		add_action( self::ACTION_PREFIX.'create_admin_menu', array( &$this, '_callback_create_admin_menu' ) );
 
 		$this->add_option_section( new Option_Section( 'test', 'Test', 'kuetemeier_essentials', 'test', 'Dies ist ein Test' ) );
 		$this->add_option_section( new Option_Section( 'test2', 'Test2', 'kuetemeier_essentials', 'test', 'Dies ist ein 2. Test' ) );
 
-		$this->add_option_setting( new Option_Setting_Checkbox( 'core', 'test_option', false, 'Test', 'kuetemeier_essentials', 'test', 'test', 'This is the first option' ) );
+		$this->add_option_setting( new Option_Setting_Checkbox( 'default', 'test_option_1', false, 'Test mit dieser Option 1', 'kuetemeier_essentials', 'test', 'test', 'A Dies sollte er validieren und speichern' ) );
+		$this->add_option_setting( new Option_Setting_Checkbox( 'core', 'test_option_2', true, 'Test mit dieser Option 2', 'kuetemeier_essentials', 'test', 'test', 'B Dies sollte er validieren und speichern' ) );
+		$this->add_option_setting( new Option_Setting_Checkbox( 'default', 'test_option_3', true, 'Test mit dieser Option 3', 'kuetemeier_essentials', 'test', 'test', 'C Dies sollte er validieren und speichern' ) );
 
 
 		$this->add_option_setting( new Option_Setting( 'core', 'first',  'V:1', 'First',  'kuetemeier_essentials', 'general', 'default', 'This is the first option' ) );
 		$this->add_option_setting( new Option_Setting( 'core', 'second', 'V:2', 'Second', 'kuetemeier_essentials', 'general', 'kuetemeier_essentials', 'This is the first option' ) );
-		$this->add_option_setting( new Option_Setting( 'core', 'third',  'V:3', 'Third',  'kuetemeier_essentials_data_privacy', '', '', 'This is the first option' ) );
+		// $this->add_option_setting( new Option_Setting( 'core', 'third',  'V:3', 'Third',  'kuetemeier_essentials_data_privacy', '', '', 'This is the first option' ) );
 	}
 
 // TODO: set default values if there is no database entry
@@ -81,6 +90,28 @@ class Options {
 
 */
 
+	public function whitelist_custom_options_page( $whitelist_options ){
+		//print_r( $whitelist_options );
+		//die ("Whitelist");
+	    // Custom options are mapped by section id; Re-map by page slug.
+/*	    foreach($this->_page_sections as $page => $sections ){
+	        $whitelist_options[$page] = array();
+	        foreach( $sections as $section )
+	            if( !empty( $whitelist_options[$section] ) )
+	                foreach( $whitelist_options[$section] as $option )
+	                    $whitelist_options[$page][] = $option;
+	            }
+	    $whitelist_options['kuetemeier_essentials'] = array( 'core' => array(), 'general' => array(),  'data_privacy' => array() );
+*/	    return $whitelist_options;
+	}
+
+	public function sections_bug_workaround( $id, $page ) {
+		if( $id != $page ){
+			if( ! isset($this->_page_sections[$page]))
+				$this->_page_sections[$page] = array();
+			$this->_page_sections[$page][$id] = $id;
+		}
+	}
 
 
 	/**
@@ -199,8 +230,12 @@ class Options {
 		);
 	}
 
-
 	public function _callback_admin_init() {
+		register_setting( self::OPTIONS_SETTINGS_KEY, self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
+		register_setting( 'kuetemeier_essentials_data_privacy', self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
+//		register_setting( $page_slug, self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
+
+
 	}
 
 	public function _callback_admin_menu() {
@@ -209,6 +244,41 @@ class Options {
 
 	public function _callback_validate_options( $input ) {
 		$valid_input = get_option( self::OPTIONS_SETTINGS_KEY );
+
+		$submit = '';
+		$page = '';
+		$tab = '';
+
+		foreach( array_keys( $input) as $key ) {
+			if ( substr( $key, 0, 7) === 'submit|' ) {
+				$parts = explode( '|', $key );
+
+				$count = sizeof( $parts );
+
+				if ( $count > 0 ) {
+					$submit = $parts[0];
+					if ($count > 1)
+						$page = $parts[1];
+					if ($count > 2)
+						$tab = $parts[2];
+					break;
+				}
+
+			}
+		}
+
+		if ( ! empty( $submit ) ) {
+
+
+			foreach( $this->_option_settings as $setting ) {
+				$valid_input = $setting->validate( $page, $tab, $valid_input, $input);
+			}
+		}
+
+		//echo "Submit: $submit, Page: $page, Tab: $tab";
+
+		//print_r( $input );
+		//die('test');
 
 		return $valid_input;
 	}
@@ -229,7 +299,10 @@ class Options {
 	}
 
 	public function _register_settings( $page_slug, $current_tab ) {
+
 		register_setting( self::OPTIONS_SETTINGS_KEY, self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
+		register_setting( 'kuetemeier_essentials_data_privacy', self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
+		register_setting( $page_slug, self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
 
 		$this->_do_add_settings_sections( $page_slug, $current_tab );
 
@@ -383,14 +456,15 @@ class Options {
 	        <?php $this->_options_page_tabs( $page_slug ); ?>
 			<?php settings_errors(); ?>
 
-		     <form action="options.php?page=<?php esc_attr_e( $page_slug ); ?>" method="post">
+		     <form method="post" action="options.php">
 			     <?php
 			     settings_fields( $page_slug );
 			     do_settings_sections( $page_slug );
 			     ?>
 			     <?php $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : 'general' ); ?>
+			     <?php /* submit_button(); */ ?>
 			     <p class="submit">
-				     <input name="kuetemeier_essentials[submit-<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'oenology'); ?>" />
+				     <input name="kuetemeier_essentials[submit|<?php echo $page_slug; ?>|<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'oenology'); ?>" />
 				     <input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e('Reset Defaults', 'oenology'); ?>" />
 			     </p>
 		     </form>
@@ -544,6 +618,8 @@ class Option_Section {
 			$this->get_page()
 		);
 
+		Options::instance()->sections_bug_workaround( $this->get_id(), $this->get_page() );
+
 	}
 }
 
@@ -639,7 +715,7 @@ class Option_Setting {
 	}
 
 	public function get_description() {
-		return $this->_tab;
+		return $this->_description;
 	}
 
 	public function set_description( $description ) {
@@ -655,6 +731,61 @@ class Option_Setting {
 	public function _callback_display_setting( $args ) {
 		echo "Hallo Welt: ".$this->get_label();
 
+	}
+
+	public function validate( $page, $tab, $valid_input, $input ) {
+
+
+		if ( ! empty( $page) )
+			if ( $page != $this->get_page() )
+				return $valid_input;
+
+		if ( ! empty( $tab) )
+			if ( $tab != $this->get_tab() )
+				return $valid_input;
+
+
+		$module = $this->get_module();
+		$id = $this->get_id();
+
+		$error = "Test: Page: '$page' | Tab: '$tab' | Module: '$module' | ID: '$id' <br />\n";
+		add_settings_error( 'test1', 'test2', $error, 'error' );
+		add_settings_error( 'test1', 'test2', '$input: '.esc_html( wp_json_encode ( $input) ) );
+		add_settings_error( 'test1', 'test2', '$valid_input (vorher): '.esc_html( wp_json_encode ( $valid_input ) ) );
+
+
+		if ( isset( $input[ $module ] ) ) {
+
+			// if $input has a value... set it
+			if ( isset( $input[ $module ][ $id ] ) ) {
+
+				if ( ! isset( $valid_input[ $module ]) || ! is_array( $valid_input[ $module] ) ) {
+					$valid_input[ $module ] = array();
+				}
+				add_settings_error( 'test1', 'test2', 'Set new value: '.$input[ $module ][ $id ], 'error' );
+
+				$valid_input[ $module ][ $id ] = $input[ $module ][ $id ];
+			} else {
+				$valid_input[ $module ][ $id ] = 0;
+			}
+
+
+
+		} else {
+		add_settings_error( 'test1', 'test2', 'NEIN', 'error' );
+			// if not... delete it from valid_input (it should be there)
+			if ( isset( $valid_input[ $module] ) ) {
+				if ( isset ( $valid_input[ $module ][ $id ] ) ) {
+					//unset( $valid_input[ $module][ $id ] );
+					$valid_input[ $module ][ $id ] = 0;
+					add_settings_error( 'test1', 'test2', 'Remove value: '.$input[ $module ][ $id ], 'error' );
+				}
+				// else: do nothing, value is not in database
+
+			}
+		}
+		add_settings_error( 'test1', 'test2', '$valid_input (nachher): '.esc_html( wp_json_encode ( $valid_input ) ) );
+		return $valid_input;
 	}
 
 	public function do_add_settings_field( $page, $tab ) {
@@ -697,14 +828,10 @@ class Option_Setting {
 		);
 	}
 
-	public function sanitize( $input ) {
-
-	}
-
-	public function get() {
+	public function get( $default = false) {
 		$options = \Kuetemeier_Essentials\Options::instance();
 
-		$module_option = $options->get_option( $this->get_module(), $this->get_id(), $this->get_default() );
+		$module_option = $options->get_option( $this->get_module(), $this->get_id(), $default );
 
 		return $module_option;
 	}
@@ -728,12 +855,16 @@ class Option_Setting_Checkbox extends Option_Setting {
 		$value = $this->get();
 		$complete_id = $this->get_module() . '_' . $this->get_id();
 
+		echo "Value: $value";
+		//die ("checkbox");
+
 	    // Next, we update the name attribute to access this element's ID in the context of the display options array
 	    // We also access the show_header element of the options collection in the call to the checked() helper function
-	    $html = '<input type="checkbox" id="' . $complete_id . '" name="'. $options->get_db_option_key() . '[' . $this->get_module() .'][' . $this->get_id() . ']" value="1" ' . checked(1, $value, false) . '/>';
+	    $html = '<input type="checkbox" id="' . esc_attr( $complete_id) . '" name="'. $options->get_db_option_key();
+	    $html .= '[' . esc_attr( $this->get_module() ) .'][' . esc_attr( $this->get_id() ) . ']" value="1" ' . checked(1, $value, false) . '/>';
 
 	    // Here, we'll take the first argument of the array and add it to a label next to the checkbox
-	    $html .= '<label for="' . $complete_id . '"> '  . $args[0] . '</label>';
+	    $html .= '<label for="' . esc_attr( $complete_id ) . '"> '  . esc_html( $args[0] ). '</label>';
 
 	    echo $html;
 	}

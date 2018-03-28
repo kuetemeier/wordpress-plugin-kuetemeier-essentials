@@ -68,8 +68,7 @@ define( 'KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
  * @since 1.0.0
  */
 function kuetemeier_essentials_hook_i18n_init() {
-
-	load_plugin_textdomain( 'kuetemeier-essentials', false, KUETEMEIER_ESSENTIALS_PLUGIN_DIR . '/languages/' );
+	load_plugin_textdomain( 'kuetemeier-essentials', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 /**

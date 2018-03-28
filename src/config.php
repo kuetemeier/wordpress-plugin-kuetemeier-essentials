@@ -30,8 +30,6 @@ namespace Kuetemeier_Essentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-const TEXTDOMAIN = 'kuetemeier_essentials';
-
 const CORE_OPTION_PAGE_CAPABILITY = 'administrator';
 const CORE_OPTION_PAGE_SLUG = 'kuetemeier_essentials';
 

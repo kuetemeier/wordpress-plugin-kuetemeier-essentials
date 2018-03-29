@@ -57,63 +57,82 @@ class Options {
 	function __construct() {
 
 		if ( ! is_null( self::$_instance ) )
-			die ('You tried to create to instances of \Kuetemeier_Essentials\Options');
+			die ('You tried to create a second instance of \Kuetemeier_Essentials\Options');
 
 		// Tracks new sections for whitelist_custom_options_page()
 		$this->_page_sections = array();
 		// Must run after wp's `option_update_filter()`, so priority > 10
 		//add_action( 'whitelist_options', array( $this, 'whitelist_custom_options_page' ), 11 );
 
-		$this->add_core_admin_options_subpage();
+		$this->add_admin_options_subpage(
+			self::OPTIONS_PAGE_SLUG,
+			'Kuetemeier > Essentials',
+			'Essentials',
+			array(
+				'general' => __('General', 'kuetemeier-essentials'),
+				'modules' => __('Modules', 'kuetemeier-essentials'),
+				'test' => 'Test',
+			)
+		);
+
+		// register callback to actually create the admin page and subpages
 		add_action( self::ACTION_PREFIX.'create_admin_menu', array( &$this, '_callback_create_admin_menu' ) );
 
-		$this->add_option_section( new Option_Section( 'test', 'Test', 'kuetemeier_essentials', 'test', 'Dies ist ein Test' ) );
-		$this->add_option_section( new Option_Section( 'test2', 'Test2', 'kuetemeier_essentials', 'test', 'Dies ist ein 2. Test' ) );
+		$this->add_option_section(
+			new Option_Section(
+				// id
+				'test',
+				// title
+				'Test',
+				// page
+				'kuetemeier_essentials',
+				// (optional) tab
+				'test',
+				// (optional) content
+				'Dies ist ein Test'
+				// (optional) display_function
+			)
+		);
 
-		$this->add_option_setting( new Option_Setting_Checkbox( 'default', 'test_option_1', false, 'Test mit dieser Option 1', 'kuetemeier_essentials', 'test', 'test', 'A Dies sollte er validieren und speichern' ) );
+		/* --------------------------------
+		 * add OPTION SETTINGS
+		 * -------------------------------- */
+
+		$this->add_option_setting(
+			new Option_Setting_Checkbox(
+				// module
+				'default',
+				// id
+				'test_option_1',
+				// default
+				false,
+				// label
+				'Test mit dieser Option 1',
+				// page
+				'kuetemeier_essentials',
+				// tab
+				'test',
+				// section
+				'test',
+				// description
+				'A Dies sollte er validieren und speichern'
+			)
+		);
+
 		$this->add_option_setting( new Option_Setting_Checkbox( 'core', 'test_option_2', true, 'Test mit dieser Option 2', 'kuetemeier_essentials', 'test', 'test', 'B Dies sollte er validieren und speichern' ) );
 		$this->add_option_setting( new Option_Setting_Checkbox( 'default', 'test_option_3', true, 'Test mit dieser Option 3', 'kuetemeier_essentials', 'test', 'test', 'C Dies sollte er validieren und speichern' ) );
 
 		$this->add_option_setting( new Option_Setting_Text( 'default', 'test_text', 'Ein Text', 'Ein Textfeld', 'kuetemeier_essentials', 'test', 'test', 'Dies ist ein Textfeld' ) );
 
-		//$this->add_option_setting( new Option_Setting( 'core', 'first',  'V:1', 'First',  'kuetemeier_essentials', 'general', 'default', 'This is the first option' ) );
-		//$this->add_option_setting( new Option_Setting( 'core', 'second', 'V:2', 'Second', 'kuetemeier_essentials', 'general', 'kuetemeier_essentials', 'This is the first option' ) );
-		// $this->add_option_setting( new Option_Setting( 'core', 'third',  'V:3', 'Third',  'kuetemeier_essentials_data_privacy', '', '', 'This is the first option' ) );
 	}
 
 // TODO: set default values if there is no database entry
-
 /*
 
 	    if( false == get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY ) ) {
     		update_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY, array( 'core' => array( 'version' => '1.0' ) ) );
 		} // end if
 
-*/
-
-/*
-	public function whitelist_custom_options_page( $whitelist_options ){
-		//print_r( $whitelist_options );
-		//die ("Whitelist");
-	    // Custom options are mapped by section id; Re-map by page slug.
-	    foreach($this->_page_sections as $page => $sections ){
-	        $whitelist_options[$page] = array();
-	        foreach( $sections as $section )
-	            if( !empty( $whitelist_options[$section] ) )
-	                foreach( $whitelist_options[$section] as $option )
-	                    $whitelist_options[$page][] = $option;
-	            }
-	    $whitelist_options['kuetemeier_essentials'] = array( 'core' => array(), 'general' => array(),  'data_privacy' => array() );
-	    return $whitelist_options;
-	}
-
-	public function sections_bug_workaround( $id, $page ) {
-		if( $id != $page ){
-			if( ! isset($this->_page_sections[$page]))
-				$this->_page_sections[$page] = array();
-			$this->_page_sections[$page][$id] = $id;
-		}
-	}
 */
 
 	/**
@@ -130,8 +149,12 @@ class Options {
 	}
 
 	public function add_option_setting( $option_setting ) {
-		if ( ! empty( $option_setting ) )
-			array_push( $this->_option_settings, $option_setting );
+		if ( empty( $option_setting ) )
+			return;
+
+		$option_setting->set_db_option_key( $this->get_db_option_key() );
+		array_push( $this->_option_settings, $option_setting );
+
 	}
 
 	public function add_option_section( $option_section ) {
@@ -317,19 +340,6 @@ class Options {
 
 		$this->_do_add_settings_fields( $page_slug, $current_tab );
 
-	}
-
-	public function add_core_admin_options_subpage() {
-		$this->add_admin_options_subpage(
-			self::OPTIONS_PAGE_SLUG,
-			'Kuetemeier > Essentials',
-			'Essentials',
-			array(
-				'test' => 'Test',
-				'general' => 'General',
-				'module' => 'Module'
-			)
-		);
 	}
 
 	public function _callback_create_admin_menu() {
@@ -595,6 +605,8 @@ class Option_Section {
  */
 abstract class Option_Setting {
 
+	protected $_db_option_key = 'kuetemeier';
+
 	/**
 	 * Id of the module this option setting belongs to
 	 */
@@ -643,6 +655,14 @@ abstract class Option_Setting {
 		$this->set_description ( $description );
 		$this->_empty_value = $empty_value;
 		$this->_order = $order;
+	}
+
+	public function get_db_option_key() {
+		return $this->_db_option_key;
+	}
+
+	public function set_db_option_key( $value ) {
+		$this->_db_option_key = $value;
 	}
 
 	public function get_module() {
@@ -790,7 +810,7 @@ abstract class Option_Setting {
 
 	public function get( $default = false) {
 		// get options from WordPress database 'options' table
-		$options = get_option('kuetemeier_essentials');
+		$options = get_option( $this->get_db_option_key() );
 
 		// Find our value and return it (or $default, if not found).
 		return $this->_get_from_array( $options, $default );
@@ -869,11 +889,6 @@ class Option_Setting_Checkbox extends Option_Setting {
 
 class Option_Setting_Text extends Option_Setting {
 
-	function __construct( $module, $id, $default, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = '', $order = 0 ) {
-		parent::__construct( $module, $id, $default, $label, $page, $tab, $section, $description, $empty_value, $order );
-
-	}
-
 	/**
 	 * Returns a sanitized version of $input, based on the Option_Settings type.
 	 *
@@ -892,16 +907,13 @@ class Option_Setting_Text extends Option_Setting {
 	}
 
 	public function _callback_display_setting( $args ) {
-		// Get an Options instance for later use.
-		$options = \Kuetemeier_Essentials\Options::instance();
-
 		// Get current value.
 		$value = $this->get();
 
 		// Assemble a compound and escaped id string.
 		$esc_id = esc_attr( $this->get_module() . '_' . $this->get_id() );
 		// Assemble an escaped name string. The name attribute is importan, it defines the keys for the $input array in validation.
-		$esc_name = esc_attr( $options->get_db_option_key() . '[' . $this->get_module() .'][' . $this->get_id() . ']' );
+		$esc_name = esc_attr( $this->get_db_option_key() . '[' . $this->get_module() .'][' . $this->get_id() . ']' );
 
 		// Compose output.
 	    $html = '<input type="text" id="' . $esc_id . '" name="'. $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';

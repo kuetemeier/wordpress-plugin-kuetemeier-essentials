@@ -62,7 +62,7 @@ class Options {
 		// Tracks new sections for whitelist_custom_options_page()
 		$this->_page_sections = array();
 		// Must run after wp's `option_update_filter()`, so priority > 10
-		add_action( 'whitelist_options', array( $this, 'whitelist_custom_options_page' ), 11 );
+		//add_action( 'whitelist_options', array( $this, 'whitelist_custom_options_page' ), 11 );
 
 		$this->add_core_admin_options_subpage();
 		add_action( self::ACTION_PREFIX.'create_admin_menu', array( &$this, '_callback_create_admin_menu' ) );
@@ -76,8 +76,8 @@ class Options {
 
 		$this->add_option_setting( new Option_Setting_Text( 'default', 'test_text', 'Ein Text', 'Ein Textfeld', 'kuetemeier_essentials', 'test', 'test', 'Dies ist ein Textfeld' ) );
 
-		$this->add_option_setting( new Option_Setting( 'core', 'first',  'V:1', 'First',  'kuetemeier_essentials', 'general', 'default', 'This is the first option' ) );
-		$this->add_option_setting( new Option_Setting( 'core', 'second', 'V:2', 'Second', 'kuetemeier_essentials', 'general', 'kuetemeier_essentials', 'This is the first option' ) );
+		//$this->add_option_setting( new Option_Setting( 'core', 'first',  'V:1', 'First',  'kuetemeier_essentials', 'general', 'default', 'This is the first option' ) );
+		//$this->add_option_setting( new Option_Setting( 'core', 'second', 'V:2', 'Second', 'kuetemeier_essentials', 'general', 'kuetemeier_essentials', 'This is the first option' ) );
 		// $this->add_option_setting( new Option_Setting( 'core', 'third',  'V:3', 'Third',  'kuetemeier_essentials_data_privacy', '', '', 'This is the first option' ) );
 	}
 
@@ -91,11 +91,12 @@ class Options {
 
 */
 
+/*
 	public function whitelist_custom_options_page( $whitelist_options ){
 		//print_r( $whitelist_options );
 		//die ("Whitelist");
 	    // Custom options are mapped by section id; Re-map by page slug.
-/*	    foreach($this->_page_sections as $page => $sections ){
+	    foreach($this->_page_sections as $page => $sections ){
 	        $whitelist_options[$page] = array();
 	        foreach( $sections as $section )
 	            if( !empty( $whitelist_options[$section] ) )
@@ -103,7 +104,7 @@ class Options {
 	                    $whitelist_options[$page][] = $option;
 	            }
 	    $whitelist_options['kuetemeier_essentials'] = array( 'core' => array(), 'general' => array(),  'data_privacy' => array() );
-*/	    return $whitelist_options;
+	    return $whitelist_options;
 	}
 
 	public function sections_bug_workaround( $id, $page ) {
@@ -113,7 +114,7 @@ class Options {
 			$this->_page_sections[$page][$id] = $id;
 		}
 	}
-
+*/
 
 	/**
 	 * Main Kueteemier_Essentials Instance
@@ -476,41 +477,6 @@ class Options {
 }
 
 
-/*
-	// pill field cb
-
-	// field callbacks can accept an $args parameter, which is an array.
-	// $args is defined at the add_settings_field() function.
-	// wordpress has magic interaction with the following keys: label_for, class.
-	// the "label_for" key value is used for the "for" attribute of the <label>.
-	// the "class" key value is used for the "class" attribute of the <tr> containing the field.
-	// you can add custom key value pairs to be used inside your callbacks.
-	public function _settings_field_pill_cb( $args ) {
-		// get the value of the setting we've registered with register_setting()
-		$options = get_option( 'kuetemeier_essentials_options' );
-		// output the field
-		?>
-		<select id="<?php echo esc_attr( $args['label_for'] ); ?>"
-		data-custom="<?php echo esc_attr( $args['wporg_custom_data'] ); ?>"
-		name="wporg_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-		>
-		<option value="red" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
-		<?php esc_html_e( 'red pill', 'wporg' ); ?>
-		</option>
-		<option value="blue" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
-		<?php esc_html_e( 'blue pill', 'wporg' ); ?>
-		</option>
-		</select>
-		<p class="description">
-		<?php esc_html_e( 'You take the blue pill and the story ends. You wake in your bed and you believe whatever you want to believe.', 'wporg' ); ?>
-		</p>
-		<p class="description">
-		<?php esc_html_e( 'You take the red pill and you stay in Wonderland and I show you how deep the rabbit-hole goes.', 'wporg' ); ?>
-		</p>
-		<?php
-	}
-
-*/
 
 class Option_Section {
 	protected $_id = '';
@@ -619,7 +585,7 @@ class Option_Section {
 			$this->get_page()
 		);
 
-		Options::instance()->sections_bug_workaround( $this->get_id(), $this->get_page() );
+		//Options::instance()->sections_bug_workaround( $this->get_id(), $this->get_page() );
 
 	}
 }
@@ -627,7 +593,7 @@ class Option_Section {
 /**
  * A single setting for an option managed by Options.
  */
-class Option_Setting {
+abstract class Option_Setting {
 
 	/**
 	 * Id of the module this option setting belongs to
@@ -736,10 +702,19 @@ class Option_Setting {
 		$this->_description = $_description;
 	}
 
-	public function _callback_display_setting( $args ) {
-		echo "Hallo Welt: ".$this->get_label();
+	abstract public function _callback_display_setting( $args );
 
-	}
+	/**
+	 * Returns a sanitized version of $input, based on the Option_Settings type.
+	 *
+	 * Every subclass must declare a function that returns a sanitzie version of the given value.
+     * E.g. use sanitize_text_field for a string.
+     *
+     * @param  mixed 	$input 		an input value to be sanitzied by this function
+     *
+     * @return mixed 	sanitized version of $value or null if we cannot sanitzie the input
+	 */
+	abstract public function sanitize( $input );
 
 	public function validate( $page, $tab, $valid_input, $input ) {
 
@@ -760,7 +735,7 @@ class Option_Setting {
 		add_settings_error( 'test1', 'test2', '$input: '.esc_html( wp_json_encode ( $input) ) );
 		add_settings_error( 'test1', 'test2', '$valid_input (vorher): '.esc_html( wp_json_encode ( $valid_input ) ) );
 */
-		$input_value = $this->_get_from_array ( $input, null );
+		$input_value = $this->sanitize( $this->_get_from_array ( $input, null ) );
 		if ( isset( $input_value ) ) {
 			$valid_input = $this->_set_in_array( $valid_input, $input_value );
 
@@ -814,17 +789,11 @@ class Option_Setting {
 	}
 
 	public function get( $default = false) {
-		//$options = \Kuetemeier_Essentials\Options::instance();
-
-		//$module_option = $options->get_option( $this->get_module(), $this->get_id(), $default );
-
-		//return $module_option;
-
+		// get options from WordPress database 'options' table
 		$options = get_option('kuetemeier_essentials');
 
-		$value = $this->_get_from_array( $options, $default );
-
-		return $value;
+		// Find our value and return it (or $default, if not found).
+		return $this->_get_from_array( $options, $default );
 	}
 
 	/**
@@ -873,6 +842,11 @@ class Option_Setting_Checkbox extends Option_Setting {
 
 	}
 
+	public function sanitize( $input ) {
+		// TODO: sanitize
+		return $input;
+	}
+
 	public function _callback_display_setting( $args ) {
 		$options = \Kuetemeier_Essentials\Options::instance();
 
@@ -900,23 +874,40 @@ class Option_Setting_Text extends Option_Setting {
 
 	}
 
+	/**
+	 * Returns a sanitized version of $input, based on the Option_Settings type.
+	 *
+	 * Every subclass must declare a function that returns a sanitzie version of the given input value.
+     * E.g. use sanitize_text_field for a string.
+     *
+     * @param  string 	$input 		an input value to be sanitzied by this function
+     *
+     * @return string	sanitized version of $value or null if we cannot sanitzie the input
+	 */
+	public function sanitize( $input ) {
+		if ( ! isset ( $input ) )
+			return null;
+
+		return sanitize_text_field( $input );
+	}
+
 	public function _callback_display_setting( $args ) {
+		// Get an Options instance for later use.
 		$options = \Kuetemeier_Essentials\Options::instance();
 
+		// Get current value.
 		$value = $this->get();
-		$complete_id = $this->get_module() . '_' . $this->get_id();
 
-		//die ("checkbox");
+		// Assemble a compound and escaped id string.
+		$esc_id = esc_attr( $this->get_module() . '_' . $this->get_id() );
+		// Assemble an escaped name string. The name attribute is importan, it defines the keys for the $input array in validation.
+		$esc_name = esc_attr( $options->get_db_option_key() . '[' . $this->get_module() .'][' . $this->get_id() . ']' );
 
-	    // Next, we update the name attribute to access this element's ID in the context of the display options array
-	    // We also access the show_header element of the options collection in the call to the checked() helper function
-	    $html = '<input type="text" id="' . esc_attr( $complete_id) . '" name="'. $options->get_db_option_key();
-	    $html .= '[' . esc_attr( $this->get_module() ) .'][' . esc_attr( $this->get_id() ) . ']" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
+		// Compose output.
+	    $html = '<input type="text" id="' . $esc_id . '" name="'. $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
+	    $html .= '<p class="description" id="' . $esc_id .'-description">' . esc_html( $args[0] ) . '</p>';
 
-	    // Here, we'll take the first argument of the array and add it to a label next to the checkbox
-	    //$html .= '<label for="' . esc_attr( $complete_id ) . '"> '  . esc_html( $args[0] ). '</label>';
-	    $html .= '<p class="description" id="' . esc_attr( $complete_id ) .'-description">' . esc_html( $args[0] ) . '</p>';
-
+	    // And show it to the world.
 	    echo $html;
 	}
 }

@@ -45,6 +45,9 @@ const del = require('del');
 const sassLint = require('gulp-sass-lint');
 const esLint = require('gulp-eslint');
 
+// exec
+const exec = require('child_process').exec;
+
 
 // get config
 var pkg = JSON.parse(fs.readFileSync('./package.json'));
@@ -185,26 +188,6 @@ gulp.task('assets-index', function() {
 });
 
 
-gulp.task('watch', function() {
-  scripts_sourcemaps = true;
-  gulp.start('build-without-release');
-
-  gulp.watch(paths.styles.src, ['styles']);
-
-  gulp.watch(paths.scripts_admin.src, ['scripts-admin']);
-  gulp.watch(paths.scripts_public.src, ['scripts-public']);
-
-  gulp.watch(paths.images.src ['images']);
-
-  gulp.watch([
-  	'./package.json'
-  ], function() {
-	pkg = JSON.parse(fs.readFileSync('./package.json'));
-	gulp.start('replace');
-  });
-});
-
-
 gulp.task('sass-lint', function() {
   return gulp.src(paths.styles.src)
     .pipe(sassLint())
@@ -228,6 +211,38 @@ gulp.task('es-lint', () => {
         // To have the process exit with an error code (1) on
         // lint error, return the stream and pipe to failAfterError last.
         .pipe(esLint.failAfterError());
+});
+
+
+gulp.task('phpdoc', function() {
+	  exec('bin/generate-phpdocs', function (err, stdout, stderr) {
+    //console.log(stdout);
+    console.log(stderr);
+    //cb(err);
+  });
+});
+
+
+gulp.task('watch', function() {
+  scripts_sourcemaps = true;
+  gulp.start('build-without-release');
+  gulp.start('phpdoc');
+
+  gulp.watch(paths.styles.src, ['styles']);
+
+  gulp.watch(paths.scripts_admin.src, ['scripts-admin']);
+  gulp.watch(paths.scripts_public.src, ['scripts-public']);
+
+  gulp.watch(paths.images.src ['images']);
+
+  gulp.watch([
+  	'./package.json'
+  ], function() {
+	pkg = JSON.parse(fs.readFileSync('./package.json'));
+	gulp.start('replace');
+  });
+
+  gulp.watch(['./kuetemeier-essentials.php', './src/**/*.php'], ['phpdoc']);
 });
 
 

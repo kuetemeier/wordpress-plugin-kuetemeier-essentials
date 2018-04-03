@@ -13,3 +13,4 @@ kuetemeier-essentials.sublime-workspace
 phpdocs
 **/*.pot~
 node_modules
+assets/

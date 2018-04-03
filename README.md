@@ -1,8 +1,31 @@
-# WordPress Plugin Kuetemeier Essentials #
+# WordPress Plugin Kuetemeier Essentials#
 
-This is the WordPress Plugin "Kuetemeier Essentials". More info at https://kuetemeier.de
+Description: WordPress PlugIn with essential extensions for speed, data privacy and optimization.
 
-## Requirements: ##
+## Version Information ##
+
+#### This source code ####
+Version: 0.1.10-alpha
+
+#### Latest stable ####
+Latest stable version: not released yet
+
+#### WordPress Version ####
+
+Requires at least: 4.9
+Tested up to: 4.9.4
+
+#### PHP Version ####
+
+Minimum PHP Version: 5.6
+(tests are only written for 7.0 and later) 
+
+## A LITTLE WARNING FOR DEVELOPERS ##
+
+Version informations (and some others) are centralized in `package.json`. Gulp will replace it in many other files (e.g. in this file, readme.txt and kuetemeier-essentials.php).
+See gulp.task('replace') in gulpfile.js for more informations. You have been warned ;-).
+
+## Requirements for development: ##
 
 * [Node.js](http://nodejs.org/)
 * [Compass](http://compass-style.org/)
@@ -18,10 +41,10 @@ Clone this repo:
 $ git clone git@github.com:kuetemeiernet/kuetemeier-essentials.git
 ```
 
-Install the dependencies of the grunt:
+Install the dependencies of the gulp:
 
 ```bash
-$ npm install
+$ npm install-dev
 ```
 
 Install the dependencies with composer:
@@ -54,19 +77,19 @@ The installed coding standards are PEAR, Zend, PSR2, MySource, Squiz, PSR1, Word
 Lint, compile and compress the files:
 
 ```bash
-$ grunt
+$ gulp
 ```
 
 Watch the project:
 
 ```bash
-$ grunt watch
+$ gulp watch
 ```
 
 Deploy with svn:
 
 ```bash
-$ grunt deploy
+$ gulp deploy
 ```
 
 ## Changelog ##
@@ -77,16 +100,5 @@ $ grunt deploy
 
 ## License: ##
 
-Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+License: GNU General Public License 3
+License URI: https://www.gnu.org/licenses/gpl-3.0.html

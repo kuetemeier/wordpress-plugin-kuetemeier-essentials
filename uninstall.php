@@ -15,7 +15,7 @@
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
- * @since      1.0.0
+ * @since      0.1.0
  *
  * @package    kuetemeier-essentials
  */

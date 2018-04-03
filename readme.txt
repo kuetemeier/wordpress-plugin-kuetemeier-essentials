@@ -1,25 +1,19 @@
 === Kuetemeier Essentials ===
 Contributors: Jörg Kütemeier
 Donate link:
-Tags:
-License: 
-License URI: 
-Requires at least: 3.5
-Tested up to: 3.5
-Stable tag: 0.1
+Tags: test, data, privacy, speed, optimiziation, optimize, data, quick, fast, data-privacy
+License: GNU General Public License v3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Requires at least: 4.9
+Tested up to: 4.9.4
 
-Essential and fast addons for WordPress websites
+WordPress PlugIn with essential extensions for speed, data privacy and optimization.
 
 == Description ==
 
-Essential and fast addons for WordPress websites
+WordPress PlugIn with essential extensions for speed, data privacy and optimization.
 
 == Installation ==
-
-For development:
-
-Install composer: https://getcomposer.org/doc/00-intro.md
-
 
 == Frequently Asked Questions ==
 

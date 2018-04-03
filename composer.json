@@ -2,7 +2,7 @@
 	"name"       : "kuetemeiernet/kuetemeier-essentials",
 	"description": "WordPress PlugIn",
 	"keywords"   : ["kuetemeier", "WordPress"],
-	"license"    : "Apache License, Version 2.0",
+	"license"    : "GNU General Public License 3",
 	"authors"    : [
 		{
 			"name"    : "Jörg Kütemeier",

@@ -40,6 +40,10 @@ var replace = require('gulp-replace');
 
 var del = require('del');
 
+// lint
+var sassLint = require('gulp-sass-lint');
+
+
 // get config
 var pkg = JSON.parse(fs.readFileSync('./package.json'));
 
@@ -196,6 +200,17 @@ gulp.task('watch', function() {
 	gulp.start('replace');
   });
 });
+
+
+gulp.task('sass-lint', function() {
+  return gulp.src(paths.styles.src)
+    .pipe(sassLint())
+    .pipe(sassLint.format())
+    .pipe(sassLint.failOnError())
+});
+
+
+gulp.task('lint', ['sass-lint']);
 
 
 gulp.task('assets', ['styles', 'scripts', 'images', 'assets-index']);

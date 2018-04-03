@@ -1,5 +1,5 @@
 //
-// SASS CSS file for admin styles for the
+// Commen SASS CSS file for admin und public styles for the
 // WordPress Plugin Kuetemeier-Essentials
 //
 // Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
@@ -18,8 +18,6 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //
 
-@import 'common';
 
-.kuetemeier-essentials {
-  color: $blue;
-}
+$blue: #00f;
+$rot: #f00;

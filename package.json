@@ -1,0 +1,26 @@
+{
+  "name": "kuetemeier-essentials",
+  "version": "0.1.0",
+  "description": "WordPress PlugIn with essential extensions for speed, data privacy and optimization.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-zip": "^4.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "g@g.kuetemeier.net:jk/kuetemeier-essentials.git"
+  },
+  "keywords": [
+    "WordPress"
+  ],
+  "author": "Jörg Kütemeier (https://kuetemeier.de/kontakt/)",
+  "license": "GPL-3.0"
+}

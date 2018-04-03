@@ -1,6 +1,6 @@
 {
   "name": "kuetemeier-essentials",
-  "version": "0.1.10-alpha",
+  "version": "0.1.11-alpha",
   "version_stable": "not released yet",
   "author": "Jörg Kütemeier (https://kuetemeier.de/kontakt/)",
   "license": "GPL-3.0",
@@ -17,6 +17,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
     "gulp-minify-css": "^1.2.4",

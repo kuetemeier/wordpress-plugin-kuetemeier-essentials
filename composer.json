@@ -18,6 +18,8 @@
 		"squizlabs/php_codesniffer": "^3.2",
 		"wp-coding-standards/wpcs": "^0.14",
 		"phpdocumentor/phpdocumentor": "2.*",
-		"phpunit/phpunit": "^7"
-	}
+		"phpunit/phpunit": "^7",
+    "wimg/php-compatibility": "*"
+	},
+  "prefer-stable" : true
 }

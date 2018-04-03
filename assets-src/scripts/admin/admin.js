@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 /*
  * JavaScript file for admin functions of the
  * WordPress Plugin Kuetemeier-Essentials

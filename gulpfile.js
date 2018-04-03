@@ -19,34 +19,37 @@
 
 'use strict';
 
-var gulp = require('gulp');
-var gulpif = require('gulp-if');
-var zip = require('gulp-zip');
-var fs = require('fs');
-var rename = require('gulp-rename');
+const gulp = require('gulp');
+const gulpif = require('gulp-if');
+const gulpSequence = require('gulp-sequence');
+const zip = require('gulp-zip');
+const fs = require('fs');
+const rename = require('gulp-rename');
 
 // styles
-var cleanCSS = require('gulp-clean-css');
-var sass = require('gulp-sass');
+const cleanCSS = require('gulp-clean-css');
+const sass = require('gulp-sass');
 
 // scripts
-var babel = require('gulp-babel');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
+const concat = require('gulp-concat');
+const uglify = require('gulp-uglify');
+const sourcemaps = require('gulp-sourcemaps');
 
 // replace
-var replace = require('gulp-replace');
+const replace = require('gulp-replace');
 
-var del = require('del');
+const del = require('del');
 
 // lint
-var sassLint = require('gulp-sass-lint');
+const sassLint = require('gulp-sass-lint');
+const esLint = require('gulp-eslint');
 
 
 // get config
 var pkg = JSON.parse(fs.readFileSync('./package.json'));
 
+// generate sourcemaps only if we are 'watching' (use `gulp watch` and clean with `gulp clean`)
 var scripts_sourcemaps = false;
 
 
@@ -73,7 +76,7 @@ var paths = {
 
 gulp.task('clean', function() {
 	return del([ 'assets', 'phpdocs' ]);
-})
+});
 
 
 gulp.task('replace_readme_txt', function() {
@@ -81,8 +84,8 @@ gulp.task('replace_readme_txt', function() {
     .pipe(replace(/(Tags: )(.*)/, '$1' + pkg.wordpress.tags))
     .pipe(replace(/(Requires at least: )(.*)/, '$1' + pkg.wordpress.requires_at_least))
     .pipe(replace(/(Tested up to: )(.*)/, '$1' + pkg.wordpress.tested_up_to))
-    .pipe(gulp.dest('./'))
-})
+    .pipe(gulp.dest('./'));
+});
 
 
 gulp.task('replace_kuetemeier_essentials_php', function() {
@@ -91,7 +94,7 @@ gulp.task('replace_kuetemeier_essentials_php', function() {
     .pipe(replace(/(Description: )(.*)/, '$1' + pkg.description))
     .pipe(replace(/('KUETEMEIER_ESSENTIALS_VERSION', ')(.*)(')/, '$1' + pkg.version + '$3'))
     .pipe(replace(/('KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', ')(.*)(')/, '$1' + pkg.wordpress.minimal_php_version + '$3'))
-    .pipe(gulp.dest('./'))
+    .pipe(gulp.dest('./'));
 });
 
 
@@ -103,15 +106,15 @@ gulp.task('replace_readme_md', function() {
     .pipe(replace(/(Requires at least: )(.*)/, '$1' + pkg.wordpress.requires_at_least))
     .pipe(replace(/(Tested up to: )(.*)/, '$1' + pkg.wordpress.tested_up_to))
     .pipe(replace(/(Minimum PHP Version: )(.*)/, '$1' + pkg.wordpress.minimal_php_version))
-    .pipe(gulp.dest('./'))
-})
+    .pipe(gulp.dest('./'));
+});
 
 
 gulp.task('replace_src_config_php', function() {
   return gulp.src(["./src/config.php"], {base: './'})
     .pipe(replace(/(PLUGIN_VERSION = ')(.*)(')/, '$1' + pkg.version + '$3'))
     .pipe(replace(/(PLUGIN_VERSION_STABLE = ')(.*)(')/, '$1' + pkg.version_stable + '$3'))
-    .pipe(gulp.dest('./'))
+    .pipe(gulp.dest('./'));
 });
 
 
@@ -184,7 +187,7 @@ gulp.task('assets-index', function() {
 
 gulp.task('watch', function() {
   scripts_sourcemaps = true;
-  gulp.start('build-without-release')
+  gulp.start('build-without-release');
 
   gulp.watch(paths.styles.src, ['styles']);
 
@@ -206,20 +209,41 @@ gulp.task('sass-lint', function() {
   return gulp.src(paths.styles.src)
     .pipe(sassLint())
     .pipe(sassLint.format())
-    .pipe(sassLint.failOnError())
+    .pipe(sassLint.failOnError());
 });
 
 
-gulp.task('lint', ['sass-lint']);
+gulp.task('es-lint', () => {
+    // ESLint ignores files with "node_modules" paths.
+    // So, it's best to have gulp ignore the directory as well.
+    // Also, Be sure to return the stream from the task;
+    // Otherwise, the task may end before the stream has finished.
+    return gulp.src(['./gulpfile.js', paths.scripts_admin.src, paths.scripts_public.src, '!node_modules/**'])
+        // eslint() attaches the lint output to the "eslint" property
+        // of the file object so it can be used by other modules.
+        .pipe(esLint())
+        // eslint.format() outputs the lint results to the console.
+        // Alternatively use eslint.formatEach() (see Docs).
+        .pipe(esLint.format())
+        // To have the process exit with an error code (1) on
+        // lint error, return the stream and pipe to failAfterError last.
+        .pipe(esLint.failAfterError());
+});
+
+
+gulp.task('test', ['lint']);
+
+
+gulp.task('lint', ['sass-lint', 'es-lint']);
 
 
 gulp.task('assets', ['styles', 'scripts', 'images', 'assets-index']);
 
 
-gulp.task('build-without-release', ['replace', 'assets']);
+gulp.task('build-without-release', gulpSequence('replace', 'assets'));
 
 
-gulp.task('build', ['clean', 'build-without-release', 'zip']);
+gulp.task('build', gulpSequence('clean', 'lint', 'build-without-release', 'zip'));
 
 
 gulp.task('default', ['build-without-release']);

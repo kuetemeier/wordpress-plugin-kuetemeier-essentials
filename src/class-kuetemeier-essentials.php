@@ -36,7 +36,7 @@ require_once( dirname(__FILE__) . '/class-options.php' );
 /**
  * Class Kuetemeier_Essentials
  */
-class Kuetemeier_Essentials {
+final class Kuetemeier_Essentials {
 
 	/**
 	 * Kuetemeier_Essentials instance.

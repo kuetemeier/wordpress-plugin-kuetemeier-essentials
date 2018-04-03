@@ -33,8 +33,8 @@ namespace Kuetemeier_Essentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once( dirname(__FILE__) . '/class-modules.php' );
-require_once( dirname(__FILE__) . '/class-options.php' );
+require_once dirname( __FILE__ ) . '/class-modules.php';
+require_once dirname( __FILE__ ) . '/class-options.php';
 
 /**
  * Class Kuetemeier_Essentials
@@ -55,8 +55,20 @@ final class Kuetemeier_Essentials {
 	 */
 	public $_version = KUETEMEIER_ESSENTIALS_VERSION;
 
+	/**
+	 * Instance of the Modules Class.
+	 *
+	 * @var Modules
+	 * @see Modules
+	 */
 	protected $_modules;
 
+	/**
+	 * Instance of the Options Class.
+	 *
+	 * @var Options
+	 * @see Options
+	 */
 	protected $_options;
 
 	/**
@@ -114,14 +126,14 @@ final class Kuetemeier_Essentials {
 	 * Cloning is forbidden.
 	 */
 	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Don\'t clone me!' ), esc_attr( $this->_version ) );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'Don\'t clone me!', 'kuetemeier-essentials' ), esc_attr( $this->_version ) );
 	}
 
 	/**
 	 * Unserializing instances of this class is forbidden.
 	 */
 	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'No wake up please!' ), esc_attr( $this->_version ) );
+		_doing_it_wrong( __FUNCTION__, esc_html__( 'No wake up please!', 'kuetemeier-essentials' ), esc_attr( $this->_version ) );
 	}
 
 	public function get_modules() {

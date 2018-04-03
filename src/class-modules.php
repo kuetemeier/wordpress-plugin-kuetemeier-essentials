@@ -44,9 +44,9 @@ class Modules {
 	protected $_options;
 
 	const AVAILABLE_MODULES = array(
-		'core' => 'Core',
+		'core'         => 'Core',
 		'data-privacy' => 'Data_Privacy',
-		'develop' => 'Develop'
+		'develop'      => 'Develop'
 	);
 
 	function __construct( $options ) {

@@ -15,13 +15,11 @@
  * License: GNU General Public License 3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- *
  * @package    kuetemeier-essentials
  * @author     Jörg Kütemeier (https://kuetemeier.de/kontakt)
  * @license    GNU General Public License 3
  * @link       https://kuetemeier.de
  * @copyright  2018 Jörg Kütemeier
- *
  *
  * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
  *
@@ -39,7 +37,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 /*********************************
  * KEEP THIS for security reasons
  * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
@@ -54,7 +51,6 @@ define( 'KUETEMEIER_ESSENTIALS_NAME', 'Kuetemeier Essentials' );
 define( 'KUETEMEIER_ESSENTIALS_VERSION', '0.1.11-alpha' );
 define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6' );
 define( 'KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-
 
 /***************************************
  * Helper functions for initialisation
@@ -72,6 +68,7 @@ define( 'KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
  * @since 0.1.0
  */
 function kuetemeier_essentials_hook_i18n_init() {
+
 	load_plugin_textdomain( 'kuetemeier-essentials', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
@@ -140,7 +137,14 @@ function kuetemeier_essentials_deactivation_hook() {
 	\Kuetemeier_Essentials\admin\Deactivator::deactivate();
 }
 
-
+/**
+ * Run on admin_init.
+ *
+ * @internal
+ * @return void
+ *
+ * @since 0.1.0
+ */
 function kuetemeier_essentials_callback_admin_init() {
 	register_activation_hook( __FILE__, 'kuetemeier_essentials_activation_hook' );
 	register_deactivation_hook( __FILE__, 'kuetemeier_essentials_deactivation_hook' );
@@ -174,4 +178,6 @@ function kuetemeier_essentials_init() {
 	}
 }
 
+// Initialize the plugin.
 kuetemeier_essentials_init();
+

@@ -74,7 +74,7 @@ class Options {
 			array(
 				'general' => __('General', 'kuetemeier-essentials'),
 				'modules' => __('Modules', 'kuetemeier-essentials'),
-				'test' => 'Test',
+				'test'    => 'Test',
 			)
 		);
 
@@ -248,13 +248,13 @@ class Options {
 
 		array_push( $this->_admin_options_subpages_order, $slug );
 		$this->_admin_options_subpages[$slug] = array(
-			'slug' => $slug,
-			'title' => $title,
-			'menu_title' => $menu_title,
-			'capability' => $capability,
-			'parent_slug' => $parent_slug,
+			'slug'         => $slug,
+			'title'        => $title,
+			'menu_title'   => $menu_title,
+			'capability'   => $capability,
+			'parent_slug'  => $parent_slug,
 			'display_func' => $display_func,
-			'tabs' => $tabs
+			'tabs'         => $tabs
 		);
 	}
 
@@ -357,7 +357,9 @@ class Options {
 		);
 
 		// Use this hook to add your own subpages via add_admin_options_subpage
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
 		do_action( self::ACTION_PREFIX.'configure_admin_menu' );
+		// phpcs::enable
 
 		// add all configured subpages to WP
 		foreach( $this->_admin_options_subpages_order as $subpage_slug ) {
@@ -479,8 +481,8 @@ class Options {
 			     <?php $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : '' ); ?>
 			     <?php /* submit_button(); */ ?>
 			     <p class="submit">
-				     <input name="kuetemeier_essentials[submit|<?php echo $page_slug; ?>|<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'oenology'); ?>" />
-				     <input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e('Reset Defaults', 'oenology'); ?>" />
+				     <input name="kuetemeier_essentials[submit|<?php echo $page_slug; ?>|<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'kuetemeier-essentials'); ?>" />
+				     <input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e('Reset Defaults', 'kuetemeier-essentials'); ?>" />
 			     </p>
 		     </form>
 	     </div>

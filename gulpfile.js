@@ -91,6 +91,9 @@ gulp.task('watch', ['styles'], function() {
   ], ['styles']);
 });
 
-gulp.task('build', ['replace', 'zip']);
 
-gulp.task('default', ['build']);
+gulp.task('build-without-release', ['replace'])
+
+gulp.task('build', ['build-without-release', 'zip']);
+
+gulp.task('default', ['build-without-release']);

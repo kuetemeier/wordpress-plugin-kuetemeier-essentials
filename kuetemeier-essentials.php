@@ -52,9 +52,11 @@ define( 'KUETEMEIER_ESSENTIALS_VERSION', '0.1.11-alpha' );
 define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6' );
 define( 'KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
+
 /***************************************
  * Helper functions for initialisation
  */
+
 
 /**
  * Initialize internationalization (i18n) for this plugin.
@@ -71,6 +73,7 @@ function kuetemeier_essentials_hook_i18n_init() {
 
 	load_plugin_textdomain( 'kuetemeier-essentials', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
+
 
 /**
  * Display an error notice to the admin area
@@ -94,6 +97,7 @@ function kuetemeier_essentials_hook_display_admin_notice() {
 	);
 }
 
+
 /**
  * Checks the PHP version against the required version
  * If not met, displays an error to the admin area.
@@ -111,6 +115,7 @@ function kuetemeier_essentials_is_php_version_requirements_fulfilled() {
 	return true;
 }
 
+
 /**
  * This code runs during plugin activation.
  * WordPress Hook, not called directly.
@@ -123,6 +128,7 @@ function kuetemeier_essentials_activation_hook() {
 	include_once plugin_dir_path( __FILE__ ) . 'src/admin/class-activator.php';
 	\Kuetemeier_Essentials\admin\Activator::activate();
 }
+
 
 /**
  * This code runs during plugin deactivation.
@@ -137,6 +143,7 @@ function kuetemeier_essentials_deactivation_hook() {
 	\Kuetemeier_Essentials\admin\Deactivator::deactivate();
 }
 
+
 /**
  * Run on admin_init.
  *
@@ -149,6 +156,7 @@ function kuetemeier_essentials_callback_admin_init() {
 	register_activation_hook( __FILE__, 'kuetemeier_essentials_activation_hook' );
 	register_deactivation_hook( __FILE__, 'kuetemeier_essentials_deactivation_hook' );
 }
+
 
 /**
  * Plugin initialization

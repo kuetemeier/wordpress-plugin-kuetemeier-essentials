@@ -48,28 +48,30 @@ final class Kuetemeier_Essentials {
 	 */
 	protected static $_instance = null;
 
+
 	/**
 	 * The plugin version number.
 	 *
 	 * @var string
 	 */
-	public $_version = KUETEMEIER_ESSENTIALS_VERSION;
+	protected $_version = KUETEMEIER_ESSENTIALS_VERSION;
+
 
 	/**
 	 * Instance of the Modules Class.
 	 *
 	 * @var Modules
-	 * @see Modules
 	 */
 	protected $_modules;
+
 
 	/**
 	 * Instance of the Options Class.
 	 *
 	 * @var Options
-	 * @see Options
 	 */
 	protected $_options;
+
 
 	/**
 	 * Main Kueteemier_Essentials Instance
@@ -85,7 +87,14 @@ final class Kuetemeier_Essentials {
 		return self::$_instance;
 	}
 
-	function __construct() {
+
+	/**
+	 * Constructor of Kuetemeier_Essentials.
+	 *
+	 * It loads an instance of Options and Modules. By this, it initializes all
+	 * Options and modules.
+	 */
+	public function __construct() {
 
 		// order is important! Options BEFORE Modules!
 		$this->_options = new Options();
@@ -95,15 +104,8 @@ final class Kuetemeier_Essentials {
 		do_action( 'kuetemeier_essentials_modules_loaded' );
 
 		$this->_options->init_admin_hooks();
-
-		// add_action( 'admin_init', array( &$this, '_callback_admin_init' ) );
 	}
 
-/*
-	public function _callback_admin_init() {
-
-	}
-*/
 
 	/**
 	 * Send a debug message to the browser console.
@@ -122,12 +124,14 @@ final class Kuetemeier_Essentials {
 		}
 	}
 
+
 	/**
 	 * Cloning is forbidden.
 	 */
 	public function __clone() {
 		_doing_it_wrong( __FUNCTION__, esc_html__( 'Don\'t clone me!', 'kuetemeier-essentials' ), esc_attr( $this->_version ) );
 	}
+
 
 	/**
 	 * Unserializing instances of this class is forbidden.
@@ -136,6 +140,12 @@ final class Kuetemeier_Essentials {
 		_doing_it_wrong( __FUNCTION__, esc_html__( 'No wake up please!', 'kuetemeier-essentials' ), esc_attr( $this->_version ) );
 	}
 
+
+	/**
+	 * Get the instance of the @see Modules class.
+	 *
+	 * @return Modules    A valid instance of the Module class.
+	 */
 	public function get_modules() {
 		return $this->_modules;
 	}

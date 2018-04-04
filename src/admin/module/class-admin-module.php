@@ -33,7 +33,7 @@ namespace Kuetemeier_Essentials\Admin\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once( plugin_dir_path( __FILE__ ) . '/../../config.php' );
+require_once plugin_dir_path( __FILE__ ) . '/../../config.php';
 
 /**
  * Class Kuetemeier_Essentials
@@ -41,44 +41,88 @@ require_once( plugin_dir_path( __FILE__ ) . '/../../config.php' );
 abstract class Admin_Module {
 
 	/**
-	 * Holds an instance of the @see \Kuetemeier_Essentials\Options class
+	 * Holds an instance of the `Options` class.
+	 *
+	 * @var \Kuetemeier_Essentials\Options
+	 *
+	 * @see \Kuetemeier_Essentials\Options class.
+	 * @since 0.1.0
 	 */
-	protected $_options;
+	protected $options;
 
 	/**
-	 * end part of the admin page (option settings) slug
+	 * End part of the admin page (option settings) slug
+	 *
+	 * @var string
 	 *
 	 * @see get_admin_page_slug()
-	 *
+	 * @since 0.1.0
 	 */
-	protected $_admin_page_slug_part = '';
+	protected $admin_page_slug_part = '';
 
-	function __construct( $options ) {
-		$this->_options = $options;
+	/**
+	 * Initialize an Admin Module
+	 *
+	 * @param \Kuetemeier_Essentials\Options $options A valid instance of the `Options` class.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
+	public function __construct( $options ) {
+		$this->options = $options;
 	}
 
-	protected function _set_admin_page_slug_part( $page_slug ) {
-		$this->_admin_page_slug_part = $page_slug;
+	/**
+	 * Set `admin_page_slug_part` property.
+	 *
+	 * @param string $page_slug New value.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
+	protected function set_admin_page_slug_part( $page_slug ) {
+		$this->admin_page_slug_part = sanitize_text_field( $page_slug );
 	}
 
+	/**
+	 * Get `admin_page_slug`
+	 *
+	 * @return string Slug for the admin page of the module
+	 * @since 0.1.0
+	 */
 	public function get_admin_page_slug() {
-		// TODO: escape
-		return 'kuetemeier_essentials_'.$this->_admin_page_slug_part;
+		return sanitize_text_field( 'kuetemeier_essentials_' . $this->admin_page_slug_part );
 	}
 
 	/**
 	 * This function can be used as callbacks for admin_menu.
 	 * Use this function, because Admin modules will be loaded AFTER the normal callback is fired
+	 *
+	 * This is called after a successfull registration with the class `Modules`
+	 *
+	 * @return void
+	 *
+	 * @see \Kuetemeier_Essentials\Modules
+	 * @since 0.1.0
 	 */
-	public function _callback_admin_menu() {
+	public function callback_admin_menu() {
 		// intentionally empty
 	}
 
 	/**
 	 * This function can be used as callbacks for admin_init.
 	 * Use this function, because Admin modules will be loaded AFTER the normal callback is fired
+	 *
+	 * This is called after a successfull registration with the class `Modules`
+	 *
+	 * @return void
+	 *
+	 * @see \Kuetemeier_Essentials\Modules
+	 * @since 0.1.0
 	 */
-	public function _callback_admin_init() {
+	public function callback_admin_init() {
 		// intentionally empty
 	}
 

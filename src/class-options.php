@@ -37,7 +37,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Options - Helpers to interact with the WordPress Options and Settings API
  */
-class Options {
+final class Options {
 
 	const ACTION_PREFIX = 'kuetemeier_essentials_options_';
 
@@ -47,39 +47,78 @@ class Options {
 	const OPTIONS_PAGE_CAPABILITY = 'manage_options';
 	const OPTIONS_PAGE_SLUG = 'kuetemeier_essentials';
 
-	protected $_admin_options_subpages = array();
-	protected $_admin_options_subpages_order = array();
+	/**
+	 * Holds all registered admin option subpages.
+	 *
+	 * @var array
+	 * @since 0.1.0
+	 * @see Options::add_admin_options_subpage()
+	 */
+	private $admin_options_subpages = array();
 
-	protected $_option_settings = array();
-	protected $_option_sections = array();
 
-	protected $_page_sections;
+	/**
+	 * Holds the order list of the subpages
+	 *
+	 * @var array
+	 * @since 0.1.0
+	 * @see Options::add_admin_options_subpage()
+	 */
+	private $admin_options_subpages_order = array();
 
-	public static $_instance = null;
 
-	function __construct() {
+	/**
+	 * List of all registered option settings.
+	 *
+	 * @var Option_Setting[]
+	 * @since 0.1.0
+	 */
+	private $option_settings = array();
 
-		if ( ! is_null( self::$_instance ) )
-			die ('You tried to create a second instance of \Kuetemeier_Essentials\Options');
 
-		// Tracks new sections for whitelist_custom_options_page()
-		$this->_page_sections = array();
-		// Must run after wp's `option_update_filter()`, so priority > 10
-		//add_action( 'whitelist_options', array( $this, 'whitelist_custom_options_page' ), 11 );
+	/**
+	 * List of all registered option sections.
+	 *
+	 * @var Options_Section[]
+	 * @since 0.1.0
+	 */
+	private $option_sections = array();
+
+
+	/**
+	 * Holds a valid instance of this class.
+	 *
+	 * @var Options
+	 * @since 0.1.0
+	 */
+	public static $instance = null;
+
+
+	/**
+	 * Initialize and create basline for Options.
+	 *
+	 * @return void
+	 * @since 0.1.0
+	 */
+	public function __construct() {
+
+		if ( ! is_null( self::$instance ) ) {
+			die( 'You tried to create a second instance of \Kuetemeier_Essentials\Options' );
+		}
 
 		$this->add_admin_options_subpage(
 			self::OPTIONS_PAGE_SLUG,
 			'Kuetemeier > Essentials',
 			'Essentials',
 			array(
-				'general' => __('General', 'kuetemeier-essentials'),
-				'modules' => __('Modules', 'kuetemeier-essentials'),
+				'general' => __( 'General', 'kuetemeier-essentials' ),
+				'modules' => __( 'Modules', 'kuetemeier-essentials' ),
 				'test'    => 'Test',
 			)
 		);
 
 		// register callback to actually create the admin page and subpages
-		add_action( self::ACTION_PREFIX.'create_admin_menu', array( &$this, '_callback_create_admin_menu' ) );
+		add_action( self::ACTION_PREFIX . 'create_admin_menu', array( &$this, 'callback_create_admin_menu' ) );
 
 		$this->add_option_section(
 			new Option_Section(
@@ -97,9 +136,9 @@ class Options {
 			)
 		);
 
-		/* --------------------------------
-		 * add OPTION SETTINGS
-		 * -------------------------------- */
+		// --------------------------------
+		// add OPTION SETTINGS
+		// --------------------------------
 
 		$this->add_option_setting(
 			new Option_Setting_Checkbox(
@@ -129,40 +168,37 @@ class Options {
 
 	}
 
-// TODO: set default values if there is no database entry
-/*
+	// TODO: set default values if there is no database entry
 
-	    if( false == get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY ) ) {
-    		update_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY, array( 'core' => array( 'version' => '1.0' ) ) );
-		} // end if
-
-*/
 
 	/**
 	 * Main Kueteemier_Essentials Instance
 	 * Ensures only one instance of Kuetemeier_Essentials is loaded or can be loaded.
 	 *
 	 * @return Kuetemeier_Essentials Kuetemeier_Essentials instance
+	 * @since 0.1.0
 	 */
 	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
 		}
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	public function add_option_setting( $option_setting ) {
-		if ( empty( $option_setting ) )
+		if ( empty( $option_setting ) ) {
 			return;
+		}
 
 		$option_setting->set_db_option_key( $this->get_db_option_key() );
-		array_push( $this->_option_settings, $option_setting );
+		array_push( $this->option_settings, $option_setting );
 
 	}
 
 	public function add_option_section( $option_section ) {
-		if ( ! empty( $option_section ) )
-			array_push( $this->_option_sections, $option_section );
+		if ( ! empty( $option_section ) ) {
+			array_push( $this->option_sections, $option_section );
+		}
 	}
 
 	public function get_db_option_key() {
@@ -170,9 +206,13 @@ class Options {
 	}
 
 	public function test_module_key_valid( $module_key ) {
-		$valid_keys = array( 'default' => 1, 'core' => 1, 'data-privacy' => 1 );
+		$valid_keys = array(
+			'default' => 1,
+			'core' => 1,
+			'data-privacy' => 1,
+		);
 
-		return array_key_exists( $module_key, $valid_keys);
+		return array_key_exists( $module_key, $valid_keys );
 	}
 
 	/**
@@ -196,18 +236,21 @@ class Options {
 		$options = $this->get_db_options();
 
 		// We cannot find anything if we have no $module_key
-		if ( empty( $module_key ) )
+		if ( empty( $module_key ) ) {
 			return false;
+		}
 
-		if ( ! $this->test_module_key_valid( $module_key ) )
+		if ( ! $this->test_module_key_valid( $module_key ) ) {
 			return false;
+		}
 
 		// No options found for our general db key?
-		if ( empty( $options ) )
+		if ( empty( $options ) ) {
 			return false;
+		}
 
 		// Does the $module_key exists in our db options?
-		if ( array_key_exists( $module_key, $options) ) {
+		if ( array_key_exists( $module_key, $options ) ) {
 			return $options[ $module_key ];
 		}
 
@@ -218,19 +261,21 @@ class Options {
 	public function get_option( $module_key, $option_key, $default = false ) {
 		$module_options = $this->get_db_options_for_module( $module_key );
 
-		if ( ! $module_options )
+		if ( ! $module_options ) {
 			return $default;
+		}
 
-		if ( array_key_exists( $option_key, $module_options ) )
+		if ( array_key_exists( $option_key, $module_options ) ) {
 			return $module_options[ $option_key ];
+		}
 
 		return $default;
 	}
 
 	public function init_admin_hooks() {
 		// IMPORTANT: THis must be called AFTER all admin classes of the modules are loaded
-		add_action( 'admin_init', array( &$this, '_callback_admin_init' ) );
-		add_action( 'admin_menu', array( &$this, '_callback_admin_menu' ) );
+		add_action( 'admin_init', array( &$this, 'callback_admin_init' ) );
+		add_action( 'admin_menu', array( &$this, 'callback_admin_menu' ) );
 	}
 
 	public function add_admin_options_subpage(
@@ -243,63 +288,62 @@ class Options {
 		$parent_slug = self::OPTIONS_PAGE_SLUG
 	) {
 
-		if ( $display_func == null )
-			$display_func = array( &$this, '_callback_options_page_display' );
+		if ( $display_func == null ) {
+			$display_func = array( &$this, 'callback_options_page_display' );
+		}
 
-		array_push( $this->_admin_options_subpages_order, $slug );
-		$this->_admin_options_subpages[$slug] = array(
+		array_push( $this->admin_options_subpages_order, $slug );
+		$this->admin_options_subpages[ $slug ] = array(
 			'slug'         => $slug,
 			'title'        => $title,
 			'menu_title'   => $menu_title,
 			'capability'   => $capability,
 			'parent_slug'  => $parent_slug,
 			'display_func' => $display_func,
-			'tabs'         => $tabs
+			'tabs'         => $tabs,
 		);
 	}
 
-	public function _callback_admin_init() {
-		register_setting( self::OPTIONS_SETTINGS_KEY, self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
-		register_setting( 'kuetemeier_essentials_data_privacy', self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
-//		register_setting( $page_slug, self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
-
-
+	public function callback_admin_init() {
+		register_setting( self::OPTIONS_SETTINGS_KEY, self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
+		register_setting( 'kuetemeier_essentials_data_privacy', self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
+		//	register_setting( $page_slug, self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
 	}
 
-	public function _callback_admin_menu() {
-		$this->_create_admin_menu();
+	public function callback_admin_menu() {
+		$this->create_admin_menu();
 	}
 
-	public function _callback_validate_options( $input ) {
+	public function callback_validate_options( $input ) {
 		$valid_input = get_option( self::OPTIONS_SETTINGS_KEY );
 
 		$submit = '';
 		$page = '';
 		$tab = '';
 
-		foreach( array_keys( $input) as $key ) {
-			if ( substr( $key, 0, 7) === 'submit|' ) {
+		foreach ( array_keys( $input ) as $key ) {
+			if ( substr( $key, 0, 7 ) === 'submit|' ) {
 				$parts = explode( '|', $key );
 
-				$count = sizeof( $parts );
+				$count = count( $parts );
 
 				if ( $count > 0 ) {
 					$submit = $parts[0];
-					if ($count > 1)
+					if ( $count > 1 ) {
 						$page = $parts[1];
-					if ($count > 2)
+					}
+					if ( $count > 2 ) {
 						$tab = $parts[2];
+					}
 					break;
 				}
-
 			}
 		}
 
 		if ( ! empty( $submit ) ) {
 
-
-			foreach( $this->_option_settings as $setting ) {
-				$valid_input = $setting->validate( $page, $tab, $valid_input, $input);
+			foreach ( $this->option_settings as $setting ) {
+				$valid_input = $setting->validate( $page, $tab, $valid_input, $input );
 			}
 		}
 
@@ -311,41 +355,41 @@ class Options {
 		return $valid_input;
 	}
 
-	public function _callback_add_settings_section__display_empty_section( $args ) {
+	public function callback_add_settings_section__display_empty_section( $args ) {
 	}
 
-	protected function _do_add_settings_fields( $page_slug, $current_tab ) {
-		foreach( $this->_option_settings as $option_setting ) {
+	protected function do_add_settings_fields( $page_slug, $current_tab ) {
+		foreach ( $this->option_settings as $option_setting ) {
 			$option_setting->do_add_settings_field( $page_slug, $current_tab );
 		}
 	}
 
-	protected function _do_add_settings_sections( $page_slug, $current_tab ) {
-		foreach( $this->_option_sections as $option_section ) {
+	protected function do_add_settings_sections( $page_slug, $current_tab ) {
+		foreach ( $this->option_sections as $option_section ) {
 			$option_section->do_add_settings_section( $page_slug, $current_tab );
 		}
 	}
 
-	public function _register_settings( $page_slug, $current_tab ) {
+	public function register_settings( $page_slug, $current_tab ) {
 
-		register_setting( self::OPTIONS_SETTINGS_KEY, self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
-		register_setting( 'kuetemeier_essentials_data_privacy', self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
-		register_setting( $page_slug, self::OPTIONS_SETTINGS_KEY, array( &$this, '_callback_validate_options' ) );
+		register_setting( self::OPTIONS_SETTINGS_KEY, self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
+		register_setting( 'kuetemeier_essentials_data_privacy', self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
+		register_setting( $page_slug, self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
 
-		$this->_do_add_settings_sections( $page_slug, $current_tab );
+		$this->do_add_settings_sections( $page_slug, $current_tab );
 
 		add_settings_section(
 			'default',
 			'',
-			array( &$this, '_callback_add_settings_section__display_empty_section' ),
+			array( &$this, 'callback_add_settings_section__display_empty_section' ),
 			$page_slug
 		);
 
-		$this->_do_add_settings_fields( $page_slug, $current_tab );
+		$this->do_add_settings_fields( $page_slug, $current_tab );
 
 	}
 
-	public function _callback_create_admin_menu() {
+	public function callback_create_admin_menu() {
 
 		// add top level menu page
 		add_menu_page(
@@ -353,139 +397,141 @@ class Options {
 			'Kuetemeier', // menu title
 			self::OPTIONS_PAGE_CAPABILITY, // capability
 			self::OPTIONS_PAGE_SLUG, // menu slug
-			array( &$this, '_callback_options_page_display' ) // function
+			array( &$this, 'callback_options_page_display' ) // function
 		);
 
 		// Use this hook to add your own subpages via add_admin_options_subpage
 		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
-		do_action( self::ACTION_PREFIX.'configure_admin_menu' );
+		do_action( self::ACTION_PREFIX . 'configure_admin_menu' );
 		// phpcs::enable
 
 		// add all configured subpages to WP
-		foreach( $this->_admin_options_subpages_order as $subpage_slug ) {
-			$subpage = $this->_admin_options_subpages[ $subpage_slug ];
+		foreach ( $this->admin_options_subpages_order as $subpage_slug ) {
+			$subpage = $this->admin_options_subpages[ $subpage_slug ];
 
 			// add dashboard (same as top-level)
 			add_submenu_page(
 				// parent_slug - The slug name for the parent menu (or the file name of a standard WordPress admin page).
-				$subpage[ 'parent_slug' ],
+				$subpage['parent_slug'],
 				// page_title - The text to be displayed in the title tags of the page when the menu is selected.
-				$subpage[ 'title' ],
+				$subpage['title'],
 				// menu_title - The text to be used for the menu.
-				$subpage[ 'menu_title' ],
+				$subpage['menu_title'],
 				// capability - The capability required for this menu to be displayed to the user.
-				$subpage[ 'capability' ],
+				$subpage['capability'],
 				// menu_slug - The slug name to refer to this menu by. Should be unique for this menu and only include lowercase alphanumeric, dashes, and underscores characters to be compatible with sanitize_key().
-				$subpage[ 'slug' ],
+				$subpage['slug'],
 				// display function
-				$subpage[ 'display_func' ]
+				$subpage['display_func']
 			);
 		}
-
-
 	}
 
 
 	public function get_tabs_for_options_subpage( $subpage = self::OPTIONS_PAGE_SLUG ) {
 
-		if ( array_key_exists( $subpage, $this->_admin_options_subpages ) ) {
-			return $this->_admin_options_subpages[ $subpage ][ 'tabs' ];
+		if ( array_key_exists( $subpage, $this->admin_options_subpages ) ) {
+			return $this->admin_options_subpages[ $subpage ]['tabs'];
 		}
 
 		return array();
 	}
 
-	public function _create_admin_menu() {
-		do_action( self::ACTION_PREFIX.'before_create_admin_menu' );
+	public function create_admin_menu() {
+		do_action( self::ACTION_PREFIX . 'before_create_admin_menu' );
 
-		do_action( self::ACTION_PREFIX.'create_admin_menu' );
+		do_action( self::ACTION_PREFIX . 'create_admin_menu' );
 
-		do_action( self::ACTION_PREFIX.'after_create_admin_menu' );
+		do_action( self::ACTION_PREFIX . 'after_create_admin_menu' );
 	}
 
-	protected function _options_page_tabs( $page_slug = self::OPTIONS_PAGE_SLUG ) {
+	/**
+	 * Print out the tabs for the option page defined by `$page_slug`.
+	 *
+	 * Marks the tab with the same slug as found in `$_GET['tab']`as "current".
+	 *
+	 * @param string $page_slug Key (slug) of the page to print the tabs for.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
+	private function options_page_tabs( $page_slug = self::OPTIONS_PAGE_SLUG ) {
 
-		$tabs = $this->get_tabs_for_options_subpage( $page_slug );;
+		$tabs = $this->get_tabs_for_options_subpage( $page_slug );
 
 		$current_tab = '';
-		if ( isset ( $_GET['tab'] ) ) {
-			$_current_tab = $_GET['tab'];
-			// Set current tab, if we can find the URL parameter in our tabs list.
-			if ( array_key_exists( $_current_tab, $tabs) );
-			$current_tab = $_current_tab;
+		if ( isset( $_GET['tab'] ) ) {
+			$key = sanitize_key( $_GET['tab'] );
+
+			if ( array_key_exists( $key, $tabs ) ) {
+				// Set current tab, if we can find the URL parameter in our tabs list.
+				$current_tab = $key;
+			}
 		} else {
 			// Default to first tab in list, if there is a list.
-			if ( sizeof($tabs) > 0 ) {
-				$current_tab = key($tabs);
+			if ( count( $tabs ) > 0 ) {
+				$current_tab = key( $tabs );
 			}
 		}
 
-		$this->_register_settings( $page_slug, $current_tab );
+		$this->register_settings( $page_slug, $current_tab );
 
-		if ( sizeof($tabs) > 0 ) {
-
-			$links = array();
-			foreach( $tabs as $tab => $name ) {
-				if ( $tab == $current_tab ) {
-					$links[] = '<a class="nav-tab nav-tab-active" href="?page=oenology-settings&tab=$tab">' . $name . '</a>';
-				} else {
-					$links[] = '<a class="nav-tab" href="?page=kuetemeier_essentials&tab=' . $tab . '">' . $name .'</a>';
-				}
-			}
+		if ( count( $tabs ) > 0 ) {
 
 			echo '<br /></div>';
 			echo '<h2 class="nav-tab-wrapper">';
 
-
-			foreach ( $links as $link ) {
-				echo $link;
+			foreach ( $tabs as $tab => $name ) {
+				if ( $tab === $current_tab ) {
+					echo '<a class="nav-tab nav-tab-active" href="?page=oenology-settings&tab=$tab">' . esc_html( $name ) . '</a>';
+				} else {
+					echo '<a class="nav-tab" href="?page=kuetemeier_essentials&tab=' . esc_attr( $tab ) . '">' . esc_html( $name ) . '</a>';
+				}
 			}
-			echo '</h2>';
 
-			// TODO: remove debug
-			//global $wp_settings_fields;
-			//print_r($wp_settings_fields['kuetemeier_essentials']);
+			echo '</h2>';
 		}
 
 	}
 
 
-	public function _callback_options_page_display() {
+	public function callback_options_page_display() {
 
 		// Set default to a known slug
 		$page_slug = self::OPTIONS_PAGE_SLUG;
 
 		// Get active page from URL.
-		$_page_slug = $_GET['page'];
-		if ( isset($_page_slug) ) {
+		$_page_slug = sanitize_key( $_GET['page'] );
+		if ( isset( $_page_slug ) ) {
 
 			// Test if it's a "real" page in our subpage list.
-			if ( array_key_exists( $_page_slug, $this->_admin_options_subpages ) ) {
+			if ( array_key_exists( $_page_slug, $this->admin_options_subpages ) ) {
 				$page_slug = $_page_slug;
 			}
 		}
 
 		?>
-	    <div class="wrap">
+		<div class="wrap">
 
 			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 
-	        <?php $this->_options_page_tabs( $page_slug ); ?>
+			<?php $this->options_page_tabs( $page_slug ); ?>
 			<?php settings_errors(); ?>
 
-		     <form method="post" action="options.php">
-			     <?php
-			     settings_fields( $page_slug );
-			     do_settings_sections( $page_slug );
-			     ?>
-			     <?php $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : '' ); ?>
-			     <?php /* submit_button(); */ ?>
-			     <p class="submit">
-				     <input name="kuetemeier_essentials[submit|<?php echo $page_slug; ?>|<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'kuetemeier-essentials'); ?>" />
-				     <input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e('Reset Defaults', 'kuetemeier-essentials'); ?>" />
-			     </p>
-		     </form>
-	     </div>
+			<form method="post" action="options.php">
+				<?php
+				settings_fields( $page_slug );
+				do_settings_sections( $page_slug );
+				?>
+				<?php $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : '' ); ?>
+
+				<p class="submit">
+					<input name="kuetemeier_essentials[submit|<?php echo $page_slug; ?>|<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'kuetemeier-essentials'); ?>" />
+					<input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e('Reset Defaults', 'kuetemeier-essentials'); ?>" />
+				</p>
+			</form>
+		</div>
 		<?php
 
 	}
@@ -494,66 +540,66 @@ class Options {
 
 
 class Option_Section {
-	protected $_id = '';
+	protected $id = '';
 
-	protected $_page = '';
+	protected $page = '';
 
-	protected $_tab = '';
+	protected $tab = '';
 
-	protected $_title = '';
+	protected $title = '';
 
-	protected $_content = '';
+	protected $content = '';
 
-	protected $_display_function;
+	protected $display_function;
 
 	function __construct( $id, $title, $page, $tab = '', $content = '', $display_function = null ) {
-		$this->_id = $id;
-		$this->_title = $title;
-		$this->_page = $page;
-		$this->_tab = $tab;
-		$this->_content = $content;
+		$this->id = $id;
+		$this->title = $title;
+		$this->page = $page;
+		$this->tab = $tab;
+		$this->content = $content;
 		$this->set_display_function( $display_function );
 	}
 
 
 	public function get_id() {
-		return $this->_id;
+		return $this->id;
 	}
 
 	public function get_page() {
-		return $this->_page;
+		return $this->page;
 	}
 
 	public function get_tab() {
-		return $this->_tab;
+		return $this->tab;
 	}
 
 	public function get_title() {
-		return $this->_title;
+		return $this->title;
 	}
 
 	public function get_content() {
-		return $this->_content;
+		return $this->content;
 	}
 
-	public function _callback__display_function( $args ) {
+	public function callback__display_function( $args ) {
 		?>
 		<div id="<?php echo esc_attr( $args['id'] ); ?>">
-			<?php echo esc_html( $this->_content ); ?>
+			<?php echo esc_html( $this->content ); ?>
 		</div>
 		<?php
 	}
 
 	public function set_display_function( $display_function ) {
 		if ( empty( $display_function) ) {
-			$this->_display_function = array( &$this, '_callback__display_function' );
+			$this->display_function = array( &$this, 'callback__display_function' );
 		} else {
-			$this->_display_function = $display_function;
+			$this->display_function = $display_function;
 		}
 	}
 
 	public function get_display_function() {
-		return $this->_display_function;
+		return $this->display_function;
 	}
 
 	/**
@@ -610,111 +656,111 @@ class Option_Section {
  */
 abstract class Option_Setting {
 
-	protected $_db_option_key = 'kuetemeier';
+	protected $db_option_key = 'kuetemeier';
 
 	/**
 	 * Id of the module this option setting belongs to
 	 */
-	protected $_module = '';
+	protected $module = '';
 
 	/**
 	 * Unique ID of the Instance of this Class and the key for the database entry.
 	 */
-	protected $_id = '';
+	protected $id = '';
 
-	protected $_default = null;
+	protected $default = null;
 
 	/**
 	 * Common name
 	 */
-	protected $_name = '';
+	protected $name = '';
 
 	/**
 	 * Label, e.g. for the setting page
 	 */
-	protected $_label = '';
+	protected $label = '';
 
-	protected $_page = '';
+	protected $page = '';
 
-	protected $_tab = '';
+	protected $tab = '';
 
-	protected $_section = 'default';
+	protected $section = 'default';
 
-	protected $_order = 0;
+	protected $order = 0;
 
-	protected $_empty_value = '';
+	protected $empty_value = '';
 
 	/**
 	 * Description shown in the settings page.
 	 */
-	protected $_description = '';
+	protected $description = '';
 
-	function __construct( $module, $id, $default, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = '', $order = 0 ) {
-		$this->_module = $module;
-		$this->_id = $id;
-		$this->_default = $default;
-		$this->_label = $label;
-		$this->_page = $page;
-		$this->_tab = $tab;
+	public function __construct( $module, $id, $default, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = '', $order = 0 ) {
+		$this->module = $module;
+		$this->id = $id;
+		$this->default = $default;
+		$this->label = $label;
+		$this->page = $page;
+		$this->tab = $tab;
 		$this->set_section( $section );
 		$this->set_description ( $description );
-		$this->_empty_value = $empty_value;
-		$this->_order = $order;
+		$this->empty_value = $empty_value;
+		$this->order = $order;
 	}
 
 	public function get_db_option_key() {
-		return $this->_db_option_key;
+		return $this->db_option_key;
 	}
 
 	public function set_db_option_key( $value ) {
-		$this->_db_option_key = $value;
+		$this->db_option_key = $value;
 	}
 
 	public function get_module() {
-		return $this->_module;
+		return $this->module;
 	}
 
 	public function get_id() {
-		return $this->_id;
+		return $this->id;
 	}
 
 	public function get_default() {
-		return $this->_default;
+		return $this->default;
 	}
 
 	public function get_empty_value() {
-		return $this->_empty_value;
+		return $this->empty_value;
 	}
 
 	public function get_label() {
-		return $this->_label;
+		return $this->label;
 	}
 
 	public function get_page() {
-		return $this->_page;
+		return $this->page;
 	}
 
 	public function get_tab() {
-		return $this->_tab;
+		return $this->tab;
 	}
 
 	public function get_section() {
-		return $this->_section;
+		return $this->section;
 	}
 
 	public function set_section( $section ) {
 		$_section = $section;
 		if ( empty($_section) )
 			$_section = 'default';
-		$this->_section = $_section;
+		$this->section = $_section;
 	}
 
 	public function get_order() {
-		return $this->_tab;
+		return $this->tab;
 	}
 
 	public function get_description() {
-		return $this->_description;
+		return $this->description;
 	}
 
 	public function set_description( $description ) {
@@ -724,10 +770,10 @@ abstract class Option_Setting {
 		if ( empty($_description) )
 			$_description = null;
 
-		$this->_description = $_description;
+		$this->description = $_description;
 	}
 
-	abstract public function _callback_display_setting( $args );
+	abstract public function callback_display_setting( $args );
 
 	/**
 	 * Returns a sanitized version of $input, based on the Option_Settings type.
@@ -760,12 +806,12 @@ abstract class Option_Setting {
 		add_settings_error( 'test1', 'test2', '$input: '.esc_html( wp_json_encode ( $input) ) );
 		add_settings_error( 'test1', 'test2', '$valid_input (vorher): '.esc_html( wp_json_encode ( $valid_input ) ) );
 */
-		$input_value = $this->sanitize( $this->_get_from_array ( $input, null ) );
+		$input_value = $this->sanitize( $this->get_from_array ( $input, null ) );
 		if ( isset( $input_value ) ) {
-			$valid_input = $this->_set_in_array( $valid_input, $input_value );
+			$valid_input = $this->set_in_array( $valid_input, $input_value );
 
 		} else {
-			$valid_input = $this->_set_in_array( $valid_input, $this->get_empty_value() );
+			$valid_input = $this->set_in_array( $valid_input, $this->get_empty_value() );
 		}
 
 //		add_settings_error( 'test1', 'test2', '$valid_input (nachher): '.esc_html( wp_json_encode ( $valid_input ) ) );
@@ -796,20 +842,20 @@ abstract class Option_Setting {
 		}
 
 		add_settings_field(
-	    	// ID used to identify the field throughout the theme
-	        $this->get_id(),
-	        // The label to the left of the option interface element
-	        $this->get_label(),
-	        // The name of the function responsible for rendering the option interface
-	        array( &$this, '_callback_display_setting'),
-	        // The page on which this option will be displayed
-	        $this->get_page(),
-	        // The name of the section to which this field belongs
-	        $this->get_section(),
-	        // The array of arguments to pass to the callback. In this case, just a description.
-	        array(
-	            $this->get_description()
-	        )
+			// ID used to identify the field throughout the theme
+			$this->get_id(),
+			// The label to the left of the option interface element
+			$this->get_label(),
+			// The name of the function responsible for rendering the option interface
+			array( &$this, 'callback_display_setting'),
+			// The page on which this option will be displayed
+			$this->get_page(),
+			// The name of the section to which this field belongs
+			$this->get_section(),
+			// The array of arguments to pass to the callback. In this case, just a description.
+			array(
+				$this->get_description()
+			)
 		);
 	}
 
@@ -818,7 +864,7 @@ abstract class Option_Setting {
 		$options = get_option( $this->get_db_option_key() );
 
 		// Find our value and return it (or $default, if not found).
-		return $this->_get_from_array( $options, $default );
+		return $this->get_from_array( $options, $default );
 	}
 
 	/**
@@ -827,7 +873,7 @@ abstract class Option_Setting {
 	public function set( $value ) {
 	}
 
-	protected function _get_from_array( $array, $default = false ) {
+	protected function get_from_array( $array, $default = false ) {
 		$module = $this->get_module();
 		$id = $this->get_id();
 
@@ -836,7 +882,7 @@ abstract class Option_Setting {
 		return $default;
 	}
 
-	protected function _set_in_array( $array, $value ){
+	protected function set_in_array( $array, $value ){
 		$module = $this->get_module();
 		$id = $this->get_id();
 
@@ -849,7 +895,7 @@ abstract class Option_Setting {
 		return $array;
 	}
 
-	protected function _unset_in_array( $array, $value ){
+	protected function unset_in_array( $array, $value ){
 		$module = $this->get_module();
 		$id = $this->get_id();
 
@@ -862,7 +908,7 @@ abstract class Option_Setting {
 
 class Option_Setting_Checkbox extends Option_Setting {
 
-	function __construct( $module, $id, $default, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = 0, $order = 0 ) {
+	public function __construct( $module, $id, $default, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = 0, $order = 0 ) {
 		parent::__construct( $module, $id, $default, $label, $page, $tab, $section, $description, $empty_value, $order );
 
 	}
@@ -872,7 +918,7 @@ class Option_Setting_Checkbox extends Option_Setting {
 		return $input;
 	}
 
-	public function _callback_display_setting( $args ) {
+	public function callback_display_setting( $args ) {
 		$options = \Kuetemeier_Essentials\Options::instance();
 
 		$value = $this->get();
@@ -880,15 +926,15 @@ class Option_Setting_Checkbox extends Option_Setting {
 
 		//die ("checkbox");
 
-	    // Next, we update the name attribute to access this element's ID in the context of the display options array
-	    // We also access the show_header element of the options collection in the call to the checked() helper function
-	    $html = '<input type="checkbox" id="' . esc_attr( $complete_id) . '" name="'. $options->get_db_option_key();
-	    $html .= '[' . esc_attr( $this->get_module() ) .'][' . esc_attr( $this->get_id() ) . ']" value="1" ' . checked(1, $value, false) . '/>';
+		// Next, we update the name attribute to access this element's ID in the context of the display options array
+		// We also access the show_header element of the options collection in the call to the checked() helper function
+		$html = '<input type="checkbox" id="' . esc_attr( $complete_id) . '" name="'. $options->get_db_option_key();
+		$html .= '[' . esc_attr( $this->get_module() ) .'][' . esc_attr( $this->get_id() ) . ']" value="1" ' . checked(1, $value, false) . '/>';
 
-	    // Here, we'll take the first argument of the array and add it to a label next to the checkbox
-	    $html .= '<label for="' . esc_attr( $complete_id ) . '"> '  . esc_html( $args[0] ). '</label>';
+		// Here, we'll take the first argument of the array and add it to a label next to the checkbox
+		$html .= '<label for="' . esc_attr( $complete_id ) . '"> '  . esc_html( $args[0] ). '</label>';
 
-	    echo $html;
+		echo $html;
 	}
 }
 
@@ -898,11 +944,11 @@ class Option_Setting_Text extends Option_Setting {
 	 * Returns a sanitized version of $input, based on the Option_Settings type.
 	 *
 	 * Every subclass must declare a function that returns a sanitzie version of the given input value.
-     * E.g. use sanitize_text_field for a string.
-     *
-     * @param  string 	$input 		an input value to be sanitzied by this function
-     *
-     * @return string	sanitized version of $value or null if we cannot sanitzie the input
+	 * E.g. use sanitize_text_field for a string.
+	 *
+	 * @param  string 	$input 		an input value to be sanitzied by this function
+	 *
+	 * @return string	sanitized version of $value or null if we cannot sanitzie the input
 	 */
 	public function sanitize( $input ) {
 		if ( ! isset ( $input ) )
@@ -911,7 +957,7 @@ class Option_Setting_Text extends Option_Setting {
 		return sanitize_text_field( $input );
 	}
 
-	public function _callback_display_setting( $args ) {
+	public function callback_display_setting( $args ) {
 		// Get current value.
 		$value = $this->get();
 
@@ -921,10 +967,10 @@ class Option_Setting_Text extends Option_Setting {
 		$esc_name = esc_attr( $this->get_db_option_key() . '[' . $this->get_module() .'][' . $this->get_id() . ']' );
 
 		// Compose output.
-	    $html = '<input type="text" id="' . $esc_id . '" name="'. $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
-	    $html .= '<p class="description" id="' . $esc_id .'-description">' . esc_html( $args[0] ) . '</p>';
+		$html = '<input type="text" id="' . $esc_id . '" name="'. $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
+		$html .= '<p class="description" id="' . $esc_id .'-description">' . esc_html( $args[0] ) . '</p>';
 
-	    // And show it to the world.
-	    echo $html;
+		// And show it to the world.
+		echo $html;
 	}
 }

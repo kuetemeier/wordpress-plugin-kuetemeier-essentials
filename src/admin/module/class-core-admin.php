@@ -33,29 +33,29 @@ namespace Kuetemeier_Essentials\Admin\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once( plugin_dir_path(__FILE__) . '/class-admin-module.php' );
-require_once( plugin_dir_path( __FILE__ ) . '/../../config.php' );
-require_once( plugin_dir_path( __FILE__ ) . '/../../class-kuetemeier-essentials.php' );
+require_once plugin_dir_path( __FILE__ ) . '/class-admin-module.php';
+require_once plugin_dir_path( __FILE__ ) . '/../../config.php';
+require_once plugin_dir_path( __FILE__ ) . '/../../class-kuetemeier-essentials.php';
 
 /**
  * Class Kuetemeier_Essentials
  */
 class Core_Admin extends Admin_Module {
 
-    function __construct( $options ) {
-        parent::__construct( $options );
-    }
+	public function __construct( $options ) {
+		parent::__construct( $options );
+	}
 
-    public function _callback_admin_menu() {
-    	//$this->_callback_admin_menu_page_create();
-    }
+	public function callback_admin_menu() {
+		//$this->callback_admin_menu_page_create();
+	}
 
-	public function _callback_admin_init() {
-		//$this->_callback_admin_init_settings();
+	public function callback_admin_init() {
+		//$this->callback_admin_init_settings();
 
 	}
 
-	public function _callback_admin_menu_page_create() {
+	public function callback_admin_menu_page_create() {
 /*
 		// add top level menu page
 		add_menu_page(
@@ -86,10 +86,10 @@ class Core_Admin extends Admin_Module {
 */
 	}
 
-	public function _callback_menu_page_display() {
+	public function callback_menu_page_display() {
 /*
 
-		$this->_display_option_page( \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG );
+		$this->display_option_page( \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG );
 */
  	}
 
@@ -132,7 +132,7 @@ print_r ($options);
 */
 
 
-	public function _options_validate( $input ) {
+	public function options_validate( $input ) {
 		$_options = get_option(  \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY );
 		$valid_input = $_options;
 
@@ -165,7 +165,7 @@ print_r ($options);
 		return $valid_input;
 	}
 
- 	public function _callback_admin_init_settings() {
+ 	public function callback_admin_init_settings() {
 
 /*
 	    if( false == get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY ) ) {

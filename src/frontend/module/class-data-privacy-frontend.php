@@ -33,7 +33,7 @@ namespace Kuetemeier_Essentials\Frontend\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once( dirname(__FILE__) . '/class-frontend-module.php' );
+require_once dirname( __FILE__ ) . '/class-frontend-module.php';
 
 /**
  * Class Kuetemeier_Essentials

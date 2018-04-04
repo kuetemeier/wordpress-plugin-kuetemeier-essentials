@@ -38,6 +38,19 @@ const PLUGIN_VERSION = '0.1.11-alpha';
 // DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.
 const PLUGIN_VERSION_STABLE = 'not released yet';
 
+/**
+ * List of available modules, that will be registered by Modules
+ *
+ * Hint: If you write an additional module, you have to register it here.
+ *
+ * @see  Modules
+ */
+const AVAILABLE_MODULES = array(
+	'core'         => 'Core',
+	'data-privacy' => 'Data_Privacy',
+	'develop'      => 'Develop',
+);
+
 const CORE_OPTION_PAGE_CAPABILITY = 'administrator';
 const CORE_OPTION_PAGE_SLUG = 'kuetemeier_essentials';
 

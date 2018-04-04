@@ -33,92 +33,257 @@ namespace Kuetemeier_Essentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
+require_once dirname( __FILE__ ) . '/config.php';
+
 /**
- * Class Modules - mangae kuetemeier_essential module classes
+ * Manages frontend and admin Modules
+ *
+ * The modules are registered in `conifg.php` and autoloaded by this class.
+ * If WordPress is called in the frontend ONLY frontend modueles will be loaded.
+ * Admin modules are loaded in the `admin_init` and `admin_menu` callback.
+ *
+ * The class will automatically instantiated by `Kuetemeier_Essentials`, so
+ * there should no need to instantiate it by yourself.
+ *
+ * @see Kuetemeier_Essentials              Managing Class
+ * @see Frontend\Module\Frontend_Module    Fontend Modul
+ * @see Admin\Module\Admin_Module          Admin Modul
+ * @see AVAILABLE_MODULES                  List of available modules
+ * @since 0.1.0
  */
-class Modules {
+final class Modules {
 
-	protected $_modules = array();
-	protected $_frontend_classes_loaded = false;
-	protected $_admin_classes_loaded = false;
-	protected $_options;
+	/**
+	 * Array of all registered modules.
+	 *
+	 * Holds to arrays:
+	 *
+	 * ```
+	 * $modules[ admin_class ]     list of initilized admin module classes
+	 * $modules[ frontend_class ]  list of initilized frontend module classes
+	 * ```
+	 *
+	 * @see Frontend\Module\Frontend_Module
+	 * @see Admin\Module\Admin_Module
+	 *
+	 * @var array [<description>]
+	 * @since  0.1.0
+	 */
+	private $modules = array();
 
-	const AVAILABLE_MODULES = array(
-		'core'         => 'Core',
-		'data-privacy' => 'Data_Privacy',
-		'develop'      => 'Develop'
-	);
 
-	function __construct( $options ) {
-		$this->_options = $options;
+	/**
+	 * Indicates if the frontend modules have been loaded
+	 *
+	 * @var boolean
+	 * @since  0.1.0
+	 */
+	private $frontend_classes_loaded = false;
 
-		$this->_init_all_frontend_classes();
 
-		add_action( 'admin_menu', array( &$this, '_callback_admin_menu__init_all_admin_modules_for_admin_menu' ) );
+	/**
+	 * Indicates if the admin modules have been loaded
+	 *
+	 * @var boolean
+	 * @since  0.1.0
+	 */
+	private $admin_classes_loaded = false;
 
-		add_action( 'admin_init', array( &$this, '_callback_admin_init__init_all_admin_modules_for_admin_init' ) );
+
+	/**
+	 * Holds a valid instance of the Options class.
+	 *
+	 * @var Options
+	 * @since  0.1.0
+	 */
+	private $options;
+
+
+	/**
+	 * List of available modules, that will be registered
+	 *
+	 * This is defined in 'config.php'
+	 *
+	 * @var  array
+	 * @since  0.1.0
+	 */
+	const AVAILABLE_MODULES = \Kuetemeier_Essentials\AVAILABLE_MODULES;
+
+
+	/**
+	 * Initialize all frontend modules and register callbacks to initialize all admin modules.
+	 *
+	 * This class will be initialized once from the class `Kuetemeier_Essentials`
+	 *
+	 * @param Options $options A valid instance of Options.
+	 * @return   void
+	 * @see  Kuetemeier_Essentials
+	 * @since  0.1.0
+	 */
+	public function __construct( $options ) {
+		$this->options = $options;
+
+		$this->init_all_frontend_classes();
+
+		add_action( 'admin_menu', array( &$this, 'callback_admin_menu__init_all_admin_modules_for_admin_menu' ) );
+		add_action( 'admin_init', array( &$this, 'callback_admin_init__init_all_admin_modules_for_admin_init' ) );
 	}
 
-/*
-	function __destruct() {
 
-	}
-*/
-
-	public function _callback_admin_init__init_all_admin_modules_for_admin_init() {
-		$this->_ensure_admin_classes_are_loaded();
-		$this->foreach_admin( '_callback_admin_init' );
-	}
-
-	public function _callback_admin_menu__init_all_admin_modules_for_admin_menu() {
-		$this->_ensure_admin_classes_are_loaded();
-		$this->foreach_admin( '_callback_admin_menu' );
+	/**
+	 * Callback to be run by 'admin_init', ensures registered admin classes are loaded.
+	 *
+	 * @internal Registered to WordPress within constructor.
+	 * @return  void
+	 * @since 0.1.0
+	 */
+	public function callback_admin_init__init_all_admin_modules_for_admin_init() {
+		$this->ensure_admin_classes_are_loaded();
+		$this->foreach_admin( 'callback_admin_init' );
 	}
 
-	protected function _ensure_admin_classes_are_loaded() {
-		if ( !$this->_admin_classes_loaded )
-			$this->_init_all_admin_classes();
+
+	/**
+	 * Callback to be run by 'admin_menu', ensures registered admin classes are loaded.
+	 *
+	 * @internal Registered to WordPress withing constructor.
+	 * @return  void
+	 * @since 0.1.0
+	 */
+	public function callback_admin_menu__init_all_admin_modules_for_admin_menu() {
+		$this->ensure_admin_classes_are_loaded();
+		$this->foreach_admin( 'callback_admin_menu' );
 	}
 
-	protected function _init_all_frontend_classes() {
-		foreach( array_keys( self::AVAILABLE_MODULES ) as $module_id) {
-			$this->_init_module_frontend_class( $module_id );
+
+	/**
+	 * Ensure all admin classes are loaded. If not, init them.
+	 *
+	 * @return  void
+	 * @since  0.1.0
+	 * @see Admin\Module\Admin_Module          Admin Modul
+	 */
+	private function ensure_admin_classes_are_loaded() {
+		if ( ! $this->admin_classes_loaded ) {
+			$this->init_all_admin_classes();
 		}
-		$this->_frontend_classes_loaded = true;
 	}
 
-	protected function _init_all_admin_classes() {
-		foreach( array_keys( self::AVAILABLE_MODULES ) as $module_id) {
-			$this->_init_module_admin_class( $module_id );
+
+	/**
+	 * Ensure all frontend classes are loaded. If not, init them.
+	 *
+	 * @return  void
+	 * @since  0.1.0
+	 * @see Frontend\Module\Frontend_Module    Fontend Modul
+	 */
+	private function init_all_frontend_classes() {
+		foreach ( array_keys( self::AVAILABLE_MODULES ) as $module_id ) {
+			$this->init_module_frontend_class( $module_id );
 		}
-		$this->_admin_classes_loaded = true;
+		$this->frontend_classes_loaded = true;
 	}
 
-	protected function _init_module_frontend_class( $module_id ) {
-		require_once( dirname(__FILE__) . '/frontend/module/class-'.$module_id.'-frontend.php' );
-		$class_name = 'Kuetemeier_Essentials\\Frontend\Module\\'.self::AVAILABLE_MODULES[ $module_id ].'_Frontend';
-		$this->set_frontend_class( $module_id, new $class_name( $this->_options ) );
+
+	/**
+	 * Initialize all registered admin moduels (classes).
+	 *
+	 * @return  void
+	 * @since  0.1.0
+	 * @see Admin\Module\Admin_Module          Admin Modul
+	 */
+	private function init_all_admin_classes() {
+		foreach ( array_keys( self::AVAILABLE_MODULES ) as $module_id ) {
+			$this->init_module_admin_class( $module_id );
+		}
+		$this->admin_classes_loaded = true;
 	}
 
-	protected function _init_module_admin_class( $module_id ) {
-		require_once( dirname(__FILE__) . '/admin/module/class-'.$module_id.'-admin.php' );
-		$class_name = 'Kuetemeier_Essentials\\Admin\Module\\'.self::AVAILABLE_MODULES[ $module_id ].'_Admin';
-		$this->set_admin_class( $module_id, new $class_name( $this->_options ) );
+
+	/**
+	 * Initialize a single, registered frontend modul (the class of the module).
+	 *
+	 * Valid keys are defined in `AVAILABLE_MODULES`.
+	 *
+	 * @param string $module_id Key of the module to be registered.
+	 *
+	 * @return  void
+	 * @since  0.1.0
+	 * @see Admin\Module\Admin_Module    Admin Modul.
+	 * @see AVAILABLE_MODULES            Quelle für gültige keys.
+	 */
+	private function init_module_frontend_class( $module_id ) {
+		require_once dirname( __FILE__ ) . '/frontend/module/class-' . $module_id . '-frontend.php';
+		$class_name = 'Kuetemeier_Essentials\\Frontend\Module\\' . self::AVAILABLE_MODULES[ $module_id ] . '_Frontend';
+		$this->set_frontend_class( $module_id, new $class_name( $this->options ) );
 	}
 
-	protected function set_frontend_class( $module_id, $frontend_class ) {
-		$this->_modules[$module_id]['frontend_class'] = $frontend_class;
+
+	/**
+	 * Initialize a single, registered admin modul (the class of the module).
+	 *
+	 * Valid keys are defined in `AVAILABLE_MODULES`.
+	 *
+	 * @param string $module_id Key of the module to be registered.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 * @see Admin\Module\Admin_Module    Admin Modul.
+	 * @see AVAILABLE_MODULES            Quelle für gültige keys.
+	 */
+	private function init_module_admin_class( $module_id ) {
+		require_once dirname( __FILE__ ) . '/admin/module/class-' . $module_id . '-admin.php';
+		$class_name = 'Kuetemeier_Essentials\\Admin\Module\\' . self::AVAILABLE_MODULES[ $module_id ] . '_Admin';
+		$this->set_admin_class( $module_id, new $class_name( $this->options ) );
 	}
 
-	protected function set_admin_class( $module_id, $frontend_class ) {
-		$this->_modules[$module_id]['admin_class'] = $frontend_class;
+	/**
+	 * Register a frontend class.
+	 *
+	 * @param string                          $module_id      Valid id key of a module.
+	 * @param Frontend\Module\Frontend_Module $frontend_class Valid instance of a frontend module class.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 * @see Frontend\Module\Frontend_Module
+	 */
+	private function set_frontend_class( $module_id, $frontend_class ) {
+		$this->modules[ $module_id ]['frontend_class'] = $frontend_class;
 	}
 
-	public function foreach_frontend( $func, $args=null ) {
+	/**
+	 * Register an admin class.
+	 *
+	 * @param string                    $module_id      Valid id key of a module.
+	 * @param Admin\Module\Admin_Module $frontend_class Valid instance of an admin module class.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 * @see Admin\Module\Admin_Module
+	 */
+	private function set_admin_class( $module_id, $frontend_class ) {
+		$this->modules[ $module_id ]['admin_class'] = $frontend_class;
+	}
+
+	/**
+	 * Calls the public method `$method` of the class Frontend_Module for all registered instances.
+	 *
+	 * @param string $method Name of the method.
+	 * @param mixed  $args   (optional) Arguments to be passed to the method call.
+	 *
+	 * @return array Results of the method calls (their return values).
+	 *
+	 * @since 0.1.0
+	 * @see Frontend\Module\Frontend_Module
+	 */
+	public function foreach_frontend( $method, $args = null ) {
 		$ret = array();
-		foreach ($this->_modules as $module) {
+		foreach ( $this->modules as $module ) {
 			if ( isset( $module ) ) {
-				array_push( $ret, $module['frontend_class']->{$func}( $args ) );
+				array_push( $ret, $module['frontend_class']->{$method}( $args ) );
 			} else {
 				array_push( $ret, null );
 			}
@@ -126,16 +291,37 @@ class Modules {
 		return $ret;
 	}
 
-	public function foreach_admin( $func, $args=null ) {
-		foreach ($this->_modules as $module) {
-			if ( isset ($module) ) {
-				$module['admin_class']->{$func}($args);
+	/**
+	 * Calls the public method `$method` of the class Admin_Module for all registered instances.
+	 *
+	 * @param string $method Name of the method.
+	 * @param mixed  $args   (optional) Arguments to be passed to the method call.
+	 *
+	 * @return array Results of the method calls (their return values).
+	 *
+	 * @since 0.1.0
+	 * @see Admin\Module\Admin_Module
+	 */
+	public function foreach_admin( $method, $args = null ) {
+		$ret = array();
+		foreach ( $this->modules as $module ) {
+			if ( isset( $module ) ) {
+				array_push( $ret, $module['admin_class']->{$method}( $args ) );
+			} else {
+				array_push( $ret, null );
 			}
 		}
+		return $ret;
 	}
 
+	/**
+	 * Return how many modules are registered.
+	 *
+	 * @return int Count of registered modules.
+	 */
 	public function count() {
-		return count( $this->_modules );
+		return count( $this->modules );
 	}
+
 }
 

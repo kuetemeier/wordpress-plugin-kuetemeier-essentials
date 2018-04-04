@@ -33,7 +33,7 @@ namespace Kuetemeier_Essentials\Admin\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once( dirname(__FILE__) . '/class-admin-module.php' );
+require_once dirname( __FILE__ ) . '/class-admin-module.php';
 
 /**
  * Class Kuetemeier_Essentials
@@ -42,14 +42,13 @@ class Develop_Admin extends Admin_Module {
 
 	const OPTION_CAPABILITY = 'administrator';
 
-    function __construct( $options ) {
-        parent::__construct( $options );
-        $this->_options->add_admin_options_subpage(
-        	'kuetemeier_essentials_develop',
-        	'Develop',
-        	'Develop'
-        );
-
-    }
+	public function __construct( $options ) {
+		parent::__construct( $options );
+		$this->options->add_admin_options_subpage(
+			'kuetemeier_essentials_develop',
+			'Develop',
+			'Develop'
+		);
+	}
 
 }

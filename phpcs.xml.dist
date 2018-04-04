@@ -54,6 +54,7 @@
 	<exclude-pattern>*/tests/*</exclude-pattern>
 	<exclude-pattern>*/tests.ols/*</exclude-pattern>
 	<exclude-pattern>src/code.php</exclude-pattern>
+	<exclude-pattern>phpdocs/*</exclude-pattern>
 
 
 

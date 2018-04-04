@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Admin\Module;
+namespace Kuetemeier_Essentials\Plugin_Modules\Frontend;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -33,17 +33,15 @@ namespace Kuetemeier_Essentials\Admin\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once dirname( __FILE__ ) . '/class-admin-module.php';
+require_once dirname( __FILE__ ) . '/../class-frontend-module.php';
 
 /**
- * Admin part of the Develop module for Kuetemeier-Essentials.
+ * The Core Module of the Kuetemeier-Essentials Plugin.
  */
-class Develop_Admin extends Admin_Module {
+class Core_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Module {
 
 	/**
-	 * Create class.
-	 *
-	 * Init Admin module and Test some development parts.
+	 * Create Core module.
 	 *
 	 * @param WP_Plugin $wp_plugin A vallid instance of WP_Plugin (should be the main WordPress Plugin object).
 	 *
@@ -52,17 +50,11 @@ class Develop_Admin extends Admin_Module {
 	public function __construct( $wp_plugin ) {
 		parent::__construct(
 			// id
-			'develop',
+			'core',
 			// name
-			__( 'Development', 'kuetemeier-essentials' ),
+			__( 'Core', 'kuetemeier-essentials' ),
 			// WP_Plugin instance
 			$wp_plugin
-		);
-
-		$wp_plugin->options()->add_admin_options_subpage(
-			'kuetemeier_essentials_develop',
-			'Develop',
-			'Develop'
 		);
 	}
 

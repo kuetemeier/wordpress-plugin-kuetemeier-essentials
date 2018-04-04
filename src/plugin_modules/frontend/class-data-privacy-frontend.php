@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials;
+namespace Kuetemeier_Essentials\Plugin_Modules\Frontend;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -33,28 +33,28 @@ namespace Kuetemeier_Essentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-// DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.
-const PLUGIN_VERSION = '0.2.0-alpha';
-// DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.
-const PLUGIN_VERSION_STABLE = 'not released yet';
+require_once dirname( __FILE__ ) . '/../class-frontend-module.php';
 
 /**
- * List of available modules, that will be registered by Modules
- *
- * Hint: If you write an additional module, you have to register it here.
- *
- * @see Modules
+ * Data privacy Module of the Kuetemeier-Essentials Plugin.
  */
-const AVAILABLE_MODULES = array(
-	'core'         => 'Core',
-	'data-privacy' => 'Data_Privacy',
-	'develop'      => 'Develop',
-);
+class Data_Privacy_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Module {
 
-const CORE_OPTION_PAGE_CAPABILITY = 'administrator';
-const CORE_OPTION_PAGE_SLUG = 'kuetemeier_essentials';
-
-const CORE_OPTION_SETTINGS_KEY = 'kuetemeier_essentials';
-
-const DATA_PRIVACY_OPTION_PAGE_SLUG = 'kuetemeier_essentials_data_privacy';
-const DATA_PRIVACY_OPTION_SETTINGS_KEY = 'kuetemeier_essentials_data_privacy';
+	/**
+	 * Create Data Privacy Module.
+	 *
+	 * @param WP_Plugin $wp_plugin A vallid instance of WP_Plugin (should be the main WordPress Plugin object).
+	 *
+	 * @since 0.1.12
+	 */
+	public function __construct( $wp_plugin ) {
+		parent::__construct(
+			// id
+			'data-privacy',
+			// name
+			__( 'Data Privacy', 'kuetemeier-essentials' ),
+			// WP_Plugin instance
+			$wp_plugin
+		);
+	}
+}

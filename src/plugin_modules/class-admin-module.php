@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Admin\Module;
+namespace Kuetemeier_Essentials\Plugin_Modules;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -33,12 +33,12 @@ namespace Kuetemeier_Essentials\Admin\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once plugin_dir_path( __FILE__ ) . '/../../config.php';
+require_once plugin_dir_path( __FILE__ ) . '/class-plugin-module.php';
 
 /**
  * Abstract Admin module, to be extended by other classes to build admin modules.
  */
-abstract class Admin_Module {
+abstract class Admin_Module extends Plugin_Module {
 
 	/**
 	 * End part of the admin page (option settings) slug
@@ -49,20 +49,6 @@ abstract class Admin_Module {
 	 * @since 0.1.0
 	 */
 	protected $admin_page_slug_part = '';
-
-	/**
-	 * Initialize an Admin Module
-	 *
-	 * @param \Kuetemeier_Essentials\Options $options A valid instance of the `Options` class.
-	 *
-	 * @return void
-	 *
-	 * @since 0.1.0
-	 */
-	public function __construct( $options ) {
-		$this->options = $options;
-	}
-
 
 	/**
 	 * Returns if this object is a frontend module.

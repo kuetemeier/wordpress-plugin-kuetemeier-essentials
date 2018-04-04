@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials;
+namespace Kuetemeier_Essentials\Plugin_Modules;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -92,7 +92,7 @@ abstract class Plugin_Module {
 			die( 'FATAL ERROR: The name of a module cannot be empty.' );
 		}
 
-		if ( ! ( isset( $wp_plugin ) && is_subclass_of( $wp_plugin, 'WP_Plugin' ) ) ) {
+		if ( ! ( isset( $wp_plugin ) && is_subclass_of( $wp_plugin, 'Kuetemeier_Essentials\WP_Plugin' ) ) ) {
 			die( 'FATAL ERROR: wp_plugin has to be a valid instance of a subclass of WP_Plugin' );
 		}
 

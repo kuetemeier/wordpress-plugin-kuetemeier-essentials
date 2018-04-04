@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Frontend\Module;
+namespace Kuetemeier_Essentials\Plugin_Modules\Admin;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -33,40 +33,31 @@ namespace Kuetemeier_Essentials\Frontend\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once plugin_dir_path( __FILE__ ) . '/../../class-plugin-module.php';
+require_once plugin_dir_path( __FILE__ ) . '/../class-admin-module.php';
+require_once plugin_dir_path( __FILE__ ) . '/../../config.php';
+require_once plugin_dir_path( __FILE__ ) . '/../../class-kuetemeier-essentials.php';
 
 /**
- * Abstract class Frontend_Module to be extended and create new front
- * end modules.
- *
- * @see Core_Frontend Example: Core Module
+ * Class Kuetemeier_Essentials
  */
-abstract class Frontend_Module extends Plugin_Module {
-
+class Core_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 
 	/**
-	 * Returns if this object is a frontend module.
+	 * Create Core module.
 	 *
-	 * @return bool True if it is a frontend module.
+	 * @param WP_Plugin $wp_plugin A vallid instance of WP_Plugin (should be the main WordPress Plugin object).
 	 *
 	 * @since 0.1.12
 	 */
-	public function is_frontend_module() {
-		return true;
+	public function __construct( $wp_plugin ) {
+		parent::__construct(
+			// id
+			'core',
+			// name
+			__( 'Core', 'kuetemeier-essentials' ),
+			// WP_Plugin instance
+			$wp_plugin
+		);
 	}
-
-
-	/**
-	 * Returns if this object is an admin module.
-	 *
-	 * @return bool True if it is an admin module.
-	 *
-	 * @since 0.1.12
-	 */
-	public function is_admin_module() {
-		return false;
-	}
-
 
 }
-

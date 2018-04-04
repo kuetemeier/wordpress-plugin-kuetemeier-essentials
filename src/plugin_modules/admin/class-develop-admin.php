@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Frontend\Module;
+namespace Kuetemeier_Essentials\Plugin_Modules\Admin;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -33,22 +33,35 @@ namespace Kuetemeier_Essentials\Frontend\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once dirname( __FILE__ ) . '/class-frontend-module.php';
+require_once dirname( __FILE__ ) . '/../class-admin-module.php';
 
 /**
- * Data privacy Module of the Kuetemeier-Essentials Plugin.
+ * Admin part of the Develop module for Kuetemeier-Essentials.
  */
-class Data_Privacy_Frontend extends Frontend_Module {
+class Develop_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 
 	/**
-	 * Create class.
+	 * Create Development Module.
+	 *
+	 * @param WP_Plugin $wp_plugin A vallid instance of WP_Plugin (should be the main WordPress Plugin object).
+	 *
+	 * @since 0.1.12
 	 */
-	public function __construct() {
+	public function __construct( $wp_plugin ) {
 		parent::__construct(
 			// id
-			'data-privacy',
+			'develop',
 			// name
-			__( 'Data Privacy', 'kuetemeier-essentials' )
+			__( 'Development', 'kuetemeier-essentials' ),
+			// WP_Plugin instance
+			$wp_plugin
+		);
+
+		$wp_plugin->options()->add_admin_options_subpage(
+			'kuetemeier_essentials_develop',
+			'Develop',
+			'Develop'
 		);
 	}
+
 }

@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Frontend\Module;
+namespace Kuetemeier_Essentials\Plugin_Modules\Frontend;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -33,22 +33,28 @@ namespace Kuetemeier_Essentials\Frontend\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once dirname( __FILE__ ) . '/class-frontend-module.php';
+require_once dirname( __FILE__ ) . '/../class-frontend-module.php';
 
 /**
- * The Core Module of the Kuetemeier-Essentials Plugin.
+ * Module for testing and development. TODO: Only activated in Alpha mode.
  */
-class Core_Frontend extends Frontend_Module {
+class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Module {
 
 	/**
-	 * Create class.
+	 * Create Development Module.
+	 *
+	 * @param WP_Plugin $wp_plugin A vallid instance of WP_Plugin (should be the main WordPress Plugin object).
+	 *
+	 * @since 0.1.12
 	 */
-	public function __construct() {
+	public function __construct( $wp_plugin ) {
 		parent::__construct(
 			// id
-			'core',
+			'develop',
 			// name
-			__( 'Core', 'kuetemeier-essentials' )
+			__( 'Development', 'kuetemeier-essentials' ),
+			// WP_Plugin instance
+			$wp_plugin
 		);
 	}
 

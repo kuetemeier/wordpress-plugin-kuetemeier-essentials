@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Admin\Module;
+namespace Kuetemeier_Essentials\Plugin_Modules\Admin;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -33,19 +33,17 @@ namespace Kuetemeier_Essentials\Admin\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once plugin_dir_path( __FILE__ ) . '/class-admin-module.php';
+require_once plugin_dir_path( __FILE__ ) . '/../class-admin-module.php';
 require_once plugin_dir_path( __FILE__ ) . '/../../config.php';
 require_once plugin_dir_path( __FILE__ ) . '/../../class-options.php';
 
 /**
  * Data Privacy Admin Module for WordPress Plugin Kuetemeier-Essentials.
  */
-class Data_Privacy_Admin extends Admin_Module {
+class Data_Privacy_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 
 	/**
-	 * Create class.
-	 *
-	 * Init Data Privacy module.
+	 * Create Data Privacy Module.
 	 *
 	 * @param WP_Plugin $wp_plugin A vallid instance of WP_Plugin (should be the main WordPress Plugin object).
 	 *
@@ -65,7 +63,7 @@ class Data_Privacy_Admin extends Admin_Module {
 
 		// add admin menu page
 		$this->wp_plugin()->options()->add_admin_options_subpage(
-			$this->get_admin_page_slug(),
+			$this->admin_page_slug(),
 			'Kuetemeier > ' . __( 'Data Privacy', 'kuetemeier-essentials' ),
 			__( 'Data Privacy', 'kuetemeier-essentials' )
 		);
@@ -82,7 +80,7 @@ class Data_Privacy_Admin extends Admin_Module {
 				// title
 				__( 'WordPress Comments', 'kuetemeier-essentials' ),
 				// page
-				$this->get_admin_page_slug(),
+				$this->admin_page_slug(),
 				// tab
 				'',
 				// content
@@ -101,7 +99,7 @@ class Data_Privacy_Admin extends Admin_Module {
 				// label
 				__( 'Privacy Checkbox', 'kuetemeier-essentials' ),
 				// page
-				$this->get_admin_page_slug(),
+				$this->admin_page_slug(),
 				// tab
 				'',
 				// section

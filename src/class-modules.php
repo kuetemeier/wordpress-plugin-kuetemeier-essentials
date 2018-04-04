@@ -261,8 +261,8 @@ final class Modules {
 	 * @see AVAILABLE_MODULES            Quelle für gültige keys.
 	 */
 	private function init_module_frontend_class( $module_id ) {
-		require_once dirname( __FILE__ ) . '/frontend/module/class-' . $module_id . '-frontend.php';
-		$class_name = 'Kuetemeier_Essentials\\Frontend\Module\\' . $this->available_modules()[ $module_id ] . '_Frontend';
+		require_once dirname( __FILE__ ) . '/plugin_modules/frontend/class-' . $module_id . '-frontend.php';
+		$class_name = 'Kuetemeier_Essentials\\Plugin_Modules\\Frontend\\' . $this->available_modules()[ $module_id ] . '_Frontend';
 		$this->set_frontend_class( $module_id, new $class_name( $this->wp_plugin() ) );
 	}
 
@@ -281,8 +281,8 @@ final class Modules {
 	 * @see AVAILABLE_MODULES            Quelle für gültige keys.
 	 */
 	private function init_module_admin_class( $module_id ) {
-		require_once dirname( __FILE__ ) . '/admin/module/class-' . $module_id . '-admin.php';
-		$class_name = 'Kuetemeier_Essentials\\Admin\Module\\' . $this->available_modules()[ $module_id ] . '_Admin';
+		require_once dirname( __FILE__ ) . '/plugin_modules/admin/class-' . $module_id . '-admin.php';
+		$class_name = 'Kuetemeier_Essentials\\Plugin_Modules\\Admin\\' . $this->available_modules()[ $module_id ] . '_Admin';
 		$this->set_admin_class( $module_id, new $class_name( $this->wp_plugin() ) );
 	}
 

@@ -33,14 +33,40 @@ namespace Kuetemeier_Essentials\Frontend\Module;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
+require_once plugin_dir_path( __FILE__ ) . '/../../class-plugin-module.php';
+
 /**
- * Class Kuetemeier_Essentials
+ * Abstract class Frontend_Module to be extended and create new front
+ * end modules.
+ *
+ * @see Core_Frontend Example: Core Module
  */
-abstract class Frontend_Module {
+abstract class Frontend_Module extends Plugin_Module {
 
-	abstract public function get_id();
 
-	abstract public function get_name();
+	/**
+	 * Returns if this object is a frontend module.
+	 *
+	 * @return bool True if it is a frontend module.
+	 *
+	 * @since 0.1.12
+	 */
+	public function is_frontend_module() {
+		return true;
+	}
+
+
+	/**
+	 * Returns if this object is an admin module.
+	 *
+	 * @return bool True if it is an admin module.
+	 *
+	 * @since 0.1.12
+	 */
+	public function is_admin_module() {
+		return false;
+	}
+
 
 }
 

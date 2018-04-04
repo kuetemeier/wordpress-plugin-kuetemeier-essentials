@@ -115,6 +115,8 @@
 		<exclude name="WordPress.Arrays.MultipleStatementAlignment" />
 		<exclude name="WordPress.VIP.SuperGlobalInputUsage" />
 		<exclude name="WordPress.VIP.RestrictedFunctions" />
+
+		<exclude name="Generic.Commenting.DocComment.MissingShort" />
 	</rule>
 
 	<!-- Include the WordPress-Extra standard. -->

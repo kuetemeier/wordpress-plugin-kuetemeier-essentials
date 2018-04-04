@@ -34,18 +34,17 @@ namespace Kuetemeier_Essentials\Admin;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 /**
- * Class Activator
+ * Deactivator
  */
 class Deactivator {
 
 	/**
-	 * Short Description. (use period)
+	 * This function is called, when the plugin is deactivated.
 	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
+	 * @since 0.1.0
 	 */
 	public static function deactivate() {
+		// Intentionally empty for now.
 	}
 
 }

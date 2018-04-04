@@ -36,16 +36,19 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 require_once dirname( __FILE__ ) . '/class-frontend-module.php';
 
 /**
- * Class Kuetemeier_Essentials
+ * Data privacy Module of the Kuetemeier-Essentials Plugin.
  */
 class Data_Privacy_Frontend extends Frontend_Module {
 
-	public function get_id() {
-		return 'data-privacy';
+	/**
+	 * Create class.
+	 */
+	public function __construct() {
+		parent::__construct(
+			// id
+			'data-privacy',
+			// name
+			__( 'Data Privacy', 'kuetemeier-essentials' )
+		);
 	}
-
-	public function get_name() {
-		return 'Data Privacy';
-	}
-
 }

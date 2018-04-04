@@ -36,16 +36,28 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 require_once plugin_dir_path( __FILE__ ) . '/class-wp-plugin.php';
 
 /**
- * Options - Helpers to interact with the WordPress Options and Settings API
+ * Manages all plugin options and interacts with the WordPress Options and Settings API.
  */
 final class Options {
 
+	/**
+	 * Default prefix for custom actions in this class.
+	 */
 	const ACTION_PREFIX = 'kuetemeier_essentials_options_';
 
-	// Key for the WordPress database table 'options'
+	/**
+	 * Default key, under which options are saved in the WordPress options table.
+	 */
 	const OPTIONS_SETTINGS_KEY = 'kuetemeier_essentials';
 
+	/**
+	 * Default WordPress capability / role for admin pages to be viewed.
+	 */
 	const OPTIONS_PAGE_CAPABILITY = 'manage_options';
+
+	/**
+	 * Default slug for the WordPress admin page.
+	 */
 	const OPTIONS_PAGE_SLUG = 'kuetemeier_essentials';
 
 	/**
@@ -162,7 +174,7 @@ final class Options {
 				'default',
 				// id
 				'test_option_1',
-				// default
+				// default value
 				false,
 				// label
 				'Test mit dieser Option 1',
@@ -234,7 +246,7 @@ final class Options {
 			return false;
 		}
 
-		$option_setting->set_db_option_key( $this->get_db_option_key() );
+		$option_setting->set_db_option_key( $this->db_option_key() );
 		array_push( $this->option_settings, $option_setting );
 		return true;
 	}
@@ -266,7 +278,7 @@ final class Options {
 	 *
 	 * @since 0.1.0
 	 */
-	public function get_db_option_key() {
+	public function db_option_key() {
 		return self::OPTIONS_SETTINGS_KEY;
 	}
 
@@ -283,9 +295,14 @@ final class Options {
 	/**
 	 * Return the options for a specific module under the OPTIONS_SETTINGS_KEY
 	 *
+	 * @param string $module_key Key of the module to get the options for.
+	 *
 	 * @see get_db_options
 	 *
-	 * @return Array of options or false, if module key did not exists
+	 * @return Array of options or false, if module key did not exists.
+	 *
+	 * @since 0.1.0
+	 * @since 0.1.12 Reworked validation for module key.
 	 */
 	public function get_db_options_for_module( $module_key ) {
 		// get complete options for our key
@@ -314,7 +331,19 @@ final class Options {
 		return false;
 	}
 
+	/**
+	 * Get an option from the WordPress option table.
+	 *
+	 * @param string $module_key Key of the desired module to retrieve option for.
+	 * @param string $option_key Key of the option to be retrieved (in context of `$module_key`).
+	 * @param bool   $default (optional) Default value if module or option could not be found, defaults to `false`.
+	 *
+	 * @return mixed The option value if found, else `$default`.
+	 *
+	 * @since 0.1.0
+	 */
 	public function get_option( $module_key, $option_key, $default = false ) {
+
 		$module_options = $this->get_db_options_for_module( $module_key );
 
 		if ( ! $module_options ) {
@@ -325,15 +354,55 @@ final class Options {
 			return $module_options[ $option_key ];
 		}
 
+		// If we cannot retriev a value, return default.
 		return $default;
 	}
 
+
+	/**
+	 * Prepare all admin hooks.
+	 *
+	 * Normaly should not be called directly. Is called by the WP_Plugin init process.
+	 * IMPORTANT: THis must be called AFTER all admin classes of the modules are loaded.
+	 * So it's best to leave it to WP_Plugin.
+	 *
+	 * @see WP_Plugin
+	 *
+	 * @since 0.1.0
+	 * @since 0.1.12 Reworked to WP_Plugin init process
+	 */
 	public function init_admin_hooks() {
-		// IMPORTANT: THis must be called AFTER all admin classes of the modules are loaded
 		add_action( 'admin_init', array( &$this, 'callback_admin_init' ) );
 		add_action( 'admin_menu', array( &$this, 'callback_admin_menu' ) );
 	}
 
+
+	/**
+	 * Register an admin options subpage.
+	 *
+	 * Tabs are optional.
+	 *
+	 * Example for tabs:
+	 * ```
+	 * array(
+	 *     'general' => __( 'General', 'kuetemeier-essentials' ),
+	 *     'modules' => __( 'Modules', 'kuetemeier-essentials' ),
+	 *     'test'    => 'Test',
+	 * )
+	 * ```
+	 *
+	 * @param string   $slug Slug of admin subpage.
+	 * @param string   $title Title of the admin subpage.
+	 * @param string   $menu_title WP Admin menu title.
+	 * @param array    $tabs (optional) Array of tabs to be created for this subpage.
+	 * @param callable $display_func (optional) Callback for displaying this subpage.
+	 * @param string   $capability (optional) WordPress capability role to view this subpage.
+	 * @param string   $parent_slug (optional) Slug of the parrent page, defaults to the plugin admin page slug.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function add_admin_options_subpage(
 		$slug,
 		$title,
@@ -344,7 +413,7 @@ final class Options {
 		$parent_slug = self::OPTIONS_PAGE_SLUG
 	) {
 
-		if ( $display_func == null ) {
+		if ( ! isset( $display_func ) ) {
 			$display_func = array( &$this, 'callback_options_page_display' );
 		}
 
@@ -360,16 +429,58 @@ final class Options {
 		);
 	}
 
+
+	/**
+	 * Callback for WP admin_init. Registeres WP settings for the WP Settings API.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function callback_admin_init() {
 		register_setting( self::OPTIONS_SETTINGS_KEY, self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
 		register_setting( 'kuetemeier_essentials_data_privacy', self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
-		//	register_setting( $page_slug, self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
 	}
 
+
+	/**
+	 * Callback for WP admin_menu. Registeres the admin menu with the WP Settings API.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function callback_admin_menu() {
-		$this->create_admin_menu();
+
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
+		do_action( self::ACTION_PREFIX . 'before_create_admin_menu' );
+
+		do_action( self::ACTION_PREFIX . 'create_admin_menu' );
+
+		do_action( self::ACTION_PREFIX . 'after_create_admin_menu' );
+		// phpcs::enable
+
 	}
 
+
+	/**
+	 * Callback for WP Settings API. Validates submitted options.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @param array $input Input values form the submitted form.
+	 *
+	 * @return array Returns an array with valid options. See WP Settings API.
+	 *
+	 * @since 0.1.0
+	 */
 	public function callback_validate_options( $input ) {
 		$valid_input = get_option( self::OPTIONS_SETTINGS_KEY );
 
@@ -403,36 +514,46 @@ final class Options {
 			}
 		}
 
-		//echo "Submit: $submit, Page: $page, Tab: $tab";
-
-		//print_r( $input );
-		//die('test');
-
 		return $valid_input;
 	}
 
+
+	/**
+	 * Default callback for an Option_Section that's display function is empty.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @param array $args WordPress arguments for sections.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function callback_add_settings_section__display_empty_section( $args ) {
+		// intentionally empty
 	}
 
-	protected function do_add_settings_fields( $page_slug, $current_tab ) {
-		foreach ( $this->option_settings as $option_setting ) {
-			$option_setting->do_add_settings_field( $page_slug, $current_tab );
-		}
-	}
 
-	protected function do_add_settings_sections( $page_slug, $current_tab ) {
-		foreach ( $this->option_sections as $option_section ) {
-			$option_section->do_add_settings_section( $page_slug, $current_tab );
-		}
-	}
-
-	public function register_settings( $page_slug, $current_tab ) {
+	/**
+	 * Register all needed settings to the WordPress Settings API for the current page and active tab (if any).
+	 *
+	 * @param sting  $page_slug Key of the page to add fields for.
+	 * @param string $current_tab Key of the current tab in the page, that is active.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
+	private function register_settings( $page_slug, $current_tab ) {
 
 		register_setting( self::OPTIONS_SETTINGS_KEY, self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
 		register_setting( 'kuetemeier_essentials_data_privacy', self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
 		register_setting( $page_slug, self::OPTIONS_SETTINGS_KEY, array( &$this, 'callback_validate_options' ) );
 
-		$this->do_add_settings_sections( $page_slug, $current_tab );
+		foreach ( $this->option_sections as $option_section ) {
+			$option_section->do_add_settings_section( $page_slug, $current_tab );
+		}
 
 		add_settings_section(
 			'default',
@@ -441,10 +562,24 @@ final class Options {
 			$page_slug
 		);
 
-		$this->do_add_settings_fields( $page_slug, $current_tab );
+		foreach ( $this->option_settings as $option_setting ) {
+			$option_setting->do_add_settings_field( $page_slug, $current_tab );
+		}
 
 	}
 
+	/**
+	 * Create an admin menu of all registered options, pages and subpages.
+	 *
+	 * For more informations see the WordPress Settings API.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function callback_create_admin_menu() {
 
 		// add top level menu page
@@ -484,7 +619,14 @@ final class Options {
 	}
 
 
-	public function get_tabs_for_options_subpage( $subpage = self::OPTIONS_PAGE_SLUG ) {
+	/**
+	 * A litte helper, gets the tabs for a given subpage.
+	 *
+	 * @param string $subpage (optional) Slug of a subpage, defaults to the default option page of this plugin.
+	 *
+	 * @return array Tabs for the given subpage.
+	 */
+	private function get_tabs_for_options_subpage( $subpage = self::OPTIONS_PAGE_SLUG ) {
 
 		if ( array_key_exists( $subpage, $this->admin_options_subpages ) ) {
 			return $this->admin_options_subpages[ $subpage ]['tabs'];
@@ -493,13 +635,6 @@ final class Options {
 		return array();
 	}
 
-	public function create_admin_menu() {
-		do_action( self::ACTION_PREFIX . 'before_create_admin_menu' );
-
-		do_action( self::ACTION_PREFIX . 'create_admin_menu' );
-
-		do_action( self::ACTION_PREFIX . 'after_create_admin_menu' );
-	}
 
 	/**
 	 * Print out the tabs for the option page defined by `$page_slug`.
@@ -516,6 +651,7 @@ final class Options {
 
 		$tabs = $this->get_tabs_for_options_subpage( $page_slug );
 
+		// phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
 		$current_tab = '';
 		if ( isset( $_GET['tab'] ) ) {
 			$key = sanitize_key( $_GET['tab'] );
@@ -530,6 +666,7 @@ final class Options {
 				$current_tab = key( $tabs );
 			}
 		}
+		// phpcs:enable WordPress.CSRF.NonceVerification.NoNonceVerification
 
 		$this->register_settings( $page_slug, $current_tab );
 
@@ -551,21 +688,33 @@ final class Options {
 
 	}
 
-
+	/**
+	 * Displays the admin option page.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function callback_options_page_display() {
+		// phpcs:disable WordPress.CSRF.NonceVerification.NoNonceVerification
 
 		// Set default to a known slug
 		$page_slug = self::OPTIONS_PAGE_SLUG;
 
 		// Get active page from URL.
-		$_page_slug = sanitize_key( $_GET['page'] );
-		if ( isset( $_page_slug ) ) {
+		if ( isset( $_GET['page'] ) ) {
+			$_page_slug = sanitize_key( $_GET['page'] );
 
 			// Test if it's a "real" page in our subpage list.
 			if ( array_key_exists( $_page_slug, $this->admin_options_subpages ) ) {
 				$page_slug = $_page_slug;
 			}
 		}
+
+		$tab = ( isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : '' );
 
 		?>
 		<div class="wrap">
@@ -580,35 +729,67 @@ final class Options {
 				settings_fields( $page_slug );
 				do_settings_sections( $page_slug );
 				?>
-				<?php $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : '' ); ?>
 
 				<p class="submit">
-					<input name="kuetemeier_essentials[submit|<?php echo $page_slug; ?>|<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'kuetemeier-essentials' ); ?>" />
-					<input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e( 'Reset Defaults', 'kuetemeier-essentials' ); ?>" />
+					<input name="kuetemeier_essentials[submit|<?php echo esc_attr( $page_slug ); ?>|<?php echo esc_attr( $tab ); ?>]" type="submit" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'kuetemeier-essentials' ); ?>" />
+					<input name="kuetemeier_essentials[reset-<?php echo esc_attr( $tab ); ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e( 'Reset Defaults', 'kuetemeier-essentials' ); ?>" />
 				</p>
 			</form>
 		</div>
 		<?php
 
+		// phpcs:enable WordPress.CSRF.NonceVerification.NoNonceVerification
 	}
 }
 
 
+// We want all Option classes in one file for speed reasons.
+// phpcs:disable Generic.Files.OneClassPerFile
 
+
+/**
+ * Encapsulate a WordPress option section (see WordPress Settings API).
+ */
 class Option_Section {
+
+
+	/** @var string Unique key. */
 	protected $id = '';
 
+
+	/** @var string Admin Page slug this section belongs to. */
 	protected $page = '';
 
+
+	/** @var string Tab this section belongs to. */
 	protected $tab = '';
 
+
+	/** @var string Title of this sectino. */
 	protected $title = '';
 
+
+	/** @var string Optional content (text) of the section. */
 	protected $content = '';
 
+
+	/** @var callable Function called to display the secion. */
 	protected $display_function;
 
-	function __construct( $id, $title, $page, $tab = '', $content = '', $display_function = null ) {
+
+	/**
+	 * Create a Option Section.
+	 *
+	 * @param string   $id Unique key.
+	 * @param string   $title Title of this sectino.
+	 * @param string   $page Admin Page slug this section belongs to.
+	 * @param string   $tab (optional) Tab this section belongs to.
+	 * @param string   $content (optional) content (text) of the section.
+	 * @param callable $display_function Function called to display the secion.
+	 *
+	 * @since 0.1.0
+	 */
+	public function __construct( $id, $title, $page, $tab = '', $content = '', $display_function = null ) {
 		$this->id = $id;
 		$this->title = $title;
 		$this->page = $page;
@@ -617,35 +798,95 @@ class Option_Section {
 		$this->set_display_function( $display_function );
 	}
 
-
-	public function get_id() {
+	/**
+	 * Get unique ID of this section.
+	 *
+	 * @return string The ID.
+	 *
+	 * @since 0.1.0
+	 */
+	public function id() {
 		return $this->id;
 	}
 
-	public function get_page() {
+
+	/**
+	 * Get the page slug this section sits on.
+	 *
+	 * @return strng Page slug.
+	 *
+	 * @since 0.1.0
+	 */
+	public function page() {
 		return $this->page;
 	}
 
-	public function get_tab() {
+
+	/**
+	 * Get the key for the tab this section sits on.
+	 *
+	 * @return string Tab key.
+	 *
+	 * @since 0.1.0
+	 */
+	public function tab() {
 		return $this->tab;
 	}
 
-	public function get_title() {
+
+	/**
+	 * Get the title of this section.
+	 *
+	 * @return string The title.
+	 *
+	 * @since 0.1.0
+	 */
+	public function title() {
 		return $this->title;
 	}
 
-	public function get_content() {
+
+	/**
+	 * Get the content of this section.
+	 *
+	 * @return string The content.
+	 *
+	 * @since 0.1.0
+	 */
+	public function content() {
 		return $this->content;
 	}
 
+	/**
+	 * Default display function.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @param array $args WordPress default args for display functions.
+	 *
+	 * @return void
+	 *
+	 * @see Option_Setting::display_function()
+	 * @since 0.1.0
+	 */
 	public function callback__display_function( $args ) {
 		?>
 		<div id="<?php echo esc_attr( $args['id'] ); ?>">
-			<?php echo esc_html( $this->content ); ?>
+			<?php echo esc_html( $this->content() ); ?>
 		</div>
 		<?php
 	}
 
+	/**
+	 * Set a custom display function for this section.
+	 *
+	 * @param callable $display_function Funktion to be called when the section is displayed.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function set_display_function( $display_function ) {
 		if ( empty( $display_function ) ) {
 			$this->display_function = array( &$this, 'callback__display_function' );
@@ -654,26 +895,36 @@ class Option_Section {
 		}
 	}
 
-	public function get_display_function() {
+	/**
+	 * Get the current display function for this section.
+	 *
+	 * @return callable The display function.
+	 *
+	 * @since 0.1.0
+	 */
+	public function display_function() {
 		return $this->display_function;
 	}
 
 	/**
-	 * Add this setting to the settings page.
+	 * Add this setting to the settings page (register it with WordPress ).
+	 *
+	 * Built-in pages include 'general', 'reading', 'writing', 'discussion', 'media', etc.
+	 * Create your own using add_options_page();
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $page           The slug-name of the settings page on which to show the section. Built-in pages include
-	 *                               'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using
-	 *                               add_options_page();
-	 * @param string $tab            Optional. The slug-name of the current tab (if any is present on the settings page)
+	 * @param string $page The slug-name of the settings page on which to show the section.
+	 * @param string $tab  Optional. The slug-name of the current tab (if any is present on the settings page).
+	 *
+	 * @see https://codex.wordpress.org/Function_Reference/add_settings_section WordPress Settings API - Sections
 	 */
 	public function do_add_settings_section( $page = '', $tab = '' ) {
 		// Do we have to filter for page slug?
 		if ( ! empty( $page ) ) {
 
 			// Yes:
-			if ( ! ( $page == $this->get_page() ) ) {
+			if ( ! ( $page === $this->page() ) ) {
 				// Do nothing if page slugs do not match
 				return;
 			}
@@ -683,7 +934,7 @@ class Option_Section {
 		if ( ! empty( $tab ) ) {
 
 			// Yes:
-			if ( ! ( $tab == $this->get_tab() ) ) {
+			if ( ! ( $tab === $this->tab() ) ) {
 				// Do nothing if tab slugs do not match
 				return;
 			}
@@ -693,117 +944,222 @@ class Option_Section {
 		// https://codex.wordpress.org/Function_Reference/add_settings_section
 		add_settings_section(
 			// String for use in the 'id' attribute of tags.
-			$this->get_id(),
+			$this->id(),
 			// Title of the section.
-			$this->get_title(),
+			$this->title(),
 			// Function that fills the section with the desired content. The function should echo its output.
-			$this->get_display_function(),
+			$this->display_function(),
 			// The menu page on which to display this section.
-			$this->get_page()
+			$this->page()
 		);
-
-		//Options::instance()->sections_bug_workaround( $this->get_id(), $this->get_page() );
 
 	}
 }
 
 /**
  * A single setting for an option managed by Options.
+ *
+ * This is an abstract class and has to be extended for specific use cases.
  */
 abstract class Option_Setting {
 
+	/** @var string Key for the key in the array of the option table. (module specific) */
 	protected $db_option_key = 'kuetemeier';
 
-	/**
-	 * Id of the module this option setting belongs to
-	 */
+
+	/** @var string Key of the module this option setting belongs to. */
 	protected $module = '';
 
-	/**
-	 * Unique ID of the Instance of this Class and the key for the database entry.
-	 */
+
+	/** @var string Unique key. */
 	protected $id = '';
 
-	protected $default = null;
 
-	/**
-	 * Common name
-	 */
+	/** @var mixed Default value. */
+	protected $default_value = null;
+
+
+	/** @var string Common name. */
 	protected $name = '';
 
-	/**
-	 * Label, e.g. for the setting page
-	 */
+
+	/** @var string Label for the settings page. */
 	protected $label = '';
 
+
+	/** @var string Key of the admin page this option settings belongs to. */
 	protected $page = '';
 
+
+	/** @var string Key of the tab on the admin page this option settings belongs to. */
 	protected $tab = '';
 
+
+	/** @var string Key of the section on the admin page this option settings belongs to. */
 	protected $section = 'default';
 
-	protected $order = 0;
 
+	/** @var int Value for display order in the section. */
+	protected $display_order = 0;
+
+
+	/** @var mixed Value for an 'empty' setting. */
 	protected $empty_value = '';
 
-	/**
-	 * Description shown in the settings page.
-	 */
+
+	/** @var string Description shown in the admin page. */
 	protected $description = '';
 
-	public function __construct( $module, $id, $default, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = '', $order = 0 ) {
+
+	/**
+	 * Initialize an OptionSetting.
+	 *
+	 * @param string $module Key of the module this option belongs to.
+	 * @param string $id Unique ID.
+	 * @param string $default_value Default value.
+	 * @param string $label Label for the admin page.
+	 * @param string $page (optional) Key (slug) of the admin page, this setting should be displayed on.
+	 * @param string $tab (optional) Key (slug) for the tab on the admin page, this setting should be displayed on.
+	 * @param string $section (optional) Key for the section in the admin page, this option belongs to.
+	 * @param string $description (optional) Description to be shown next to the setting on the admin page.
+	 * @param mixed  $empty_value (optional) The 'empty' value of this option.
+	 * @param int    $display_order (optional) Display order in the section.
+	 */
+	public function __construct( $module, $id, $default_value, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = '', $display_order = 0 ) {
 		$this->module = $module;
 		$this->id = $id;
-		$this->default = $default;
+		$this->default_value = $default_value;
 		$this->label = $label;
 		$this->page = $page;
 		$this->tab = $tab;
 		$this->set_section( $section );
 		$this->set_description( $description );
 		$this->empty_value = $empty_value;
-		$this->order = $order;
+		$this->display_order = $display_order;
 	}
 
-	public function get_db_option_key() {
+
+	/**
+	 * Key for the key in the array of the option table. (module specific)
+	 *
+	 * @return string The DB option key.
+	 *
+	 * @since 0.1.0
+	 */
+	public function db_option_key() {
 		return $this->db_option_key;
 	}
 
+	/**
+	 * Set the key for the key in the array of the option table. (module specific)
+	 *
+	 * @param string $value New key.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function set_db_option_key( $value ) {
 		$this->db_option_key = $value;
 	}
 
-	public function get_module() {
+	/**
+	 * Key of the module this option setting belongs to.
+	 *
+	 * @return string The module key.
+	 *
+	 * @since 0.1.0
+	 */
+	public function module() {
 		return $this->module;
 	}
 
-	public function get_id() {
+	/**
+	 * Unique ID
+	 *
+	 * @return string The ID.
+	 *
+	 * @since 0.1.0
+	 */
+	public function id() {
 		return $this->id;
 	}
 
-	public function get_default() {
-		return $this->default;
+	/**
+	 * Default value of this option
+	 *
+	 * @return string The default value.
+	 *
+	 * @since 0.1.0
+	 */
+	public function default_value() {
+		return $this->default_value;
 	}
 
-	public function get_empty_value() {
+	/**
+	 * The 'empty' value of this option.
+	 *
+	 * For some types it may be `null`, for some types it may be `0` or `''`. Totally your choise.
+	 *
+	 * @return string The empy value.
+	 *
+	 * @since 0.1.0
+	 */
+	public function empty_value() {
 		return $this->empty_value;
 	}
 
-	public function get_label() {
+	/**
+	 * Admin page label.
+	 *
+	 * @return string The admin page label.
+	 *
+	 * @since 0.1.0
+	 */
+	public function label() {
 		return $this->label;
 	}
 
-	public function get_page() {
+	/**
+	 * Key for the admin page this option belongs to.
+	 *
+	 * @return string The page key / slug.
+	 *
+	 * @since 0.1.0
+	 */
+	public function page() {
 		return $this->page;
 	}
 
-	public function get_tab() {
+	/**
+	 * Key for the tab this option belongs to.
+	 *
+	 * @return string The tab key / slug..
+	 *
+	 * @since 0.1.0
+	 */
+	public function tab() {
 		return $this->tab;
 	}
 
-	public function get_section() {
+	/**
+	 * Key for section this option belongs to.
+	 *
+	 * @return string The section key.
+	 *
+	 * @since 0.1.0
+	 */
+	public function section() {
 		return $this->section;
 	}
 
+	/**
+	 * Set a new section key.
+	 *
+	 * @param sting $section New section key for this option.
+	 *
+	 * @since 0.1.0
+	 */
 	public function set_section( $section ) {
 		$_section = $section;
 		if ( empty( $_section ) ) {
@@ -812,26 +1168,61 @@ abstract class Option_Setting {
 		$this->section = $_section;
 	}
 
-	public function get_order() {
-		return $this->tab;
+	/**
+	 * Display order in the section.
+	 *
+	 * @return int The display order.
+	 *
+	 * @since 0.1.0
+	 */
+	public function display_order() {
+		return $this->display_order;
 	}
 
-	public function get_description() {
+	/**
+	 * Description on the admin page.
+	 *
+	 * @return string The description.
+	 *
+	 * @since 0.1.0
+	 */
+	public function description() {
 		return $this->description;
 	}
 
+	/**
+	 * Set a new description for this option.
+	 *
+	 * @param sting $description The new description (html).
+	 *
+	 * @since 0.1.0
+	 */
 	public function set_description( $description ) {
 		$_description = $description;
 
 		// convert empty string to null
 		if ( empty( $_description ) ) {
-			$_description = null;
+			$_description = '';
 		}
 
 		$this->description = $_description;
 	}
 
+
+	/**
+	 * Function to be used to display the setting on the admin page.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @param array $args WordPress display funciton args.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	abstract public function callback_display_setting( $args );
+
 
 	/**
 	 * Returns a sanitized version of $input, based on the Option_Settings type.
@@ -839,55 +1230,97 @@ abstract class Option_Setting {
 	 * Every subclass must declare a function that returns a sanitzie version of the given value.
 	 * E.g. use sanitize_text_field for a string.
 	 *
-	 * @param  mixed $input      an input value to be sanitzied by this function
+	 * @param  mixed $input An input value to be sanitzied by this function.
 	 *
-	 * @return mixed    sanitized version of $value or null if we cannot sanitzie the input
+	 * @return mixed Sanitized version of $value or null if we cannot sanitzie the input.
 	 */
 	abstract public function sanitize( $input );
 
+
+	/**
+	 * Tests, if the option matches the page and the tab. If so, it validates its value
+	 * in the `$input` array and retuns it in the `$valid_input` array. Just as a the
+	 * normal WordPress Settings API value callback would do it.
+	 *
+	 * If `$page` or `$tab` does not match, it returns the untouched `$valid_input`array.
+	 *
+	 * Note: This method is normally not called directly. It's called in the input
+	 * validation process from the Options class it is registered to.
+	 *
+	 * @param string $page Key / slug of the page the value should be validated for.
+	 * @param string $tab Key / slug of the tab the value should be validated for.
+	 * @param array  $valid_input WordPress valid input array.
+	 * @param array  $input WordPress array of form input values.
+	 *
+	 * @return array `$valid_input` with a validated version, if page and tab matches and value is valid, untouched `$valid_input` otherwise.
+	 *
+	 * @since 0.1.0
+	 */
 	public function validate( $page, $tab, $valid_input, $input ) {
 
+		$error = false;
+		$error_msg = 'Everything fine.';
+
 		if ( ! empty( $page ) ) {
-			if ( $page != $this->get_page() ) {
+			if ( $page !== $this->page() ) {
 				return $valid_input;
 			}
 		}
 
 		if ( ! empty( $tab ) ) {
-			if ( $tab != $this->get_tab() ) {
+			if ( $tab !== $this->tab() ) {
 				return $valid_input;
 			}
 		}
 
-		$module = $this->get_module();
-		$id = $this->get_id();
+		$module = $this->module();
+		$id = $this->id();
 
-		/*
-		$error = "Test: Page: '$page' | Tab: '$tab' | Module: '$module' | ID: '$id' <br />\n";
-		add_settings_error( 'test1', 'test2', $error, 'error' );
-		add_settings_error( 'test1', 'test2', '$input: '.esc_html( wp_json_encode ( $input) ) );
-		add_settings_error( 'test1', 'test2', '$valid_input (vorher): '.esc_html( wp_json_encode ( $valid_input ) ) );
-		*/
 		$input_value = $this->sanitize( $this->get_from_array( $input, null ) );
 		if ( isset( $input_value ) ) {
 			$valid_input = $this->set_in_array( $valid_input, $input_value );
 
 		} else {
-			$valid_input = $this->set_in_array( $valid_input, $this->get_empty_value() );
+			$valid_input = $this->set_in_array( $valid_input, $this->empty_value() );
 		}
 
-		//      add_settings_error( 'test1', 'test2', '$valid_input (nachher): '.esc_html( wp_json_encode ( $valid_input ) ) );
+		if ( $error ) {
+			// https://codex.wordpress.org/Function_Reference/add_settings_error
+			add_settings_error(
+				// Slug title of the setting to which this error applies.
+				$this->id(),
+				// Slug-name to identify the error.
+				'error',
+				// message
+				$error_msg
+				// optional type, may be: 'error' or 'updated', default: 'error'
+			);
+		}
 
 		return $valid_input;
 	}
 
+
+	/**
+	 * Register option setting field with WordPress API if `$page` and `$tab` matches for this option.
+	 *
+	 * Note: This method is normally not called directly. It's called in the register
+	 * process from the Options class it is registered to.
+	 *
+	 * @param string $page Key / slug of the page for which the option should be registered.
+	 * @param string $tab Key / slug of the tab for which the option should be registered.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function do_add_settings_field( $page, $tab ) {
 
 		// Do we have to filter for page slug?
 		if ( ! empty( $page ) ) {
 
 			// Yes:
-			if ( ! ( $page == $this->get_page() ) ) {
+			if ( ! ( $page === $this->page() ) ) {
 				// Do nothing if page slugs do not match
 				return;
 			}
@@ -897,7 +1330,7 @@ abstract class Option_Setting {
 		if ( ! empty( $tab ) ) {
 
 			// Yes:
-			if ( ! ( $tab == $this->get_tab() ) ) {
+			if ( ! ( $tab === $this->tab() ) ) {
 				// Do nothing if tab slugs do not match
 				return;
 			}
@@ -905,39 +1338,54 @@ abstract class Option_Setting {
 
 		add_settings_field(
 			// ID used to identify the field throughout the theme
-			$this->get_id(),
+			$this->id(),
 			// The label to the left of the option interface element
-			$this->get_label(),
+			$this->label(),
 			// The name of the function responsible for rendering the option interface
 			array( &$this, 'callback_display_setting' ),
 			// The page on which this option will be displayed
-			$this->get_page(),
+			$this->page(),
 			// The name of the section to which this field belongs
-			$this->get_section(),
+			$this->section(),
 			// The array of arguments to pass to the callback. In this case, just a description.
 			array(
-				$this->get_description(),
+				$this->description(),
 			)
 		);
 	}
 
+
+	/**
+	 * Get the current value for this option (from the WordPress Option API)
+	 *
+	 * @param mixed $default (optional) Default value, if this option cannot be found in the Options API, default: `false`.
+	 *
+	 * @return mixed Value or `$default`.
+	 *
+	 * @since 0.1.0
+	 */
 	public function get( $default = false ) {
 		// get options from WordPress database 'options' table
-		$options = get_option( $this->get_db_option_key() );
+		$options = get_option( $this->db_option_key() );
 
 		// Find our value and return it (or $default, if not found).
 		return $this->get_from_array( $options, $default );
 	}
 
-	/**
-	 * Set this option to value $value
-	 */
-	public function set( $value ) {
-	}
 
+	/**
+	 * Helper function. Get a value from an array, based on the option ID and module ID.
+	 *
+	 * @param array $array Array to get the value of.
+	 * @param mixed $default (optional) Default value, if value is not in `$array`, default: `false`.
+	 *
+	 * @return mixed The vaule in the array - if found, otherwise `$default`.
+	 *
+	 * @since 0.1.0
+	 */
 	protected function get_from_array( $array, $default = false ) {
-		$module = $this->get_module();
-		$id = $this->get_id();
+		$module = $this->module();
+		$id = $this->id();
 
 		if ( isset( $array[ $module ] ) && ( isset( $array[ $module ][ $id ] ) ) ) {
 			return $array[ $module ][ $id ];
@@ -945,9 +1393,19 @@ abstract class Option_Setting {
 		return $default;
 	}
 
+	/**
+	 * Helper function. Sets a value in an array, based on the option ID and module ID.
+	 *
+	 * @param array $array Array to set the value in.
+	 * @param mixed $value The new value.
+	 *
+	 * @return array The array including the new value.
+	 *
+	 * @since 0.1.0
+	 */
 	protected function set_in_array( $array, $value ) {
-		$module = $this->get_module();
-		$id = $this->get_id();
+		$module = $this->module();
+		$id = $this->id();
 
 		if ( ! isset( $array[ $module ] ) || ! is_array( $array[ $module ] ) ) {
 			$array[ $module ] = array();
@@ -958,9 +1416,18 @@ abstract class Option_Setting {
 		return $array;
 	}
 
-	protected function unset_in_array( $array, $value ) {
-		$module = $this->get_module();
-		$id = $this->get_id();
+	/**
+	 * Helper function. Unsets a value in an array, based on the option ID and module ID.
+	 *
+	 * @param array $array Array to unset the value in.
+	 *
+	 * @return array The array excluding the new value.
+	 *
+	 * @since 0.1.0
+	 */
+	protected function unset_in_array( $array ) {
+		$module = $this->module();
+		$id = $this->id();
 
 		if ( isset( $array[ $module ] ) && ( isset( $array[ $module ][ $id ] ) ) ) {
 			unset( $array[ $module ][ $id ] );
@@ -970,47 +1437,112 @@ abstract class Option_Setting {
 	}
 }
 
+
+/**
+ * A Checkbox implementation of Option_Setting.
+ */
 class Option_Setting_Checkbox extends Option_Setting {
 
-	public function __construct( $module, $id, $default, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = 0, $order = 0 ) {
-		parent::__construct( $module, $id, $default, $label, $page, $tab, $section, $description, $empty_value, $order );
+	// phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
+	// Default and empty values are different.
+
+	/**
+	 * Initialize a Checkbox option
+	 *
+	 * @param string $module Key of the module this option belongs to.
+	 * @param string $id Unique ID.
+	 * @param string $default_value Default value.
+	 * @param string $label Label for the admin page.
+	 * @param string $page (optional) Key (slug) of the admin page, this setting should be displayed on.
+	 * @param string $tab (optional) Key (slug) for the tab on the admin page, this setting should be displayed on.
+	 * @param string $section (optional) Key for the section in the admin page, this option belongs to.
+	 * @param string $description (optional) Description to be shown next to the setting on the admin page.
+	 * @param mixed  $empty_value (optional) The 'empty' value of this option.
+	 * @param int    $display_order (optional) Display order in the section.
+	 */
+	public function __construct( $module, $id, $default_value, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = 0, $display_order = 0 ) {
+		parent::__construct( $module, $id, $default_value, $label, $page, $tab, $section, $description, $empty_value, $display_order );
 
 	}
+	// phpcs:enable Generic.CodeAnalysis.UselessOverridingMethod
 
+
+	/**
+	 * Sanitize the input value for a Checkbox value.
+	 *
+	 * Valid values for Checkboxes are 0 and 1
+	 *
+	 * @param string $input An input vlalue.
+	 *
+	 * @return int A clean and sanitized version or the 'empty' value, if it cannot be sanitized.
+	 *
+	 * @since 0.1.12 Does real sanitization.
+	 */
 	public function sanitize( $input ) {
-		// TODO: sanitize
-		return $input;
+
+		switch ( $input ) {
+			case 0:
+				return 0;
+			case 1:
+				return 1;
+			case '0':
+				return 0;
+			case '1':
+				return 1;
+			case true:
+				return 1;
+			case false:
+				return 0;
+			default:
+				return $this->empty_value();
+		}
 	}
 
+	/**
+	 * Displays this option on an admin page.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @param array $args WordPress display function args.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function callback_display_setting( $args ) {
 		$options = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance()->options();
 
 		$value = $this->get();
-		$complete_id = $this->get_module() . '_' . $this->get_id();
-
-		//die ("checkbox");
+		$complete_id = $this->module() . '_' . $this->id();
 
 		// Next, we update the name attribute to access this element's ID in the context of the display options array
 		// We also access the show_header element of the options collection in the call to the checked() helper function
-		$html = '<input type="checkbox" id="' . esc_attr( $complete_id ) . '" name="' . $options->get_db_option_key();
-		$html .= '[' . esc_attr( $this->get_module() ) . '][' . esc_attr( $this->get_id() ) . ']" value="1" ' . checked( 1, $value, false ) . '/>';
+		$esc_html = '<input type="checkbox" id="' . esc_attr( $complete_id ) . '" name="' . $options->db_option_key();
+		$esc_html .= '[' . esc_attr( $this->module() ) . '][' . esc_attr( $this->id() ) . ']" value="1" ' . checked( 1, $value, false ) . '/>';
 
 		// Here, we'll take the first argument of the array and add it to a label next to the checkbox
-		$html .= '<label for="' . esc_attr( $complete_id ) . '"> ' . esc_html( $args[0] ) . '</label>';
+		$esc_html .= '<label for="' . esc_attr( $complete_id ) . '"> ' . esc_html( $args[0] ) . '</label>';
 
-		echo $html;
+		// phpcs:disable WordPress.XSS.EscapeOutput
+		// $esc_html contains only escaped content.
+		echo $esc_html;
+		// phpcs:enable WordPress.XSS.EscapeOutput
+
 	}
 }
 
+/**
+ * A Textbox implementation of Option_Setting.
+ *
+ * This is a good demonstration how easy it is to implement new option types.
+ */
 class Option_Setting_Text extends Option_Setting {
 
 	/**
 	 * Returns a sanitized version of $input, based on the Option_Settings type.
 	 *
-	 * Every subclass must declare a function that returns a sanitzie version of the given input value.
-	 * E.g. use sanitize_text_field for a string.
-	 *
-	 * @param  string $input      an input value to be sanitzied by this function
+	 * @param string $input An input value to be sanitzied by this function.
 	 *
 	 * @return string   sanitized version of $value or null if we cannot sanitzie the input
 	 */
@@ -1022,20 +1554,37 @@ class Option_Setting_Text extends Option_Setting {
 		return sanitize_text_field( $input );
 	}
 
+
+	/**
+	 * Displays this option on an admin page.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @param array $args WordPress display function args.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
+	 */
 	public function callback_display_setting( $args ) {
 		// Get current value.
 		$value = $this->get();
 
 		// Assemble a compound and escaped id string.
-		$esc_id = esc_attr( $this->get_module() . '_' . $this->get_id() );
+		$esc_id = esc_attr( $this->module() . '_' . $this->id() );
 		// Assemble an escaped name string. The name attribute is importan, it defines the keys for the $input array in validation.
-		$esc_name = esc_attr( $this->get_db_option_key() . '[' . $this->get_module() . '][' . $this->get_id() . ']' );
+		$esc_name = esc_attr( $this->db_option_key() . '[' . $this->module() . '][' . $this->id() . ']' );
 
 		// Compose output.
-		$html = '<input type="text" id="' . $esc_id . '" name="' . $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
-		$html .= '<p class="description" id="' . $esc_id . '-description">' . esc_html( $args[0] ) . '</p>';
+		$esc_html = '<input type="text" id="' . $esc_id . '" name="' . $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
+		$esc_html .= '<p class="description" id="' . $esc_id . '-description">' . esc_html( $args[0] ) . '</p>';
 
-		// And show it to the world.
-		echo $html;
+		// phpcs:disable WordPress.XSS.EscapeOutput
+		// $esc_html contains only escaped content.
+		echo $esc_html;
+		// phpcs:enable WordPress.XSS.EscapeOutput
 	}
 }
+
+// phpcs:enable

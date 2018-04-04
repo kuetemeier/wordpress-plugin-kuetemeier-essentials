@@ -1,4 +1,6 @@
-code.php
+<?php
+
+die("not for now!");
 
 /**
  * Disable the emoji's
@@ -54,9 +56,7 @@ return $urls;
 }
 
 
-
-------------------------------------------
-------------------------------------------
+/******************************************/
 
 
 function disable_embeds_code_init() {
@@ -101,8 +101,7 @@ function disable_embeds_rewrites($rules) {
 
 
 
--------------------------------------------------------------------------
--------------------------------------------------------------------------
+/******************************************/
 
 
 
@@ -157,13 +156,13 @@ function valdate_privacy_comment_javascript(){
         ?>
         <script type="text/javascript">
         jQuery(document).ready(function($){
-            $("#submit").click(function(e)){
+            $("#submit").click( function (e) {
                 if (!$('.privacyBox').prop('checked')){
                     e.preventDefault();
                     alert('You must agree to our privacy term by checking the box ....');
                     return false;
                 }
-            }
+            });
         });
         </script>
         <?php

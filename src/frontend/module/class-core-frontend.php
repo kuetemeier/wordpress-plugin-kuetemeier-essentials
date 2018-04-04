@@ -36,16 +36,20 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 require_once dirname( __FILE__ ) . '/class-frontend-module.php';
 
 /**
- * Class Kuetemeier_Essentials
+ * The Core Module of the Kuetemeier-Essentials Plugin.
  */
 class Core_Frontend extends Frontend_Module {
 
-	public function get_id() {
-		return 'core';
-	}
-
-	public function get_name() {
-		return 'Core';
+	/**
+	 * Create class.
+	 */
+	public function __construct() {
+		parent::__construct(
+			// id
+			'core',
+			// name
+			__( 'Core', 'kuetemeier-essentials' )
+		);
 	}
 
 }

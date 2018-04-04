@@ -36,19 +36,9 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 require_once plugin_dir_path( __FILE__ ) . '/../../config.php';
 
 /**
- * Class Kuetemeier_Essentials
+ * Abstract Admin module, to be extended by other classes to build admin modules.
  */
 abstract class Admin_Module {
-
-	/**
-	 * Holds an instance of the `Options` class.
-	 *
-	 * @var \Kuetemeier_Essentials\Options
-	 *
-	 * @see \Kuetemeier_Essentials\Options class.
-	 * @since 0.1.0
-	 */
-	protected $options;
 
 	/**
 	 * End part of the admin page (option settings) slug
@@ -73,6 +63,31 @@ abstract class Admin_Module {
 		$this->options = $options;
 	}
 
+
+	/**
+	 * Returns if this object is a frontend module.
+	 *
+	 * @return bool True if it is a frontend module.
+	 *
+	 * @since 0.1.12
+	 */
+	public function is_frontend_module() {
+		return false;
+	}
+
+
+	/**
+	 * Returns if this object is an admin module.
+	 *
+	 * @return bool True if it is an admin module.
+	 *
+	 * @since 0.1.12
+	 */
+	public function is_admin_module() {
+		return true;
+	}
+
+
 	/**
 	 * Set `admin_page_slug_part` property.
 	 *
@@ -92,7 +107,7 @@ abstract class Admin_Module {
 	 * @return string Slug for the admin page of the module
 	 * @since 0.1.0
 	 */
-	public function get_admin_page_slug() {
+	public function admin_page_slug() {
 		return sanitize_text_field( 'kuetemeier_essentials_' . $this->admin_page_slug_part );
 	}
 

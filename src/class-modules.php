@@ -66,7 +66,7 @@ final class Modules {
 	 * @see Admin\Module\Admin_Module
 	 *
 	 * @var array [<description>]
-	 * @since  0.1.0
+	 * @since 0.1.0
 	 */
 	private $modules = array();
 
@@ -84,7 +84,7 @@ final class Modules {
 	 * Indicates if the admin modules have been loaded
 	 *
 	 * @var boolean
-	 * @since  0.1.0
+	 * @since 0.1.0
 	 */
 	private $admin_classes_loaded = false;
 
@@ -94,10 +94,20 @@ final class Modules {
 	 *
 	 * This is defined in 'config.php'
 	 *
-	 * @var  array
-	 * @since  0.1.0
+	 * @var array
+	 * @since 0.1.0
 	 */
 	private $available_modules = array();
+
+
+	/**
+	 * Holds an instance of the WP_Plugin class, that has instanziated this module.
+	 *
+	 * @var WP_Plugin
+	 *
+	 * @since 0.1.12
+	 */
+	private $wp_plugin = null;
 
 
 	/**
@@ -108,13 +118,25 @@ final class Modules {
 	 * @param WP_Plugin $wp_plugin WP_Plugin, that is instanciation this class.
 	 * @param array     $available_modules A list of available modules. See `config.php`.
 	 *
-	 * @return   void
+	 * @return void
 	 * @see Kuetemeier_Essentials
-	 * @since  0.1.0
+	 * @since 0.1.0
 	 */
 	public function __construct( $wp_plugin, $available_modules ) {
 		$this->wp_plugin = $wp_plugin;
 		$this->available_modules = $available_modules;
+	}
+
+
+	/**
+	 * Returns a valid instance of an extension of the WP_Plugin class, that should be the main Plugin object.
+	 *
+	 * @return WP_Plugin
+	 *
+	 * @since 0.1.12
+	 */
+	public function wp_plugin() {
+		return $this->wp_plugin;
 	}
 
 	/**
@@ -153,8 +175,11 @@ final class Modules {
 	/**
 	 * Callback to be run by 'admin_init', ensures registered admin classes are loaded.
 	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
 	 * @internal Registered to WordPress within constructor.
-	 * @return  void
+	 * @return void
 	 * @since 0.1.0
 	 */
 	public function callback_admin_init__init_all_admin_modules_for_admin_init() {
@@ -166,8 +191,11 @@ final class Modules {
 	/**
 	 * Callback to be run by 'admin_menu', ensures registered admin classes are loaded.
 	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
 	 * @internal Registered to WordPress withing constructor.
-	 * @return  void
+	 * @return void
 	 * @since 0.1.0
 	 */
 	public function callback_admin_menu__init_all_admin_modules_for_admin_menu() {
@@ -179,8 +207,8 @@ final class Modules {
 	/**
 	 * Ensure all admin classes are loaded. If not, init them.
 	 *
-	 * @return  void
-	 * @since  0.1.0
+	 * @return void
+	 * @since 0.1.0
 	 * @see Admin\Module\Admin_Module          Admin Modul
 	 */
 	private function ensure_admin_classes_are_loaded() {
@@ -193,8 +221,8 @@ final class Modules {
 	/**
 	 * Ensure all frontend classes are loaded. If not, init them.
 	 *
-	 * @return  void
-	 * @since  0.1.0
+	 * @return void
+	 * @since 0.1.0
 	 * @see Frontend\Module\Frontend_Module    Fontend Modul
 	 */
 	private function init_all_frontend_classes() {
@@ -235,7 +263,7 @@ final class Modules {
 	private function init_module_frontend_class( $module_id ) {
 		require_once dirname( __FILE__ ) . '/frontend/module/class-' . $module_id . '-frontend.php';
 		$class_name = 'Kuetemeier_Essentials\\Frontend\Module\\' . $this->available_modules()[ $module_id ] . '_Frontend';
-		$this->set_frontend_class( $module_id, new $class_name( $this->options() ) );
+		$this->set_frontend_class( $module_id, new $class_name( $this->wp_plugin() ) );
 	}
 
 
@@ -255,7 +283,7 @@ final class Modules {
 	private function init_module_admin_class( $module_id ) {
 		require_once dirname( __FILE__ ) . '/admin/module/class-' . $module_id . '-admin.php';
 		$class_name = 'Kuetemeier_Essentials\\Admin\Module\\' . $this->available_modules()[ $module_id ] . '_Admin';
-		$this->set_admin_class( $module_id, new $class_name( $this->options() ) );
+		$this->set_admin_class( $module_id, new $class_name( $this->wp_plugin() ) );
 	}
 
 	/**
@@ -338,6 +366,8 @@ final class Modules {
 	 * Return how many modules are registered.
 	 *
 	 * @return int Count of registered modules.
+	 *
+	 * @since 0.1.0
 	 */
 	public function count() {
 		return count( $this->modules );
@@ -352,7 +382,7 @@ final class Modules {
 	 * @since 0.1.11
 	 */
 	private function options() {
-		return $this->wp_plugin->options();
+		return $this->wp_plugin()->options();
 	}
 
 

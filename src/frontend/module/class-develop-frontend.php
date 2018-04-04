@@ -36,16 +36,20 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 require_once dirname( __FILE__ ) . '/class-frontend-module.php';
 
 /**
- * Class Kuetemeier_Essentials
+ * Module for testing and development. TODO: Only activated in Alpha mode.
  */
 class Develop_Frontend extends Frontend_Module {
 
-	public function get_id() {
-		return 'develop';
-	}
-
-	public function get_name() {
-		return 'Develop';
+	/**
+	 * Create class.
+	 */
+	public function __construct() {
+		parent::__construct(
+			// id
+			'develop',
+			// name
+			__( 'Development', 'kuetemeier-essentials' )
+		);
 	}
 
 }

@@ -36,15 +36,30 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 require_once dirname( __FILE__ ) . '/class-admin-module.php';
 
 /**
- * Class Kuetemeier_Essentials
+ * Admin part of the Develop module for Kuetemeier-Essentials.
  */
 class Develop_Admin extends Admin_Module {
 
-	const OPTION_CAPABILITY = 'administrator';
+	/**
+	 * Create class.
+	 *
+	 * Init Admin module and Test some development parts.
+	 *
+	 * @param WP_Plugin $wp_plugin A vallid instance of WP_Plugin (should be the main WordPress Plugin object).
+	 *
+	 * @since 0.1.12
+	 */
+	public function __construct( $wp_plugin ) {
+		parent::__construct(
+			// id
+			'develop',
+			// name
+			__( 'Development', 'kuetemeier-essentials' ),
+			// WP_Plugin instance
+			$wp_plugin
+		);
 
-	public function __construct( $options ) {
-		parent::__construct( $options );
-		$this->options->add_admin_options_subpage(
+		$wp_plugin->options()->add_admin_options_subpage(
 			'kuetemeier_essentials_develop',
 			'Develop',
 			'Develop'

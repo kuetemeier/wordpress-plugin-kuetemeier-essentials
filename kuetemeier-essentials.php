@@ -148,8 +148,10 @@ function kuetemeier_essentials_deactivation_hook() {
 /**
  * Run on admin_init.
  *
- * @internal
  * @return void
+ *
+ * WARNING: This is a callback. Never call it directly!
+ * This method has to be public, so WordPress can see and call it.
  *
  * @since 0.1.0
  */

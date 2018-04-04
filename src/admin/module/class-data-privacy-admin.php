@@ -38,17 +38,33 @@ require_once plugin_dir_path( __FILE__ ) . '/../../config.php';
 require_once plugin_dir_path( __FILE__ ) . '/../../class-options.php';
 
 /**
- * Class Kuetemeier_Essentials
+ * Data Privacy Admin Module for WordPress Plugin Kuetemeier-Essentials.
  */
 class Data_Privacy_Admin extends Admin_Module {
 
-	public function __construct( $options ) {
-		parent::__construct( $options );
+	/**
+	 * Create class.
+	 *
+	 * Init Data Privacy module.
+	 *
+	 * @param WP_Plugin $wp_plugin A vallid instance of WP_Plugin (should be the main WordPress Plugin object).
+	 *
+	 * @since 0.1.12
+	 */
+	public function __construct( $wp_plugin ) {
+		parent::__construct(
+			// id
+			'data-privacy',
+			// name
+			__( 'Data Privacy', 'kuetemeier-essentials' ),
+			// WP_Plugin instance
+			$wp_plugin
+		);
 
 		$this->set_admin_page_slug_part( 'data_privacy' );
 
 		// add admin menu page
-		$this->options->add_admin_options_subpage(
+		$this->wp_plugin()->options()->add_admin_options_subpage(
 			$this->get_admin_page_slug(),
 			'Kuetemeier > ' . __( 'Data Privacy', 'kuetemeier-essentials' ),
 			__( 'Data Privacy', 'kuetemeier-essentials' )
@@ -57,7 +73,9 @@ class Data_Privacy_Admin extends Admin_Module {
 		// --------------------------------------------------------
 		// Sections
 
-		$this->options->add_option_section(
+		$options = $this->wp_plugin()->options();
+
+		$options->add_option_section(
 			new \Kuetemeier_Essentials\Option_Section(
 				// ID
 				'ke_dp_wp_comments',
@@ -72,13 +90,13 @@ class Data_Privacy_Admin extends Admin_Module {
 			)
 		);
 
-		$this->options->add_option_setting(
+		$options->add_option_setting(
 			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
 				// module
 				'data_privacy',
 				// id
 				'add_privacy_field_to_comments',
-				// default
+				// default value
 				false,
 				// label
 				__( 'Privacy Checkbox', 'kuetemeier-essentials' ),
@@ -92,11 +110,6 @@ class Data_Privacy_Admin extends Admin_Module {
 				__( 'Add privacy checkbox to comment fields', 'kuetemeier-essentials' )
 			)
 		);
-
-	}
-
-	public function callback_admin_init() {
-		// intentionally left blank
 	}
 
 }

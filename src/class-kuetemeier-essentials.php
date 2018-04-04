@@ -38,7 +38,9 @@ require_once dirname( __FILE__ ) . '/class-options.php';
 require_once dirname( __FILE__ ) . '/config.php';
 
 /**
- * Class Kuetemeier_Essentials
+ * The main plugin class.
+ *
+ * @since 0.1.0
  */
 final class Kuetemeier_Essentials extends WP_Plugin {
 
@@ -47,14 +49,14 @@ final class Kuetemeier_Essentials extends WP_Plugin {
 	 * Constructor of Kuetemeier_Essentials.
 	 *
 	 * It initializes all Options and modules.
+	 *
+	 * @since 0.1.0
+	 * @since 0.1.12 Reworked for WP_Plugin init process.
 	 */
 	public function __construct() {
 
 		$options = new Options( $this );
-		//do_action( 'kuetemeier_essentials_options_initialized' );
-
 		$modules = new Modules( $this, AVAILABLE_MODULES );
-		//do_action( 'kuetemeier_essentials_modules_initialized' );
 
 		parent::__construct(
 			PLUGIN_VERSION,
@@ -85,6 +87,10 @@ final class Kuetemeier_Essentials extends WP_Plugin {
 	 * Send a debug message to the browser console.
 	 *
 	 * @param Object $data Data to be outputted to console.
+	 *
+	 * @return void
+	 *
+	 * @since 0.1.0
 	 */
 	public function debug_to_console( $data ) {
 		if ( is_array( $data ) || is_object( $data ) ) {

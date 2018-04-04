@@ -177,10 +177,44 @@ final class Options {
 			)
 		);
 
-		$this->add_option_setting( new Option_Setting_Checkbox( 'core', 'test_option_2', true, 'Test mit dieser Option 2', 'kuetemeier_essentials', 'test', 'test', 'B Dies sollte er validieren und speichern' ) );
-		$this->add_option_setting( new Option_Setting_Checkbox( 'default', 'test_option_3', true, 'Test mit dieser Option 3', 'kuetemeier_essentials', 'test', 'test', 'C Dies sollte er validieren und speichern' ) );
+		$this->add_option_setting(
+			new Option_Setting_Checkbox(
+				'core',
+				'test_option_2',
+				true,
+				'Test mit dieser Option 2',
+				'kuetemeier_essentials',
+				'test',
+				'test',
+				'B Dies sollte er validieren und speichern'
+			)
+		);
 
-		$this->add_option_setting( new Option_Setting_Text( 'default', 'test_text', 'Ein Text', 'Ein Textfeld', 'kuetemeier_essentials', 'test', 'test', 'Dies ist ein Textfeld' ) );
+		$this->add_option_setting(
+			new Option_Setting_Checkbox(
+				'default',
+				'test_option_3',
+				true,
+				'Test mit dieser Option 3',
+				'kuetemeier_essentials',
+				'test',
+				'test',
+				'C Dies sollte er validieren und speichern'
+			)
+		);
+
+		$this->add_option_setting(
+			new Option_Setting_Text(
+				'default',
+				'test_text',
+				'Ein Text',
+				'Ein Textfeld',
+				'kuetemeier_essentials',
+				'test',
+				'test',
+				'Dies ist ein Textfeld'
+			)
+		);
 
 	}
 
@@ -238,20 +272,6 @@ final class Options {
 
 
 	/**
-	 * Test if the given key `$module_key`is a valid key for a module.
-	 *
-	 */
-	public function is_module_key_valid( $module_key ) {
-		$valid_keys = array(
-			'default' => 1,
-			'core' => 1,
-			'data-privacy' => 1,
-		);
-
-		return array_key_exists( $module_key, $valid_keys );
-	}
-
-	/**
 	 * Return the WordPress entry of the option table.
 	 *
 	 * If no entry exists, this function returns 'false'
@@ -276,7 +296,7 @@ final class Options {
 			return false;
 		}
 
-		if ( ! $this->is_module_key_valid( $module_key ) ) {
+		if ( ! $this->wp_plugin->modules()->is_valid_module_key( $module_key ) ) {
 			return false;
 		}
 

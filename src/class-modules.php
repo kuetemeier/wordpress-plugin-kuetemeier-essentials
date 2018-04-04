@@ -355,5 +355,19 @@ final class Modules {
 		return $this->wp_plugin->options();
 	}
 
+
+	/**
+	 * Test if the given key is a valid key for a module.
+	 *
+	 * @param string $key Module key to test.
+	 *
+	 * @return bool True if key is valid, false otherwise.
+	 *
+	 * @since 0.1.12
+	 */
+	public function is_valid_module_key( $key ) {
+		return isset( $this->available_modules()[ $key ] );
+	}
+
 }
 

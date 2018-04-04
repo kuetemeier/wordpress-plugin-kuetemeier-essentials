@@ -33,7 +33,6 @@ namespace Kuetemeier_Essentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once dirname( __FILE__ ) . '/config.php';
 
 /**
  * Manages frontend and admin Modules
@@ -91,15 +90,6 @@ final class Modules {
 
 
 	/**
-	 * Holds a valid instance of the Options class.
-	 *
-	 * @var Options
-	 * @since  0.1.0
-	 */
-	private $options;
-
-
-	/**
 	 * List of available modules, that will be registered
 	 *
 	 * This is defined in 'config.php'
@@ -107,7 +97,7 @@ final class Modules {
 	 * @var  array
 	 * @since  0.1.0
 	 */
-	const AVAILABLE_MODULES = \Kuetemeier_Essentials\AVAILABLE_MODULES;
+	private $available_modules = array();
 
 
 	/**
@@ -115,18 +105,48 @@ final class Modules {
 	 *
 	 * This class will be initialized once from the class `Kuetemeier_Essentials`
 	 *
-	 * @param Options $options A valid instance of Options.
+	 * @param WP_Plugin $wp_plugin WP_Plugin, that is instanciation this class.
+	 * @param array     $available_modules A list of available modules. See `config.php`.
+	 *
 	 * @return   void
-	 * @see  Kuetemeier_Essentials
+	 * @see Kuetemeier_Essentials
 	 * @since  0.1.0
 	 */
-	public function __construct( $options ) {
-		$this->options = $options;
+	public function __construct( $wp_plugin, $available_modules ) {
+		$this->wp_plugin = $wp_plugin;
+		$this->available_modules = $available_modules;
+	}
 
+	/**
+	 * Init all registered frontend classes and set the hooks for admin inititialization.
+	 *
+	 * This method shloud be called once, from the WP_Plugin class, AFTER the Options
+	 * constructor has been called and a valid instance is registered in WP_Plugin.
+	 *
+	 * @return void
+	 * @since 0.1.11
+	 *
+	 * @see Modules::callback_admin_menu__init_all_admin_modules_for_admin_menu()
+	 * @see Modules::callback_admin_menu__init_all_admin_modules_for_admin_init()
+	 * @see WP_Plugin
+	 * @see Options
+	 */
+	public function init_frontend_prepare_backend() {
 		$this->init_all_frontend_classes();
 
 		add_action( 'admin_menu', array( &$this, 'callback_admin_menu__init_all_admin_modules_for_admin_menu' ) );
 		add_action( 'admin_init', array( &$this, 'callback_admin_init__init_all_admin_modules_for_admin_init' ) );
+	}
+
+	/**
+	 * Returns a list of available modules.
+	 *
+	 * @return array
+	 *
+	 * @since 0.1.11
+	 */
+	public function available_modules() {
+		return $this->available_modules;
 	}
 
 
@@ -178,7 +198,7 @@ final class Modules {
 	 * @see Frontend\Module\Frontend_Module    Fontend Modul
 	 */
 	private function init_all_frontend_classes() {
-		foreach ( array_keys( self::AVAILABLE_MODULES ) as $module_id ) {
+		foreach ( array_keys( $this->available_modules() ) as $module_id ) {
 			$this->init_module_frontend_class( $module_id );
 		}
 		$this->frontend_classes_loaded = true;
@@ -193,7 +213,7 @@ final class Modules {
 	 * @see Admin\Module\Admin_Module          Admin Modul
 	 */
 	private function init_all_admin_classes() {
-		foreach ( array_keys( self::AVAILABLE_MODULES ) as $module_id ) {
+		foreach ( array_keys( $this->available_modules() ) as $module_id ) {
 			$this->init_module_admin_class( $module_id );
 		}
 		$this->admin_classes_loaded = true;
@@ -214,8 +234,8 @@ final class Modules {
 	 */
 	private function init_module_frontend_class( $module_id ) {
 		require_once dirname( __FILE__ ) . '/frontend/module/class-' . $module_id . '-frontend.php';
-		$class_name = 'Kuetemeier_Essentials\\Frontend\Module\\' . self::AVAILABLE_MODULES[ $module_id ] . '_Frontend';
-		$this->set_frontend_class( $module_id, new $class_name( $this->options ) );
+		$class_name = 'Kuetemeier_Essentials\\Frontend\Module\\' . $this->available_modules()[ $module_id ] . '_Frontend';
+		$this->set_frontend_class( $module_id, new $class_name( $this->options() ) );
 	}
 
 
@@ -234,8 +254,8 @@ final class Modules {
 	 */
 	private function init_module_admin_class( $module_id ) {
 		require_once dirname( __FILE__ ) . '/admin/module/class-' . $module_id . '-admin.php';
-		$class_name = 'Kuetemeier_Essentials\\Admin\Module\\' . self::AVAILABLE_MODULES[ $module_id ] . '_Admin';
-		$this->set_admin_class( $module_id, new $class_name( $this->options ) );
+		$class_name = 'Kuetemeier_Essentials\\Admin\Module\\' . $this->available_modules()[ $module_id ] . '_Admin';
+		$this->set_admin_class( $module_id, new $class_name( $this->options() ) );
 	}
 
 	/**
@@ -321,6 +341,18 @@ final class Modules {
 	 */
 	public function count() {
 		return count( $this->modules );
+	}
+
+
+	/**
+	 * A litte helper function, returns a valid Options instance.
+	 *
+	 * @return Options Configured Options instance.
+	 *
+	 * @since 0.1.11
+	 */
+	private function options() {
+		return $this->wp_plugin->options();
 	}
 
 }

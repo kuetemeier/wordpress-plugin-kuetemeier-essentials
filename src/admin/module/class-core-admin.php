@@ -56,7 +56,7 @@ class Core_Admin extends Admin_Module {
 	}
 
 	public function callback_admin_menu_page_create() {
-/*
+		/*
 		// add top level menu page
 		add_menu_page(
 			'Kuetemeier', // page title
@@ -83,28 +83,26 @@ class Core_Admin extends Admin_Module {
 		);
 
 		do_action( 'kuetemeier_essentials_menu_page_create' );
-*/
+		*/
 	}
 
 	public function callback_menu_page_display() {
-/*
-
+		/*
 		$this->display_option_page( \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG );
-*/
- 	}
+		*/
+	}
 
-/*
-
- 	public function oenology_get_settings_page_tabs() {
+	/*
+	 public function oenology_get_settings_page_tabs() {
 		$tabs = array(
 			'general' => 'General',
 			'varietals' => 'Varietals'
 			);
 		return $tabs;
 	}
-*/
+	*/
 
-/*
+	/*
 	public function _callback_settings_dashboard_common( $args ) {
 		$modules = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance()->get_modules();
 
@@ -119,72 +117,71 @@ class Core_Admin extends Admin_Module {
 		echo ': ' . esc_html( $name_list );
 		?></p>
 
-<p>Config: <?php
-	    $options = get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY );
-print_r ($options);
+	<p>Config: <?php
+		$options = get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY );
+	print_r ($options);
 
-      ?></p>
+	  ?></p>
 	</div>
 		<?php
 
 	}
 
-*/
+	*/
 
 
 	public function options_validate( $input ) {
-		$_options = get_option(  \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY );
+		$_options = get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY );
 		$valid_input = $_options;
 
 		// Determine which form action was submitted
-		$submit_general = ( ! empty( $input['submit-general']) ? true : false );
-		$reset_general = ( ! empty($input['reset-general']) ? true : false );
-		$submit_varietals = ( ! empty($input['submit-varietals']) ? true : false );
-		$reset_varietals = ( ! empty($input['reset-varietals']) ? true : false );
-
+		$submit_general = ( ! empty( $input['submit-general'] ) ? true : false );
+		$reset_general = ( ! empty( $input['reset-general'] ) ? true : false );
+		$submit_varietals = ( ! empty( $input['submit-varietals'] ) ? true : false );
+		$reset_varietals = ( ! empty( $input['reset-varietals'] ) ? true : false );
 
 		if ( $submit_general ) { // if General Settings Submit
-/*
+			/*
 			$valid_input['header_nav_menu_position'] = ( 'below' == $input['header_nav_menu_position'] ? 'below' : 'above' );
 			$valid_input['header_nav_menu_depth'] = ( ( 1 || 2 || 3 ) == $input['header_nav_menu_depth'] ? $input['header_nav_menu_depth'] : $valid_input['header_nav_menu_depth'] );
-*/
+			*/
 			$valid_input['module_load_data_privacy'] = ( '1' == $input['module_load_data_privacy'] ? 1 : 0 );
 		} elseif ( $reset_general ) { // if General Settings Reset Defaults
-/*
+			/*
 			$oenology_default_options = oenology_get_default_options();
 			$valid_input['header_nav_menu_position'] = $oenology_default_options['header_nav_menu_position'];
 			$valid_input['header_nav_menu_depth'] = $oenology_default_options['header_nav_menu_depth'];
 			$valid_input['display_footer_credit'] = $oenology_default_options['display_footer_credit'];
-*/
+			*/
 			$valid_input['module_load_data_privacy'] = 1;
 		} elseif ( $submit_varietals ) {
 			$valid_input['module_load_develop'] = ( '1' == $input['module_load_develop'] ? 1 : 0 );
 		}
-//print_r ($valid_input);
-//exit (0);
+		//print_r ($valid_input);
+		//exit (0);
 		return $valid_input;
 	}
 
- 	public function callback_admin_init_settings() {
+	public function callback_admin_init_settings() {
 
-/*
-	    if( false == get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY ) ) {
-    		update_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY, array( 'core' => array( 'version' => '1.0' ) ) );
+		/*
+		if( false == get_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY ) ) {
+			update_option( \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY, array( 'core' => array( 'version' => '1.0' ) ) );
 		} // end if
 
 
-	 	// First, we register a section. This is necessary since all future options must belong to a
-	    add_settings_section(
-	    	// ID used to identify this section and with which to register options
-	        \Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY,
-	        // Title to be displayed on the administration page
-	        __( 'Common', 'kuetemeier_essentials' ),
-	        // Callback used to render the description of the section
-	        array( &$this, '_callback_settings_dashboard_common' ),
-	        // Page on which to add this section of options
-	        \Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG
-	    );
-*/
+		 // First, we register a section. This is necessary since all future options must belong to a
+		add_settings_section(
+			// ID used to identify this section and with which to register options
+			\Kuetemeier_Essentials\CORE_OPTION_SETTINGS_KEY,
+			// Title to be displayed on the administration page
+			__( 'Common', 'kuetemeier_essentials' ),
+			// Callback used to render the description of the section
+			array( &$this, '_callback_settings_dashboard_common' ),
+			// Page on which to add this section of options
+			\Kuetemeier_Essentials\CORE_OPTION_PAGE_SLUG
+		);
+		*/
 
- 	}
+	}
 }

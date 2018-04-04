@@ -85,7 +85,8 @@ function kuetemeier_essentials_hook_i18n_init() {
  */
 function kuetemeier_essentials_hook_display_admin_notice() {
 
-	printf( '<div class="error fade">' .
+	printf(
+		'<div class="error fade">' .
 		/* translators: %1$s Plugin Version */
 		esc_html__( 'Error: Plugin "%s" requires a newer version of PHP.', 'kuetemeier-essentials' ) . '<br/>' .
 		esc_html__( 'Minimal PHP version required:', 'kuetemeier-essentials' ) .

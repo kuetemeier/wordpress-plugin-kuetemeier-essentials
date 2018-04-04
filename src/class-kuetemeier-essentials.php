@@ -35,77 +35,51 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 require_once dirname( __FILE__ ) . '/class-modules.php';
 require_once dirname( __FILE__ ) . '/class-options.php';
+require_once dirname( __FILE__ ) . '/config.php';
 
 /**
  * Class Kuetemeier_Essentials
  */
-final class Kuetemeier_Essentials {
-
-	/**
-	 * Kuetemeier_Essentials instance.
-	 *
-	 * @var Kuetemeier_Essentials
-	 */
-	protected static $_instance = null;
-
-
-	/**
-	 * The plugin version number.
-	 *
-	 * @var string
-	 */
-	protected $_version = KUETEMEIER_ESSENTIALS_VERSION;
-
-
-	/**
-	 * Instance of the Modules Class.
-	 *
-	 * @var Modules
-	 */
-	protected $_modules;
-
-
-	/**
-	 * Instance of the Options Class.
-	 *
-	 * @var Options
-	 */
-	protected $_options;
-
-
-	/**
-	 * Main Kueteemier_Essentials Instance
-	 * Ensures only one instance of Kuetemeier_Essentials is loaded or can be loaded.
-	 *
-	 * @return Kuetemeier_Essentials Kuetemeier_Essentials instance
-	 */
-	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
-			do_action( 'kuetemeier_essentials_loaded', self::$_instance );
-		}
-		return self::$_instance;
-	}
+final class Kuetemeier_Essentials extends WP_Plugin {
 
 
 	/**
 	 * Constructor of Kuetemeier_Essentials.
 	 *
-	 * It loads an instance of Options and Modules. By this, it initializes all
-	 * Options and modules.
+	 * It initializes all Options and modules.
 	 */
 	public function __construct() {
 
-		// order is important! Options BEFORE Modules!
-		$this->_options = new Options();
-		do_action( 'kuetemeier_essentials_options_loaded' );
+		$options = new Options( $this );
+		//do_action( 'kuetemeier_essentials_options_initialized' );
 
-		$this->_modules = new Modules( $this->_options );
-		do_action( 'kuetemeier_essentials_modules_loaded' );
+		$modules = new Modules( $this, AVAILABLE_MODULES );
+		//do_action( 'kuetemeier_essentials_modules_initialized' );
 
-		$this->_options->init_admin_hooks();
+		parent::__construct(
+			PLUGIN_VERSION,
+			PLUGIN_VERSION_STABLE,
+			$options,
+			$modules
+		);
 	}
 
+	/**
+	 * Returns a valid instance of Kuetemeier_Essentials.
+	 *
+	 * @param sting $self Needed for internal purpose. DO NOT USE IT, LEVE IT BLANK.
+	 *
+	 * @return Kuetemeier_Essentials
+	 *
+	 * @see WP_Plugin::instance()
+	 * @since 0.1.11
+	 */
+	public static function instance( $self = '' ) {
+		if ( ! empty( $self ) ) {
+			die( 'Do not use the parameter \$self!' );
+		}
+		return parent::instance( __CLASS__ );
+	}
 
 	/**
 	 * Send a debug message to the browser console.
@@ -122,32 +96,6 @@ final class Kuetemeier_Essentials {
 				esc_html( KUETEMEIER_ESSENTIALS_NAME ) .
 				': ' . esc_html( $data ) . '" );</script>' );
 		}
-	}
-
-
-	/**
-	 * Cloning is forbidden.
-	 */
-	public function __clone() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'Don\'t clone me!', 'kuetemeier-essentials' ), esc_attr( $this->_version ) );
-	}
-
-
-	/**
-	 * Unserializing instances of this class is forbidden.
-	 */
-	public function __wakeup() {
-		_doing_it_wrong( __FUNCTION__, esc_html__( 'No wake up please!', 'kuetemeier-essentials' ), esc_attr( $this->_version ) );
-	}
-
-
-	/**
-	 * Get the instance of the @see Modules class.
-	 *
-	 * @return Modules    A valid instance of the Module class.
-	 */
-	public function get_modules() {
-		return $this->_modules;
 	}
 
 }

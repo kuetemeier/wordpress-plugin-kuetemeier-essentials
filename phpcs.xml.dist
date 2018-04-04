@@ -103,7 +103,7 @@
 		 Multiple valid prefixes can be provided as a comma-delimited list. -->
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
-			<property name="prefixes" type="array" value="kuetemeier_essentials" />
+			<property name="prefixes" type="array" value="kuetemeier,kuetemeier_essentials" />
 		</properties>
 	</rule>
 

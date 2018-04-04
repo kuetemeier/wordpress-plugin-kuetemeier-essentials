@@ -33,6 +33,7 @@ namespace Kuetemeier_Essentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
+require_once plugin_dir_path( __FILE__ ) . '/class-wp-plugin.php';
 
 /**
  * Options - Helpers to interact with the WordPress Options and Settings API
@@ -95,16 +96,31 @@ final class Options {
 
 
 	/**
+	 * A valid instance of the Plugin class that has instanciated this class.
+	 *
+	 * We use it for referencing to the modules of the plugin.
+	 *
+	 * @var WP_Plugin
+	 * @since 0.1.11
+	 */
+	private $plugin;
+
+
+	/**
 	 * Initialize and create basline for Options.
 	 *
 	 * @return void
 	 * @since 0.1.0
+	 *
+	 * @param WP_Plugin $wp_plugin Caller of this constructor.
 	 */
-	public function __construct() {
+	public function __construct( $wp_plugin ) {
 
 		if ( ! is_null( self::$instance ) ) {
 			die( 'You tried to create a second instance of \Kuetemeier_Essentials\Options' );
 		}
+
+		$this->wp_plugin = $wp_plugin;
 
 		$this->add_admin_options_subpage(
 			self::OPTIONS_PAGE_SLUG,
@@ -170,42 +186,62 @@ final class Options {
 
 	// TODO: set default values if there is no database entry
 
-
 	/**
-	 * Main Kueteemier_Essentials Instance
-	 * Ensures only one instance of Kuetemeier_Essentials is loaded or can be loaded.
+	 * Register an option setting.
 	 *
-	 * @return Kuetemeier_Essentials Kuetemeier_Essentials instance
+	 * @param Option_Setting $option_setting A valid instance of an Option_Setting object.
+	 *
+	 * @return bool True if added successfull, false otherwise.
+	 *
 	 * @since 0.1.0
 	 */
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	public function add_option_setting( $option_setting ) {
 		if ( empty( $option_setting ) ) {
-			return;
+			return false;
 		}
 
 		$option_setting->set_db_option_key( $this->get_db_option_key() );
 		array_push( $this->option_settings, $option_setting );
-
+		return true;
 	}
 
+
+	/**
+	 * Register an option section.
+	 *
+	 * @param Option_Section $option_section A valid instance of an Option_Section object.
+	 *
+	 * @return bool True if added successfull, false otherwise.
+	 *
+	 * @since 0.1.0
+	 */
 	public function add_option_section( $option_section ) {
-		if ( ! empty( $option_section ) ) {
-			array_push( $this->option_sections, $option_section );
+		if ( empty( $option_section ) ) {
+			return false;
 		}
+
+		array_push( $this->option_sections, $option_section );
+		return true;
 	}
 
+
+	/**
+	 * Returns the key for the WordPress option table, under wich this options are saved.
+	 *
+	 * @return string Key for the option table.
+	 *
+	 * @since 0.1.0
+	 */
 	public function get_db_option_key() {
 		return self::OPTIONS_SETTINGS_KEY;
 	}
 
-	public function test_module_key_valid( $module_key ) {
+
+	/**
+	 * Test if the given key `$module_key`is a valid key for a module.
+	 *
+	 */
+	public function is_module_key_valid( $module_key ) {
 		$valid_keys = array(
 			'default' => 1,
 			'core' => 1,
@@ -240,7 +276,7 @@ final class Options {
 			return false;
 		}
 
-		if ( ! $this->test_module_key_valid( $module_key ) ) {
+		if ( ! $this->is_module_key_valid( $module_key ) ) {
 			return false;
 		}
 
@@ -527,8 +563,8 @@ final class Options {
 				<?php $tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : '' ); ?>
 
 				<p class="submit">
-					<input name="kuetemeier_essentials[submit|<?php echo $page_slug; ?>|<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e('Save Settings', 'kuetemeier-essentials'); ?>" />
-					<input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e('Reset Defaults', 'kuetemeier-essentials'); ?>" />
+					<input name="kuetemeier_essentials[submit|<?php echo $page_slug; ?>|<?php echo $tab; ?>]" type="submit" class="button-primary" value="<?php esc_attr_e( 'Save Settings', 'kuetemeier-essentials' ); ?>" />
+					<input name="kuetemeier_essentials[reset-<?php echo $tab; ?>]" type="submit" class="button-secondary" value="<?php esc_attr_e( 'Reset Defaults', 'kuetemeier-essentials' ); ?>" />
 				</p>
 			</form>
 		</div>
@@ -591,7 +627,7 @@ class Option_Section {
 	}
 
 	public function set_display_function( $display_function ) {
-		if ( empty( $display_function) ) {
+		if ( empty( $display_function ) ) {
 			$this->display_function = array( &$this, 'callback__display_function' );
 		} else {
 			$this->display_function = $display_function;
@@ -607,30 +643,30 @@ class Option_Section {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string 	$page    		The slug-name of the settings page on which to show the section. Built-in pages include
-     *                           		'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using
-	 *                           		add_options_page();
-	 * @param string 	$tab 			Optional. The slug-name of the current tab (if any is present on the settings page)
+	 * @param string $page           The slug-name of the settings page on which to show the section. Built-in pages include
+	 *                               'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using
+	 *                               add_options_page();
+	 * @param string $tab            Optional. The slug-name of the current tab (if any is present on the settings page)
 	 */
 	public function do_add_settings_section( $page = '', $tab = '' ) {
 		// Do we have to filter for page slug?
-		if ( ! empty( $page) ) {
+		if ( ! empty( $page ) ) {
 
 			// Yes:
-			if ( ! ( $page == $this->get_page() ) )
+			if ( ! ( $page == $this->get_page() ) ) {
 				// Do nothing if page slugs do not match
 				return;
-
+			}
 		}
 
 		// Do we have to filter for tag slug?
-		if ( ! empty( $tab) ) {
+		if ( ! empty( $tab ) ) {
 
 			// Yes:
-			if ( ! ( $tab == $this->get_tab() ) )
+			if ( ! ( $tab == $this->get_tab() ) ) {
 				// Do nothing if tab slugs do not match
 				return;
-
+			}
 		}
 
 		// Add this section to WordPress sections
@@ -703,7 +739,7 @@ abstract class Option_Setting {
 		$this->page = $page;
 		$this->tab = $tab;
 		$this->set_section( $section );
-		$this->set_description ( $description );
+		$this->set_description( $description );
 		$this->empty_value = $empty_value;
 		$this->order = $order;
 	}
@@ -750,8 +786,9 @@ abstract class Option_Setting {
 
 	public function set_section( $section ) {
 		$_section = $section;
-		if ( empty($_section) )
+		if ( empty( $_section ) ) {
 			$_section = 'default';
+		}
 		$this->section = $_section;
 	}
 
@@ -767,8 +804,9 @@ abstract class Option_Setting {
 		$_description = $description;
 
 		// convert empty string to null
-		if ( empty($_description) )
+		if ( empty( $_description ) ) {
 			$_description = null;
+		}
 
 		$this->description = $_description;
 	}
@@ -779,34 +817,38 @@ abstract class Option_Setting {
 	 * Returns a sanitized version of $input, based on the Option_Settings type.
 	 *
 	 * Every subclass must declare a function that returns a sanitzie version of the given value.
-     * E.g. use sanitize_text_field for a string.
-     *
-     * @param  mixed 	$input 		an input value to be sanitzied by this function
-     *
-     * @return mixed 	sanitized version of $value or null if we cannot sanitzie the input
+	 * E.g. use sanitize_text_field for a string.
+	 *
+	 * @param  mixed $input      an input value to be sanitzied by this function
+	 *
+	 * @return mixed    sanitized version of $value or null if we cannot sanitzie the input
 	 */
 	abstract public function sanitize( $input );
 
 	public function validate( $page, $tab, $valid_input, $input ) {
 
-		if ( ! empty( $page) )
-			if ( $page != $this->get_page() )
+		if ( ! empty( $page ) ) {
+			if ( $page != $this->get_page() ) {
 				return $valid_input;
+			}
+		}
 
-		if ( ! empty( $tab) )
-			if ( $tab != $this->get_tab() )
+		if ( ! empty( $tab ) ) {
+			if ( $tab != $this->get_tab() ) {
 				return $valid_input;
+			}
+		}
 
 		$module = $this->get_module();
 		$id = $this->get_id();
 
-/*
+		/*
 		$error = "Test: Page: '$page' | Tab: '$tab' | Module: '$module' | ID: '$id' <br />\n";
 		add_settings_error( 'test1', 'test2', $error, 'error' );
 		add_settings_error( 'test1', 'test2', '$input: '.esc_html( wp_json_encode ( $input) ) );
 		add_settings_error( 'test1', 'test2', '$valid_input (vorher): '.esc_html( wp_json_encode ( $valid_input ) ) );
-*/
-		$input_value = $this->sanitize( $this->get_from_array ( $input, null ) );
+		*/
+		$input_value = $this->sanitize( $this->get_from_array( $input, null ) );
 		if ( isset( $input_value ) ) {
 			$valid_input = $this->set_in_array( $valid_input, $input_value );
 
@@ -814,7 +856,7 @@ abstract class Option_Setting {
 			$valid_input = $this->set_in_array( $valid_input, $this->get_empty_value() );
 		}
 
-//		add_settings_error( 'test1', 'test2', '$valid_input (nachher): '.esc_html( wp_json_encode ( $valid_input ) ) );
+		//      add_settings_error( 'test1', 'test2', '$valid_input (nachher): '.esc_html( wp_json_encode ( $valid_input ) ) );
 
 		return $valid_input;
 	}
@@ -822,23 +864,23 @@ abstract class Option_Setting {
 	public function do_add_settings_field( $page, $tab ) {
 
 		// Do we have to filter for page slug?
-		if ( ! empty( $page) ) {
+		if ( ! empty( $page ) ) {
 
 			// Yes:
-			if ( ! ( $page == $this->get_page() ) )
+			if ( ! ( $page == $this->get_page() ) ) {
 				// Do nothing if page slugs do not match
 				return;
-
+			}
 		}
 
 		// Do we have to filter for tag slug?
-		if ( ! empty( $tab) ) {
+		if ( ! empty( $tab ) ) {
 
 			// Yes:
-			if ( ! ( $tab == $this->get_tab() ) )
+			if ( ! ( $tab == $this->get_tab() ) ) {
 				// Do nothing if tab slugs do not match
 				return;
-
+			}
 		}
 
 		add_settings_field(
@@ -847,19 +889,19 @@ abstract class Option_Setting {
 			// The label to the left of the option interface element
 			$this->get_label(),
 			// The name of the function responsible for rendering the option interface
-			array( &$this, 'callback_display_setting'),
+			array( &$this, 'callback_display_setting' ),
 			// The page on which this option will be displayed
 			$this->get_page(),
 			// The name of the section to which this field belongs
 			$this->get_section(),
 			// The array of arguments to pass to the callback. In this case, just a description.
 			array(
-				$this->get_description()
+				$this->get_description(),
 			)
 		);
 	}
 
-	public function get( $default = false) {
+	public function get( $default = false ) {
 		// get options from WordPress database 'options' table
 		$options = get_option( $this->get_db_option_key() );
 
@@ -877,16 +919,17 @@ abstract class Option_Setting {
 		$module = $this->get_module();
 		$id = $this->get_id();
 
-		if ( isset( $array[ $module ] ) && ( isset( $array[ $module ][ $id ] ) ) )
+		if ( isset( $array[ $module ] ) && ( isset( $array[ $module ][ $id ] ) ) ) {
 			return $array[ $module ][ $id ];
+		}
 		return $default;
 	}
 
-	protected function set_in_array( $array, $value ){
+	protected function set_in_array( $array, $value ) {
 		$module = $this->get_module();
 		$id = $this->get_id();
 
-		if ( ! isset ( $array[ $module ] ) || ! is_array( $array[ $module ] ) ) {
+		if ( ! isset( $array[ $module ] ) || ! is_array( $array[ $module ] ) ) {
 			$array[ $module ] = array();
 		}
 
@@ -895,12 +938,13 @@ abstract class Option_Setting {
 		return $array;
 	}
 
-	protected function unset_in_array( $array, $value ){
+	protected function unset_in_array( $array, $value ) {
 		$module = $this->get_module();
 		$id = $this->get_id();
 
-		if ( isset( $array[ $module ] ) && ( isset( $array[ $module ][ $id ] ) ) )
-			unset( $array[ $module ][ $id ]);
+		if ( isset( $array[ $module ] ) && ( isset( $array[ $module ][ $id ] ) ) ) {
+			unset( $array[ $module ][ $id ] );
+		}
 
 		return $array;
 	}
@@ -919,7 +963,7 @@ class Option_Setting_Checkbox extends Option_Setting {
 	}
 
 	public function callback_display_setting( $args ) {
-		$options = \Kuetemeier_Essentials\Options::instance();
+		$options = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance()->options();
 
 		$value = $this->get();
 		$complete_id = $this->get_module() . '_' . $this->get_id();
@@ -928,11 +972,11 @@ class Option_Setting_Checkbox extends Option_Setting {
 
 		// Next, we update the name attribute to access this element's ID in the context of the display options array
 		// We also access the show_header element of the options collection in the call to the checked() helper function
-		$html = '<input type="checkbox" id="' . esc_attr( $complete_id) . '" name="'. $options->get_db_option_key();
-		$html .= '[' . esc_attr( $this->get_module() ) .'][' . esc_attr( $this->get_id() ) . ']" value="1" ' . checked(1, $value, false) . '/>';
+		$html = '<input type="checkbox" id="' . esc_attr( $complete_id ) . '" name="' . $options->get_db_option_key();
+		$html .= '[' . esc_attr( $this->get_module() ) . '][' . esc_attr( $this->get_id() ) . ']" value="1" ' . checked( 1, $value, false ) . '/>';
 
 		// Here, we'll take the first argument of the array and add it to a label next to the checkbox
-		$html .= '<label for="' . esc_attr( $complete_id ) . '"> '  . esc_html( $args[0] ). '</label>';
+		$html .= '<label for="' . esc_attr( $complete_id ) . '"> ' . esc_html( $args[0] ) . '</label>';
 
 		echo $html;
 	}
@@ -946,13 +990,14 @@ class Option_Setting_Text extends Option_Setting {
 	 * Every subclass must declare a function that returns a sanitzie version of the given input value.
 	 * E.g. use sanitize_text_field for a string.
 	 *
-	 * @param  string 	$input 		an input value to be sanitzied by this function
+	 * @param  string $input      an input value to be sanitzied by this function
 	 *
-	 * @return string	sanitized version of $value or null if we cannot sanitzie the input
+	 * @return string   sanitized version of $value or null if we cannot sanitzie the input
 	 */
 	public function sanitize( $input ) {
-		if ( ! isset ( $input ) )
+		if ( ! isset( $input ) ) {
 			return null;
+		}
 
 		return sanitize_text_field( $input );
 	}
@@ -964,11 +1009,11 @@ class Option_Setting_Text extends Option_Setting {
 		// Assemble a compound and escaped id string.
 		$esc_id = esc_attr( $this->get_module() . '_' . $this->get_id() );
 		// Assemble an escaped name string. The name attribute is importan, it defines the keys for the $input array in validation.
-		$esc_name = esc_attr( $this->get_db_option_key() . '[' . $this->get_module() .'][' . $this->get_id() . ']' );
+		$esc_name = esc_attr( $this->get_db_option_key() . '[' . $this->get_module() . '][' . $this->get_id() . ']' );
 
 		// Compose output.
-		$html = '<input type="text" id="' . $esc_id . '" name="'. $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
-		$html .= '<p class="description" id="' . $esc_id .'-description">' . esc_html( $args[0] ) . '</p>';
+		$html = '<input type="text" id="' . $esc_id . '" name="' . $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
+		$html .= '<p class="description" id="' . $esc_id . '-description">' . esc_html( $args[0] ) . '</p>';
 
 		// And show it to the world.
 		echo $html;

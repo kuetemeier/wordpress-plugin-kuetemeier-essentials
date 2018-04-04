@@ -56,6 +56,7 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 			// WP_Plugin instance
 			$wp_plugin
 		);
+
 	}
 
 }

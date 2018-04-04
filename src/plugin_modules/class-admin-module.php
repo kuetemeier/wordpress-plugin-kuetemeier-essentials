@@ -41,16 +41,6 @@ require_once plugin_dir_path( __FILE__ ) . '/class-plugin-module.php';
 abstract class Admin_Module extends Plugin_Module {
 
 	/**
-	 * End part of the admin page (option settings) slug
-	 *
-	 * @var string
-	 *
-	 * @see get_admin_page_slug()
-	 * @since 0.1.0
-	 */
-	protected $admin_page_slug_part = '';
-
-	/**
 	 * Returns if this object is a frontend module.
 	 *
 	 * @return bool True if it is a frontend module.
@@ -71,60 +61,6 @@ abstract class Admin_Module extends Plugin_Module {
 	 */
 	public function is_admin_module() {
 		return true;
-	}
-
-
-	/**
-	 * Set `admin_page_slug_part` property.
-	 *
-	 * @param string $page_slug New value.
-	 *
-	 * @return void
-	 *
-	 * @since 0.1.0
-	 */
-	protected function set_admin_page_slug_part( $page_slug ) {
-		$this->admin_page_slug_part = sanitize_text_field( $page_slug );
-	}
-
-	/**
-	 * Get `admin_page_slug`
-	 *
-	 * @return string Slug for the admin page of the module
-	 * @since 0.1.0
-	 */
-	public function admin_page_slug() {
-		return sanitize_text_field( 'kuetemeier_essentials_' . $this->admin_page_slug_part );
-	}
-
-	/**
-	 * This function can be used as callbacks for admin_menu.
-	 * Use this function, because Admin modules will be loaded AFTER the normal callback is fired
-	 *
-	 * This is called after a successfull registration with the class `Modules`
-	 *
-	 * @return void
-	 *
-	 * @see \Kuetemeier_Essentials\Modules
-	 * @since 0.1.0
-	 */
-	public function callback_admin_menu() {
-		// intentionally empty
-	}
-
-	/**
-	 * This function can be used as callbacks for admin_init.
-	 * Use this function, because Admin modules will be loaded AFTER the normal callback is fired
-	 *
-	 * This is called after a successfull registration with the class `Modules`
-	 *
-	 * @return void
-	 *
-	 * @see \Kuetemeier_Essentials\Modules
-	 * @since 0.1.0
-	 */
-	public function callback_admin_init() {
-		// intentionally empty
 	}
 
 }

@@ -233,7 +233,10 @@ final class Options {
 	// TODO: set default values if there is no database entry
 
 	/**
-	 * Register an option setting.
+	 * Register an option setting and gives it the required database key.
+	 *
+	 * Hint: Calling this function is cheap, so you can (and it's recommmended) to
+	 * use it in Frontend Modules.
 	 *
 	 * @param Option_Setting $option_setting A valid instance of an Option_Setting object.
 	 *

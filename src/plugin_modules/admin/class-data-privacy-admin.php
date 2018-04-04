@@ -59,7 +59,8 @@ class Data_Privacy_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Mod
 			$wp_plugin
 		);
 
-		$this->set_admin_page_slug_part( 'data_privacy' );
+		// --------------------------------------------------------
+		// Admin option page
 
 		// add admin menu page
 		$this->wp_plugin()->options()->add_admin_options_subpage(
@@ -88,26 +89,9 @@ class Data_Privacy_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Mod
 			)
 		);
 
-		$options->add_option_setting(
-			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
-				// module
-				'data_privacy',
-				// id
-				'add_privacy_field_to_comments',
-				// default value
-				false,
-				// label
-				__( 'Privacy Checkbox', 'kuetemeier-essentials' ),
-				// page
-				$this->admin_page_slug(),
-				// tab
-				'',
-				// section
-				'ke_dp_wp_comments',
-				// description
-				__( 'Add privacy checkbox to comment fields', 'kuetemeier-essentials' )
-			)
-		);
+		// --------------------------------------------------------
+		// Settings
+
 	}
 
 }

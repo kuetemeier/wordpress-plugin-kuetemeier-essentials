@@ -87,11 +87,37 @@ final class Data_Privacy_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\
 	 */
 	private function init_options() {
 
-		$options = $this->wp_plugin()->options();
+		$options = $this->get_wp_plugin()->options();
+
+		$test = new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+			// WP_Plugin instance
+			$this->get_wp_plugin(),
+			// module
+			$this->get_id(),
+			// id
+			'testdp',
+			// default value
+			false,
+			// label
+			__( 'Test', 'kuetemeier-essentials' ),
+			// page
+			$this->get_admin_page_slug(),
+			// tab
+			'',
+			//'',
+			// section
+			'ke_dp_wp_comments',
+			// description
+			__( 'Add privacy checkbox to comment fields', 'kuetemeier-essentials' )
+		);
+
+		$options->add_option_setting( $test );
 
 		$this->option_add_privacy_field_to_comments = new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+			// WP_Plugin instance
+			$this->get_wp_plugin(),
 			// module
-			'data_privacy',
+			$this->get_id(),
 			// id
 			'add_privacy_field_to_comments',
 			// default value
@@ -114,8 +140,10 @@ final class Data_Privacy_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\
 		$options->add_option_setting( $this->option_add_privacy_field_to_comments );
 
 		$this->option_add_privacy_field_to_comments_data_privacy_statement_url = new \Kuetemeier_Essentials\Option_Setting_Text(
+			// WP_Plugin instance
+			$this->get_wp_plugin(),
 			// module
-			'data_privacy',
+			$this->get_id(),
 			// id
 			'option_add_privacy_field_to_comments_data_privacy_statement_url',
 			// default value

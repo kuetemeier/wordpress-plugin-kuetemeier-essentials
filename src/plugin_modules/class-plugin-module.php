@@ -33,6 +33,7 @@ namespace Kuetemeier_Essentials\Plugin_Modules;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
+
 /**
  * Abstract Plugin Module, to be extended by other classes to build Modules for this Plugin.
  *
@@ -70,17 +71,6 @@ abstract class Plugin_Module {
 
 
 	/**
-	 * End part of the admin page (option settings) slug
-	 *
-	 * @var string
-	 *
-	 * @see get_admin_page_slug()
-	 * @since 0.1.0
-	 */
-	private $admin_page_slug_part = '';
-
-
-	/**
 	 * Creates a Plugin Module.
 	 *
 	 * @param string    $id         Unique ID (frontend and admin modules may and should
@@ -96,22 +86,21 @@ abstract class Plugin_Module {
 		$name = trim( $name );
 
 		if ( empty( $id ) ) {
-			die( 'FATAL ERROR: ID of a module cannot be empty.' );
+			wp_die( 'FATAL ERROR: ID of a module cannot be empty.' );
 		}
 
 		if ( empty( $name ) ) {
-			die( 'FATAL ERROR: The name of a module cannot be empty.' );
+			wp_die( 'FATAL ERROR: The name of a module cannot be empty.' );
 		}
 
 		if ( ! ( isset( $wp_plugin ) && is_subclass_of( $wp_plugin, 'Kuetemeier_Essentials\WP_Plugin' ) ) ) {
-			die( 'FATAL ERROR: wp_plugin has to be a valid instance of a subclass of WP_Plugin' );
+			wp_die( 'FATAL ERROR: wp_plugin has to be a valid instance of a subclass of WP_Plugin' );
 		}
 
 		$this->id = $id;
 		$this->name = $name;
 		$this->wp_plugin = $wp_plugin;
 
-		$this->set_admin_page_slug_part( $this->id() );
 	}
 
 	/**
@@ -121,7 +110,7 @@ abstract class Plugin_Module {
 	 *
 	 * @since 0.1.12
 	 */
-	public function id() {
+	public function get_id() {
 		return $this->id;
 	}
 
@@ -133,7 +122,7 @@ abstract class Plugin_Module {
 	 *
 	 * @since 0.1.12
 	 */
-	public function name() {
+	public function get_name() {
 		return $this->name;
 	}
 
@@ -145,7 +134,7 @@ abstract class Plugin_Module {
 	 *
 	 * @since 0.1.12
 	 */
-	public function wp_plugin() {
+	public function get_wp_plugin() {
 		return $this->wp_plugin;
 	}
 
@@ -171,29 +160,13 @@ abstract class Plugin_Module {
 
 
 	/**
-	 * Set `admin_page_slug_part` property.
-	 *
-	 * Normaly not required. Admin Page Slug Part is set by constructor.
-	 *
-	 * @param string $page_slug New value.
-	 *
-	 * @return void
-	 *
-	 * @since 0.1.0
-	 */
-	protected function set_admin_page_slug_part( $page_slug ) {
-		$this->admin_page_slug_part = sanitize_text_field( $page_slug );
-	}
-
-
-	/**
-	 * Get `admin_page_slug`
+	 * Get `admin_page_slug` for the this sub module.
 	 *
 	 * @return string Slug for the admin page of the module
 	 * @since 0.1.0
 	 */
-	public function admin_page_slug() {
-		return sanitize_text_field( 'kuetemeier_essentials_' . $this->admin_page_slug_part );
+	public function get_admin_page_slug() {
+		return $this->wp_plugin->get_admin_page_slug( $this->get_id() );
 	}
 
 
@@ -208,7 +181,7 @@ abstract class Plugin_Module {
 	 * @see \Kuetemeier_Essentials\Modules
 	 * @since 0.1.0
 	 */
-	public function callback_admin_menu() {
+	public function callback__admin_menu() {
 		// intentionally empty
 	}
 
@@ -223,7 +196,7 @@ abstract class Plugin_Module {
 	 * @see \Kuetemeier_Essentials\Modules
 	 * @since 0.1.0
 	 */
-	public function callback_admin_init() {
+	public function callback__admin_init() {
 		// intentionally empty
 	}
 

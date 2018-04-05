@@ -156,8 +156,8 @@ final class Modules {
 	public function init_frontend_prepare_backend() {
 		$this->init_all_frontend_classes();
 
-		add_action( 'admin_menu', array( &$this, 'callback_admin_menu__init_all_admin_modules_for_admin_menu' ) );
-		add_action( 'admin_init', array( &$this, 'callback_admin_init__init_all_admin_modules_for_admin_init' ) );
+		add_action( 'admin_menu', array( &$this, 'callback__admin_menu__init_all_admin_modules_for_admin_menu' ) );
+		add_action( 'admin_init', array( &$this, 'callback__admin_init__init_all_admin_modules_for_admin_init' ) );
 	}
 
 	/**
@@ -182,9 +182,9 @@ final class Modules {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	public function callback_admin_init__init_all_admin_modules_for_admin_init() {
+	public function callback__admin_init__init_all_admin_modules_for_admin_init() {
 		$this->ensure_admin_classes_are_loaded();
-		$this->foreach_admin( 'callback_admin_init' );
+		$this->foreach_admin( 'callback__admin_init' );
 	}
 
 
@@ -198,9 +198,9 @@ final class Modules {
 	 * @return void
 	 * @since 0.1.0
 	 */
-	public function callback_admin_menu__init_all_admin_modules_for_admin_menu() {
+	public function callback__admin_menu__init_all_admin_modules_for_admin_menu() {
 		$this->ensure_admin_classes_are_loaded();
-		$this->foreach_admin( 'callback_admin_menu' );
+		$this->foreach_admin( 'callback__admin_menu' );
 	}
 
 

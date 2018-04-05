@@ -34,8 +34,6 @@ namespace Kuetemeier_Essentials\Plugin_Modules\Admin;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 require_once plugin_dir_path( __FILE__ ) . '/../class-admin-module.php';
-require_once plugin_dir_path( __FILE__ ) . '/../../config.php';
-require_once plugin_dir_path( __FILE__ ) . '/../../class-kuetemeier-essentials.php';
 
 /**
  * Class Kuetemeier_Essentials

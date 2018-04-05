@@ -63,16 +63,18 @@ class Data_Privacy_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Mod
 		// Admin option page
 
 		// add admin menu page
-		$this->wp_plugin()->options()->add_admin_options_subpage(
-			$this->admin_page_slug(),
+		$this->get_wp_plugin()->options()->add_admin_subpage(
+			$this->get_admin_page_slug(),
 			'Kuetemeier > ' . __( 'Data Privacy', 'kuetemeier-essentials' ),
-			__( 'Data Privacy', 'kuetemeier-essentials' )
+			__( 'Data Privacy', 'kuetemeier-essentials' ),
+			array(),
+			200
 		);
 
 		// --------------------------------------------------------
 		// Sections
 
-		$options = $this->wp_plugin()->options();
+		$options = $this->get_wp_plugin()->options();
 
 		$options->add_option_section(
 			new \Kuetemeier_Essentials\Option_Section(
@@ -81,7 +83,7 @@ class Data_Privacy_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Mod
 				// title
 				__( 'WordPress Comments', 'kuetemeier-essentials' ),
 				// page
-				$this->admin_page_slug(),
+				$this->get_admin_page_slug(),
 				// tab
 				'',
 				// content

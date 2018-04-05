@@ -57,10 +57,17 @@ class Develop_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 			$wp_plugin
 		);
 
-		$wp_plugin->options()->add_admin_options_subpage(
-			'kuetemeier_essentials_develop',
+		$wp_plugin->options()->add_admin_subpage(
+			// slug
+			$this->get_admin_page_slug(),
+			// title
 			'Develop',
-			'Develop'
+			// menu title
+			'Develop',
+			// tabs
+			array(),
+			//
+			10000
 		);
 	}
 

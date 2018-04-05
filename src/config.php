@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials;
+namespace Kuetemeier_Essentials\Config;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -51,10 +51,26 @@ const AVAILABLE_MODULES = array(
 	'develop'      => 'Develop',
 );
 
-const CORE_OPTION_PAGE_CAPABILITY = 'administrator';
-const CORE_OPTION_PAGE_SLUG = 'kuetemeier_essentials';
+/**
+ * Base slug for all admin menu pages.
+ *
+ * The default value for the page slug should be a lowercase version of the Plugin name.
+ *
+ * @see WP_Plugin::get_admin_page_slug
+ *
+ * @since 0.2.1
+ */
+const ADMIN_PAGE_SLUG = 'kuetemeier-essentials';
 
-const CORE_OPTION_SETTINGS_KEY = 'kuetemeier_essentials';
 
-const DATA_PRIVACY_OPTION_PAGE_SLUG = 'kuetemeier_essentials_data_privacy';
-const DATA_PRIVACY_OPTION_SETTINGS_KEY = 'kuetemeier_essentials_data_privacy';
+/**
+ * Base key for the WordPress Option Database table.
+ *
+ * The default value for the key should be a lowercase version of the Plugin name.
+ *
+ * @see WP_Plugin::get_db_option_table_base_key()
+ *
+ * @since 0.2.1
+ */
+const DB_OPTION_TABLE_BASE_KEY = 'kuetemeier-essentials';
+

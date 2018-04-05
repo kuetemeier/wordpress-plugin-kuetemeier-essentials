@@ -34,6 +34,9 @@ namespace Kuetemeier_Essentials;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 
+require_once plugin_dir_path( __FILE__ ) . '/config.php';
+
+
 /**
  * Builds the base of a plugin, gives references to Options and Modules
  *
@@ -195,5 +198,48 @@ abstract class WP_Plugin {
 	public function is_stable() {
 		return ( version_compare( $this->version, $this->version_stable ) === 0 );
 	}
+
+
+	/**
+	 * Returns the slug of admin menu page for the given module (or the default admin slug).
+	 *
+	 * @param string $plugin_module_id (optional) A valid id of a Plugin_Module.
+	 *
+	 * @return string Default admin menu page slug.
+	 *
+	 * @since 0.2.1
+	 */
+	public function get_admin_page_slug( $plugin_module_id = '' ) {
+
+		if ( ! isset( $plugin_module_id ) ) {
+			wp_die( 'FATAL ERROR: Something is wrong, \$plugin_module_id is not set' );
+		}
+
+		trim( $plugin_module_id );
+
+		if ( empty( $plugin_module_id ) ) {
+			// const from config.php
+			return Config\ADMIN_PAGE_SLUG;
+		} else {
+			return sanitize_text_field( Config\ADMIN_PAGE_SLUG . '-' . $plugin_module_id );
+		}
+	}
+
+
+	/**
+	 * Returns the base key for the WordPress option table.
+	 *
+	 * The key of the WordPress Option table is in the column `option_name`.
+	 * The default value for the key should be a lowercase version of the Plugin name.
+	 *
+	 * @return string Database key for the WordPress options table.
+	 *
+	 * @since 0.2.1
+	 */
+	public function get_db_option_table_base_key() {
+		// const from config.php
+		return Config\DB_OPTION_TABLE_BASE_KEY;
+	}
+
 
 }

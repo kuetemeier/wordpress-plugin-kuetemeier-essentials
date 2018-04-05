@@ -56,11 +56,11 @@ final class Kuetemeier_Essentials extends WP_Plugin {
 	public function __construct() {
 
 		$options = new Options( $this );
-		$modules = new Modules( $this, AVAILABLE_MODULES );
+		$modules = new Modules( $this, Config\AVAILABLE_MODULES );
 
 		parent::__construct(
-			PLUGIN_VERSION,
-			PLUGIN_VERSION_STABLE,
+			Config\PLUGIN_VERSION,
+			Config\PLUGIN_VERSION_STABLE,
 			$options,
 			$modules
 		);

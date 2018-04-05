@@ -63,29 +63,31 @@ class Data_Privacy_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Mod
 		// Admin option page
 
 		// add admin menu page
-		$this->get_wp_plugin()->options()->add_admin_subpage(
+		$this->get_wp_plugin()->get_options()->add_admin_subpage(
 			$this->get_admin_page_slug(),
 			'Kuetemeier > ' . __( 'Data Privacy', 'kuetemeier-essentials' ),
 			__( 'Data Privacy', 'kuetemeier-essentials' ),
-			array(),
+			array(
+				'wp-comments' => __( 'WordPress Comments', 'kuetemeier-essentials' ),
+			),
 			200
 		);
 
 		// --------------------------------------------------------
 		// Sections
 
-		$options = $this->get_wp_plugin()->options();
+		$options = $this->get_wp_plugin()->get_options();
 
 		$options->add_option_section(
 			new \Kuetemeier_Essentials\Option_Section(
 				// ID
 				'ke_dp_wp_comments',
 				// title
-				__( 'WordPress Comments', 'kuetemeier-essentials' ),
+				__( 'Data Privacy Statement in WordPress Comments', 'kuetemeier-essentials' ),
 				// page
 				$this->get_admin_page_slug(),
 				// tab
-				'',
+				'wp-comments',
 				// content
 				__( 'Users of the comment system should agree to our privacy policy', 'kuetemeier-essentials' )
 			)

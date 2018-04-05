@@ -114,9 +114,9 @@ abstract class WP_Plugin {
 		$this->options = $options;
 		$this->modules = $modules;
 
-		$this->modules()->init_frontend_prepare_backend();
+		$this->modules->init_frontend_prepare_backend();
 
-		$this->options()->init_admin_hooks();
+		$this->options->init_admin_hooks();
 	}
 
 
@@ -169,7 +169,7 @@ abstract class WP_Plugin {
 	 *
 	 * @since 0.1.11
 	 */
-	public function modules() {
+	public function get_modules() {
 		return $this->modules;
 	}
 
@@ -181,7 +181,7 @@ abstract class WP_Plugin {
 	 *
 	 * @since 0.1.11
 	 */
-	public function options() {
+	public function get_options() {
 		return $this->options;
 	}
 

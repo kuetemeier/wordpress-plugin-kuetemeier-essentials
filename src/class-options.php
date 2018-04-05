@@ -116,109 +116,8 @@ final class Options {
 
 		$this->wp_plugin = $wp_plugin;
 
-		$this->add_admin_subpage(
-			$this->wp_plugin->get_admin_page_slug(),
-			'Kuetemeier > Essentials',
-			'Essentials',
-			array(
-				'general' => __( 'General', 'kuetemeier-essentials' ),
-				'modules' => __( 'Modules', 'kuetemeier-essentials' ),
-				'test'    => 'Test',
-			),
-			0
-		);
-
 		// register callback to actually create the admin page and subpages
 		add_action( self::ACTION_PREFIX . 'create_admin_menu', array( &$this, 'callback__create_admin_menu' ) );
-
-		$this->add_option_section(
-			new Option_Section(
-				// id
-				'test',
-				// title
-				'Test',
-				// page
-				$this->wp_plugin->get_admin_page_slug(),
-				// (optional) tab
-				'test',
-				// (optional) content
-				'Dies ist ein Test'
-				// (optional) display_function
-			)
-		);
-
-		// --------------------------------
-		// add OPTION SETTINGS
-		// --------------------------------
-
-		$this->add_option_setting(
-			new Option_Setting_Checkbox(
-				// WP_Plugin instance
-				$this->get_wp_plugin(),
-				// module
-				'default',
-				// id
-				'test_option_1',
-				// default value
-				false,
-				// label
-				'Test mit dieser Option 1',
-				// page
-				$this->wp_plugin->get_admin_page_slug(),
-				// tab
-				'test',
-				// section
-				'test',
-				// description
-				'A Dies sollte er validieren und speichern'
-			)
-		);
-
-		$this->add_option_setting(
-			new Option_Setting_Checkbox(
-				// WP_Plugin instance
-				$this->get_wp_plugin(),
-				'core',
-				'test_option_2',
-				true,
-				'Test mit dieser Option 2',
-				$this->wp_plugin->get_admin_page_slug(),
-				'test',
-				'test',
-				'B Dies sollte er validieren und speichern'
-			)
-		);
-
-		$this->add_option_setting(
-			new Option_Setting_Checkbox(
-				// WP_Plugin instance
-				$this->get_wp_plugin(),
-				'default',
-				'test_option_3',
-				true,
-				'Test mit dieser Option 3',
-				$this->wp_plugin->get_admin_page_slug(),
-				'test',
-				'test',
-				'C Dies sollte er validieren und speichern'
-			)
-		);
-
-		$this->add_option_setting(
-			new Option_Setting_Text(
-				// WP_Plugin instance
-				$this->get_wp_plugin(),
-				'default',
-				'test_text',
-				'Ein Text',
-				'Ein Textfeld',
-				$this->wp_plugin->get_admin_page_slug(),
-				'test',
-				'test',
-				'Dies ist ein Textfeld'
-			)
-		);
-
 	}
 
 	// TODO: set default values if there is no database entry
@@ -790,6 +689,21 @@ final class Options {
 		return $this->wp_plugin;
 	}
 
+
+	/**
+	 * Get registered section by id.
+	 *
+	 * @param string $id Section ID.
+	 *
+	 * @return Opiton_Section A valid section object or `null`.
+	 */
+	public function get_section( $id ) {
+		if ( isset( option_sections[ $id ] ) ) {
+			return $this->option_sections[ $id ];
+		} else {
+			return null;
+		}
+	}
 }
 
 
@@ -1027,7 +941,7 @@ abstract class Option_Setting {
 
 
 	/** @var string Key of the module this option setting belongs to. */
-	protected $module = '';
+	protected $module_id = '';
 
 
 	/** @var string Unique key. */
@@ -1047,15 +961,15 @@ abstract class Option_Setting {
 
 
 	/** @var string Key of the admin page this option settings belongs to. */
-	protected $page = '';
+	protected $page_id = '';
 
 
 	/** @var string Key of the tab on the admin page this option settings belongs to. */
-	protected $tab = '';
+	protected $tab_id = '';
 
 
 	/** @var string Key of the section on the admin page this option settings belongs to. */
-	protected $section = 'default';
+	protected $section_id = 'default';
 
 
 	/** @var int Value for display order in the section. */
@@ -1066,6 +980,10 @@ abstract class Option_Setting {
 	protected $empty_value = '';
 
 
+	/** @var string Description shown aside in the admin page. */
+	protected $label_for = '';
+
+
 	/** @var string Description shown in the admin page. */
 	protected $description = '';
 
@@ -1074,26 +992,28 @@ abstract class Option_Setting {
 	 * Initialize an OptionSetting.
 	 *
 	 * @param WP_Plugin $wp_plugin      A valid instance of WP_Plugin.
-	 * @param string    $module         Key of the module this option belongs to.
+	 * @param string    $module_id         Key of the module this option belongs to.
 	 * @param string    $id             Unique ID.
 	 * @param string    $default_value  Default value.
 	 * @param string    $label          Label for the admin page.
-	 * @param string    $page           (optional) Key (slug) of the admin page, this setting should be displayed on.
-	 * @param string    $tab            (optional) Key (slug) for the tab on the admin page, this setting should be displayed on.
-	 * @param string    $section        (optional) Key for the section in the admin page, this option belongs to.
+	 * @param string    $page_id        (optional) Key (slug) of the admin page, this setting should be displayed on.
+	 * @param string    $tab_id         (optional) Key (slug) for the tab on the admin page, this setting should be displayed on.
+	 * @param string    $section_id     (optional) Key for the section in the admin page, this option belongs to.
+	 * @param string    $label_for      (optional) 'Label for' Description to be shown aside the setting on the admin page.
 	 * @param string    $description    (optional) Description to be shown next to the setting on the admin page.
 	 * @param mixed     $empty_value    (optional) The 'empty' value of this option.
 	 * @param int       $display_order  (optional) Display order in the section.
 	 */
-	public function __construct( $wp_plugin, $module, $id, $default_value, $label, $page = '', $tab = '', $section = '', $description = '', $empty_value = '', $display_order = 0 ) {
+	public function __construct( $wp_plugin, $module_id, $id, $default_value, $label, $page_id = '', $tab_id = '', $section_id = '', $label_for = '', $description = '', $empty_value = '', $display_order = 0 ) {
 		$this->wp_plugin = $wp_plugin;
-		$this->module = $module;
+		$this->module_id = $module_id;
 		$this->id = $id;
 		$this->default_value = $default_value;
 		$this->label = $label;
-		$this->page = $page;
-		$this->tab = $tab;
-		$this->set_section( $section );
+		$this->page_id = $page_id;
+		$this->tab_id = $tab_id;
+		$this->set_section_id( $section_id );
+		$this->label_for = $label_for;
 		$this->set_description( $description );
 		$this->empty_value = $empty_value;
 		$this->display_order = $display_order;
@@ -1121,8 +1041,8 @@ abstract class Option_Setting {
 	 *
 	 * @since 0.1.0
 	 */
-	public function get_module() {
-		return $this->module;
+	public function get_module_id() {
+		return $this->module_id;
 	}
 
 	/**
@@ -1171,6 +1091,27 @@ abstract class Option_Setting {
 		return $this->label;
 	}
 
+
+	/**
+	 * Admin page label for (shown aside the input field).
+	 *
+	 * @return string The admin page label.
+	 *
+	 * @since 0.1.0
+	 */
+	public function get_label_for() {
+		return $this->label_for;
+	}
+
+
+	/**
+	 *
+	 */
+	public function get_section_object() {
+		$this->get_wp_plugin()->get_options()->get_section_by_id( $this->get_section_id() );
+
+	}
+
 	/**
 	 * Key for the admin page this option belongs to.
 	 *
@@ -1178,8 +1119,9 @@ abstract class Option_Setting {
 	 *
 	 * @since 0.1.0
 	 */
-	public function get_page() {
-		return $this->page;
+	public function get_page_id() {
+		return $this->page_id;
+		//return   )->get_page();
 	}
 
 	/**
@@ -1189,8 +1131,8 @@ abstract class Option_Setting {
 	 *
 	 * @since 0.1.0
 	 */
-	public function get_tab() {
-		return $this->tab;
+	public function get_tab_id() {
+		return $this->tab_id;
 	}
 
 	/**
@@ -1200,8 +1142,8 @@ abstract class Option_Setting {
 	 *
 	 * @since 0.1.0
 	 */
-	public function get_section() {
-		return $this->section;
+	public function get_section_id() {
+		return $this->section_id;
 	}
 
 	/**
@@ -1211,11 +1153,12 @@ abstract class Option_Setting {
 	 *
 	 * @since 0.1.0
 	 */
-	public function set_section( $section ) {
+	public function set_section_id( $section ) {
 		$_section = $section;
 		if ( empty( $_section ) ) {
 			$_section = 'default';
 		}
+
 		$this->section = $_section;
 	}
 
@@ -1313,18 +1256,18 @@ abstract class Option_Setting {
 		$error_msg = 'Everything fine.';
 
 		if ( ! empty( $page ) ) {
-			if ( $page !== $this->get_page() ) {
+			if ( $page !== $this->get_page_id() ) {
 				return $valid_input;
 			}
 		}
 
 		if ( ! empty( $tab ) ) {
-			if ( $tab !== $this->get_tab() ) {
+			if ( $tab !== $this->get_tab_id() ) {
 				return $valid_input;
 			}
 		}
 
-		$module = $this->get_module();
+		$module = $this->get_module_id();
 		$id = $this->get_id();
 
 		$input_value = $this->sanitize( $this->get_from_array( $input, null ) );
@@ -1371,22 +1314,17 @@ abstract class Option_Setting {
 		if ( ! empty( $page ) ) {
 
 			// Yes:
-			if ( ! ( $page === $this->get_page() ) ) {
+			if ( ! ( $page === $this->get_page_id() ) ) {
 				// Do nothing if page slugs do not match
 				return;
 			}
 		}
-/*
-if ( $this->get_id() === 'testdp' ) {
-	var_dump( $this );
-	wp_die ( "Test" );
-}
-*/
+
 		// Do we have to filter for tag slug?
 		if ( ! empty( $tab ) ) {
 
 			// Yes:
-			if ( ! ( $tab === $this->get_tab() ) ) {
+			if ( ! ( $tab === $this->get_tab_id() ) ) {
 				// Do nothing if tab slugs do not match
 				return;
 			}
@@ -1400,9 +1338,9 @@ if ( $this->get_id() === 'testdp' ) {
 			// The name of the function responsible for rendering the option interface
 			array( &$this, 'callback__display_setting' ),
 			// The page on which this option will be displayed
-			$this->get_page(),
+			$this->get_page_id(),
 			// The name of the section to which this field belongs
-			$this->get_section(),
+			$this->get_section_id(),
 			// The array of arguments to pass to the callback. In this case, just a description.
 			array(
 				$this->get_description(),
@@ -1456,7 +1394,7 @@ if ( $this->get_id() === 'testdp' ) {
 	 * @since 0.2.1 Default value changed.
 	 */
 	protected function get_from_array( $array, $default = null ) {
-		$module = $this->get_module();
+		$module = $this->get_module_id();
 		$id = $this->get_id();
 
 		if ( isset( $array[ $module ] ) && ( isset( $array[ $module ][ $id ] ) ) ) {
@@ -1476,7 +1414,7 @@ if ( $this->get_id() === 'testdp' ) {
 	 * @since 0.1.0
 	 */
 	protected function set_in_array( $array, $value ) {
-		$module = $this->get_module();
+		$module = $this->get_module_id();
 		$id = $this->get_id();
 
 		if ( ! isset( $array[ $module ] ) || ! is_array( $array[ $module ] ) ) {
@@ -1498,7 +1436,7 @@ if ( $this->get_id() === 'testdp' ) {
 	 * @since 0.1.0
 	 */
 	protected function unset_in_array( $array ) {
-		$module = $this->get_module();
+		$module = $this->get_module_id();
 		$id = $this->get_id();
 
 		if ( isset( $array[ $module ] ) && ( isset( $array[ $module ][ $id ] ) ) ) {
@@ -1507,6 +1445,50 @@ if ( $this->get_id() === 'testdp' ) {
 
 		return $array;
 	}
+
+
+	/**
+	 * Helper function for callbackk__display_setting, returns html for the label.
+	 *
+	 * @param string $composed_id A composed id for the html id fields.
+	 *
+	 * @return string HTML or '', if label property is empty.
+	 *
+	 * @since 0.2.1
+	 */
+	protected function display_label_for_html( $composed_id ) {
+
+		if ( empty( $this->get_label_for() ) ) {
+			return '';
+		}
+
+		$esc_id = esc_attr( $composed_id );
+		return '<label id="' . $esc_id . '-label" for="' . $esc_id . '"> ' . esc_html( $this->get_label_for() ) . '</label>';
+
+	}
+
+
+	/**
+	 * Helper function for callbackk__display_setting, returns html for the description.
+	 *
+	 * @param string $composed_id A composed id for the html id fields.
+	 *
+	 * @return string HTML or '', if description property is empty.
+	 *
+	 * @since 0.2.1
+	 */
+	protected function display_description_html( $composed_id ) {
+
+		if ( empty( $this->get_description() ) ) {
+			return '';
+		}
+
+		$esc_id = esc_attr( $composed_id );
+
+		return '<p class="description" id="' . $esc_id . '-description">' . esc_html( $this->get_description() ) . '</p>';
+	}
+
+
 }
 
 
@@ -1584,18 +1566,20 @@ class Option_Setting_Checkbox extends Option_Setting {
 	 * @since 0.1.0
 	 */
 	public function callback__display_setting( $args ) {
-		$options = \Kuetemeier_Essentials\Kuetemeier_Essentials::instance()->options();
+		$options = $this->get_wp_plugin()->get_options();
 
 		$value = $this->get();
-		$complete_id = $this->get_module() . '_' . $this->get_id();
+
+		// Assemble a compound and escaped id string.
+		$esc_id = esc_attr( $this->get_module_id() . '_' . $this->get_id() );
 
 		// Next, we update the name attribute to access this element's ID in the context of the display options array
 		// We also access the show_header element of the options collection in the call to the checked() helper function
-		$esc_html = '<input type="checkbox" id="' . esc_attr( $complete_id ) . '" name="' . $this->get_wp_plugin()->get_db_option_table_base_key();
-		$esc_html .= '[' . esc_attr( $this->get_module() ) . '][' . esc_attr( $this->get_id() ) . ']" value="1" ' . checked( 1, $value, false ) . '/>';
+		$esc_html = '<input type="checkbox" id="' . $esc_id . '" name="' . $this->get_wp_plugin()->get_db_option_table_base_key();
+		$esc_html .= '[' . esc_attr( $this->get_module_id() ) . '][' . esc_attr( $this->get_id() ) . ']" value="1" ' . checked( 1, $value, false ) . '/>';
 
-		// Here, we'll take the first argument of the array and add it to a label next to the checkbox
-		$esc_html .= '<label for="' . esc_attr( $complete_id ) . '"> ' . esc_html( $args[0] ) . '</label>';
+		$esc_html .= $this->display_label_for_html( $esc_id );
+		$esc_html .= $this->display_description_html( $esc_id );
 
 		// phpcs:disable WordPress.XSS.EscapeOutput
 		// $esc_html contains only escaped content.
@@ -1603,6 +1587,7 @@ class Option_Setting_Checkbox extends Option_Setting {
 		// phpcs:enable WordPress.XSS.EscapeOutput
 
 	}
+
 }
 
 /**
@@ -1645,13 +1630,14 @@ class Option_Setting_Text extends Option_Setting {
 		$value = $this->get();
 
 		// Assemble a compound and escaped id string.
-		$esc_id = esc_attr( $this->get_module() . '_' . $this->get_id() );
+		$esc_id = esc_attr( $this->get_module_id() . '_' . $this->get_id() );
 		// Assemble an escaped name string. The name attribute is importan, it defines the keys for the $input array in validation.
-		$esc_name = esc_attr( $this->get_wp_plugin()->get_db_option_table_base_key() . '[' . $this->get_module() . '][' . $this->get_id() . ']' );
+		$esc_name = esc_attr( $this->get_wp_plugin()->get_db_option_table_base_key() . '[' . $this->get_module_id() . '][' . $this->get_id() . ']' );
 
 		// Compose output.
 		$esc_html = '<input type="text" id="' . $esc_id . '" name="' . $esc_name . '" value="' . esc_attr( $value ) . '" class="regular-text ltr" />';
-		$esc_html .= '<p class="description" id="' . $esc_id . '-description">' . esc_html( $args[0] ) . '</p>';
+		$esc_html .= $this->display_label_for_html( $esc_id );
+		$esc_html .= $this->display_description_html( $esc_id );
 
 		// phpcs:disable WordPress.XSS.EscapeOutput
 		// $esc_html contains only escaped content.

@@ -34,6 +34,8 @@ namespace Kuetemeier_Essentials\Plugin_Modules\Frontend;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 require_once dirname( __FILE__ ) . '/../class-frontend-module.php';
+require_once dirname( __FILE__ ) . '/../../class-options.php';
+
 
 /**
  * Module for testing and development. TODO: Only activated in Alpha mode.
@@ -55,6 +57,107 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 			__( 'Development', 'kuetemeier-essentials' ),
 			// WP_Plugin instance
 			$wp_plugin
+		);
+
+		$options = $this->get_wp_plugin()->get_options();
+
+		$options->add_admin_subpage(
+			$this->get_wp_plugin()->get_admin_page_slug(),
+			'Kuetemeier > Essentials',
+			'Essentials',
+			array(
+				'general' => __( 'General', 'kuetemeier-essentials' ),
+				'modules' => __( 'Modules', 'kuetemeier-essentials' ),
+			),
+			0
+		);
+
+		$options->add_option_section(
+			new \Kuetemeier_Essentials\Option_Section(
+				// id
+				'test',
+				// title
+				'Test',
+				// page
+				$this->get_admin_page_slug(),
+				// (optional) tab
+				'test',
+				// (optional) content
+				'Dies ist ein Test'
+				// (optional) display_function
+			)
+		);
+
+		// --------------------------------
+		// add OPTION SETTINGS
+		// --------------------------------
+
+		$options->add_option_setting(
+			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+				// WP_Plugin instance
+				$this->get_wp_plugin(),
+				// module
+				'default',
+				// id
+				'test_option_1',
+				// default value
+				false,
+				// label
+				'Test mit dieser Option 1',
+				// page
+				$this->get_admin_page_slug(),
+				// tab
+				'test',
+				// section
+				'test',
+				// description
+				'A Dies sollte er validieren und speichern'
+			)
+		);
+
+		$options->add_option_setting(
+			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+				// WP_Plugin instance
+				$this->get_wp_plugin(),
+				'core',
+				'test_option_2',
+				true,
+				'Test mit dieser Option 2',
+				$this->get_admin_page_slug(),
+				'test',
+				'test',
+				'B Dies sollte er validieren und speichern'
+			)
+		);
+
+		$options->add_option_setting(
+			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+				// WP_Plugin instance
+				$this->get_wp_plugin(),
+				'default',
+				'test_option_3',
+				true,
+				'Test mit dieser Option 3',
+				$this->get_admin_page_slug(),
+				'test',
+				'test',
+				'C Dies sollte er validieren und speichern'
+			)
+		);
+
+		$options->add_option_setting(
+			new \Kuetemeier_Essentials\Option_Setting_Text(
+				// WP_Plugin instance
+				$this->get_wp_plugin(),
+				'default',
+				'test_text',
+				'Ein Text',
+				'Ein Textfeld',
+				$this->get_admin_page_slug(),
+				'test',
+				'test',
+				'Dies ist ein Textfeld'
+			)
 		);
 
 	}

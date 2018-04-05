@@ -73,7 +73,7 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 		);
 
 		$options->add_option_section(
-			new \Kuetemeier_Essentials\Option_Section(
+			new \Kuetemeier_Essentials\Options\Section(
 				// id
 				'test',
 				// title
@@ -93,7 +93,7 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 		// --------------------------------
 
 		$options->add_option_setting(
-			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+			new \Kuetemeier_Essentials\Options\Setting_Checkbox(
 				// WP_Plugin instance
 				$this->get_wp_plugin(),
 				// module
@@ -116,7 +116,7 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 		);
 
 		$options->add_option_setting(
-			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+			new \Kuetemeier_Essentials\Options\Setting_Checkbox(
 				// WP_Plugin instance
 				$this->get_wp_plugin(),
 				'core',
@@ -131,7 +131,7 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 		);
 
 		$options->add_option_setting(
-			new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+			new \Kuetemeier_Essentials\Options\Setting_Checkbox(
 				// WP_Plugin instance
 				$this->get_wp_plugin(),
 				'default',
@@ -146,7 +146,7 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 		);
 
 		$options->add_option_setting(
-			new \Kuetemeier_Essentials\Option_Setting_Text(
+			new \Kuetemeier_Essentials\Options\Setting_Text(
 				// WP_Plugin instance
 				$this->get_wp_plugin(),
 				'default',

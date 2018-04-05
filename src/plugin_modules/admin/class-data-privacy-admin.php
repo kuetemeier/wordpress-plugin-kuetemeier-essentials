@@ -79,7 +79,7 @@ class Data_Privacy_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Mod
 		$options = $this->get_wp_plugin()->get_options();
 
 		$options->add_option_section(
-			new \Kuetemeier_Essentials\Option_Section(
+			new \Kuetemeier_Essentials\Options\Section(
 				// ID
 				'ke_dp_wp_comments',
 				// title

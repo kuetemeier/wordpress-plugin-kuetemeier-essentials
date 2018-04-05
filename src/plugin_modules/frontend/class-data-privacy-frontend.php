@@ -34,6 +34,8 @@ namespace Kuetemeier_Essentials\Plugin_Modules\Frontend;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 require_once dirname( __FILE__ ) . '/../class-frontend-module.php';
+require_once dirname( __FILE__ ) . '/../../class-options.php';
+
 
 /**
  * Data privacy Module of the Kuetemeier-Essentials Plugin.
@@ -89,7 +91,7 @@ final class Data_Privacy_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\
 
 		$options = $this->get_wp_plugin()->get_options();
 
-		$this->option_add_privacy_field_to_comments = new \Kuetemeier_Essentials\Option_Setting_Checkbox(
+		$this->option_add_privacy_field_to_comments = new \Kuetemeier_Essentials\Options\Setting_Checkbox(
 			// WP_Plugin instance
 			$this->get_wp_plugin(),
 			// module
@@ -112,7 +114,7 @@ final class Data_Privacy_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\
 
 		$options->add_option_setting( $this->option_add_privacy_field_to_comments );
 
-		$this->option_add_privacy_field_to_comments_data_privacy_statement_url = new \Kuetemeier_Essentials\Option_Setting_Text(
+		$this->option_add_privacy_field_to_comments_data_privacy_statement_url = new \Kuetemeier_Essentials\Options\Setting_Text(
 			// WP_Plugin instance
 			$this->get_wp_plugin(),
 			// module

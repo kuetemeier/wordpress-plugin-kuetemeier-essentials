@@ -76,6 +76,11 @@ final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Fronten
 
 		$this->init_options();
 
+		if ($this->option_imgix_js_enabled->get() ) {
+			add_action( 'wp_enqueue_scripts', array( &$this, 'add_scripts' ) );
+			add_action( 'wp_head', array( &$this, 'add_imgix_dns_prefetch_to_header'), 0 );
+		}
+
 	}
 
 
@@ -135,6 +140,20 @@ final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Fronten
 		);
 
 		$options->add_option_setting( $this->option_imgix_js_enabled );
+	}
+
+	public function add_scripts() {
+		//wp_register_script('kuetemeier_essentials_media_public', plugins_url('assets/scripts/imgix.min.js', dirname(__FILE__).'/../..' ) );
+		wp_register_script('kuetemeier_essentials_media_public', plugins_url('assets/scripts/imgix.min.js', str_replace('src/plugin_modules/frontend', '', __FILE__ ) ) );
+
+		wp_enqueue_script('kuetemeier_essentials_media_public');
+	}
+
+	// TODO: build an option field for this!
+	public function add_imgix_dns_prefetch_to_header() {
+		?>
+		<link rel="dns-prefetch" href="//kuetemeier.imgix.com">
+		<?php
 	}
 
 }

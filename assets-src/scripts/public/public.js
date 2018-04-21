@@ -21,7 +21,7 @@
  */
 
 
-function kuetemeier_essential_admin() {
-	console.log("Hello World Public!");
+function kuetemeier_essential_frontend() {
+	//console.log("Hello World Public!");
 }
 

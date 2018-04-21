@@ -67,7 +67,12 @@ var paths = {
     dest: 'assets/scripts/'
   },
   scripts_public: {
-    src: 'assets-src/scripts/public/**/*.js',
+//    src: ['assets-src/scripts/public/**/*.js','node_modules/imgix.js/dist/imgix.min.js'],
+    src: ['assets-src/scripts/public/**/*.js'],
+    dest: 'assets/scripts/'
+  },
+  scripts_copy: {
+    src: ['node_modules/imgix.js/dist/imgix.min.js'],
     dest: 'assets/scripts/'
   },
   images: {
@@ -160,8 +165,12 @@ gulp.task('scripts-public', function() {
     .pipe(gulp.dest(paths.scripts_public.dest));
 });
 
+gulp.task('scripts-copy', function() {
+  return gulp.src(paths.scripts_copy.src)
+    .pipe(gulp.dest(paths.scripts_copy.dest));
+});
 
-gulp.task('scripts', ['scripts-public', 'scripts-admin']);
+gulp.task('scripts', ['scripts-public', 'scripts-admin', 'scripts-copy']);
 
 
 gulp.task('styles', function() {

@@ -64,6 +64,18 @@ final class Kuetemeier_Essentials extends WP_Plugin {
 			$options,
 			$modules
 		);
+
+		add_action( 'wp_enqueue_scripts', array( &$this, 'add_scripts' ) );
+
+	}
+
+	public function add_scripts() {
+		wp_register_script('kuetemeier_essentials_public', plugins_url(
+			'assets/scripts/kuetemeier-essentials-public.min.js',
+			str_replace('src', '', __FILE__ ) ),
+			array('jquery'),'1.1', true);
+
+		wp_enqueue_script('kuetemeier_essentials_public');
 	}
 
 	/**

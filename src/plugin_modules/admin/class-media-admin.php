@@ -127,8 +127,8 @@ class Media_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 		if ( $this->get_wp_plugin()->get_options()->get_option($this->get_id(), 'external_media_enabled', false) ) {
 			add_submenu_page(
 				'upload.php',
-				__( 'Reference Media by URL' ),
-				__( 'Reference Media by URL' ),
+				__( 'Reference by URL' ),
+				__( 'Reference by URL' ),
 				'manage_options',
 				'add-external-media-without-import',
 				array( &$this, 'print_submenu_page' )

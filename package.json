@@ -38,6 +38,7 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
     "gulp-zip": "^4.1.0",
+    "imgix.js": "^3.3.2",
     "node-sass": "^4.8.3"
   },
   "scripts": {

@@ -34,6 +34,7 @@ namespace Kuetemeier_Essentials;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 require_once dirname( __FILE__ ) . '/class-wp-plugin.php';
+require_once dirname( __FILE__ ) . '/options/class-tab.php';
 require_once dirname( __FILE__ ) . '/options/class-section.php';
 require_once dirname( __FILE__ ) . '/options/class-setting.php';
 require_once dirname( __FILE__ ) . '/options/class-setting-checkbox.php';
@@ -198,9 +199,9 @@ final class Options {
 			return false;
 		}
 
-		if ( ! $this->get_wp_plugin()->modules()->is_valid_module_key( $module_key ) ) {
-			return false;
-		}
+		//if ( ! $this->get_wp_plugin()->modules()->is_valid_module_key( $module_key ) ) {
+		//	return false;
+		//}
 
 		// No options found for our general db key?
 		if ( empty( $options ) ) {

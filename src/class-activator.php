@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Admin;
+namespace Kuetemeier_Essentials;
 
 /*********************************
  * KEEP THIS for security reasons

@@ -48,6 +48,7 @@ const PLUGIN_VERSION_STABLE = 'not released yet';
 const AVAILABLE_MODULES = array(
 	'core'         => 'Core',
 	'data-privacy' => 'Data_Privacy',
+	'media'        => 'Media',
 	'develop'      => 'Develop',
 );
 

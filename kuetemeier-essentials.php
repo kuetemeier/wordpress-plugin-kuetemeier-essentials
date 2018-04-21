@@ -5,7 +5,7 @@
  * Plugin Name: Kuetemeier Essentials
  * Plugin URI: http://wordpress.org/extend/plugins/kuetemeier-essentials/
  * Description: WordPress PlugIn with essential extensions for speed, data privacy and optimization.
- * Version: 0.2.0-alpha
+ * Version: 0.3.0-alpha
  * Author: Jörg Kütemeier
  * Author URI: https://kuetemeier.de
  *
@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
  * Define constants, use old style for php version check
  */
 define( 'KUETEMEIER_ESSENTIALS_NAME', 'Kuetemeier Essentials' );
-define( 'KUETEMEIER_ESSENTIALS_VERSION', '0.2.0-alpha' );
+define( 'KUETEMEIER_ESSENTIALS_VERSION', '0.3.0-alpha' );
 define( 'KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6' );
 define( 'KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 

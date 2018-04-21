@@ -267,7 +267,8 @@ gulp.task('assets', ['styles', 'scripts', 'images', 'assets-index']);
 gulp.task('build-without-release', gulpSequence('replace', 'assets'));
 
 
-gulp.task('build', gulpSequence('clean', 'lint', 'build-without-release', 'zip'));
+//gulp.task('build', gulpSequence('clean', 'lint', 'build-without-release', 'zip'));
+gulp.task('build', gulpSequence('clean', 'build-without-release', 'zip'));
 
 
 gulp.task('default', ['build-without-release']);

@@ -34,7 +34,7 @@ namespace Kuetemeier_Essentials\Config;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 // DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.
-const PLUGIN_VERSION = '0.2.0-alpha';
+const PLUGIN_VERSION = '0.3.0-alpha';
 // DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.
 const PLUGIN_VERSION_STABLE = 'not released yet';
 

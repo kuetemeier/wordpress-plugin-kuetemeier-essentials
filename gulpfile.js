@@ -232,10 +232,12 @@ gulp.task('phpdoc', function() {
 });
 
 
-gulp.task('watch', function() {
+gulp.task('pre-watch', gulpSequence('build-without-release', 'phpdoc'));
+
+gulp.task('watch', ['pre-watch'], function() {
   scripts_sourcemaps = true;
-  gulp.start('build-without-release');
-  gulp.start('phpdoc');
+  //gulp.start(gulpSequence('build-without-release', 'phpdoc'));
+  //gulp.start('phpdoc');
 
   gulp.watch(paths.styles.src, ['styles']);
 

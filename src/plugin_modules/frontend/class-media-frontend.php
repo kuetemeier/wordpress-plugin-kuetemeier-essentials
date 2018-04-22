@@ -56,6 +56,9 @@ final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Fronten
 	 */
 	private $option_imgix_js_enabled;
 
+
+	private $option_kimg_copyright_default = false;
+
 	/**
 	 * Create Data Privacy Module.
 	 *
@@ -79,6 +82,8 @@ final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Fronten
 		if ($this->option_imgix_js_enabled->get() ) {
 			add_action( 'wp_enqueue_scripts', array( &$this, 'add_scripts' ) );
 			add_action( 'wp_head', array( &$this, 'add_imgix_dns_prefetch_to_header'), 0 );
+
+			add_shortcode( 'kimg', array( &$this, 'callback__add_shortcode_kimg' ) );
 		}
 
 	}
@@ -154,6 +159,37 @@ final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Fronten
 		?>
 		<link rel="dns-prefetch" href="//kuetemeier.imgix.com">
 		<?php
+	}
+
+
+	public function callback__add_shortcode_kimg( $atts ) {
+		$a = shortcode_atts( array(
+			'id' => '',
+			'src' => '',
+			'c' => '1',
+			'copyright' => '1'
+		), $atts );
+
+		if ( $a['c'] === 'false' ) { $a['c'] = 0; }
+		if ( $a['copyright'] === 'false' ) { $a['copyright'] = 0; }
+
+		$copyright = ( (!$a['c']) || (!$a['copyright']) ) ? false : true;
+
+		$ret = '';
+
+		if ($copyright) {
+			$ret .= '[caption';
+			if ( !empty($a['id']) ) {
+				$ret .= ' id="' . $a['id'] . '"';
+			}
+			$ret .= ']';
+		}
+		$ret .= '<img src="'.$a['src'].'" alt="%caption%" title="%copyright%" />';
+		if ($copyright) {
+			$ret .= '[/caption]';
+		}
+
+		return do_shortcode( $ret );
 	}
 
 }

@@ -65,18 +65,46 @@ final class Kuetemeier_Essentials extends WP_Plugin {
 			$modules
 		);
 
-		add_action( 'wp_enqueue_scripts', array( &$this, 'add_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( &$this, 'callback__add_public_scripts' ) );
 
+		if (is_admin()) {
+			add_action( 'admin_enqueue_scripts', array( &$this, 'callback__add_admin_scripts' ) );
+		}
 	}
 
-	public function add_scripts() {
-		wp_register_script('kuetemeier_essentials_public', plugins_url(
+	public function callback__add_public_scripts() {
+		wp_register_script('kuetemeier_essentials_public_js', plugins_url(
 			'assets/scripts/kuetemeier-essentials-public.min.js',
 			str_replace('src', '', __FILE__ ) ),
-			array('jquery'),'1.1', true);
+			array('jquery'), Config\PLUGIN_VERSION, true);
 
-		wp_enqueue_script('kuetemeier_essentials_public');
+		wp_enqueue_script('kuetemeier_essentials_public_js');
+
+		wp_register_style('kuetemeier_essentials_public_css', plugins_url(
+			'assets/styles/kuetemeier-essentials.min.css',
+			str_replace('src', '', __FILE__ ) ),
+			array(), Config\PLUGIN_VERSION, 'all');
+
+		wp_enqueue_style('kuetemeier_essentials_public_css');
 	}
+
+	public function callback__add_admin_scripts() {
+		wp_register_script('kuetemeier_essentials_admin_js', plugins_url(
+			'assets/scripts/kuetemeier-essentials-admin.min.js',
+			str_replace('src', '', __FILE__ ) ),
+			array('jquery'), Config\PLUGIN_VERSION, true);
+
+		wp_enqueue_script('kuetemeier_essentials_admin_js');
+
+		wp_register_style('kuetemeier_essentials_admin_css', plugins_url(
+			'assets/styles/kuetemeier-essentials-admin.min.css',
+			str_replace('src', '', __FILE__ ) ),
+			array(), Config\PLUGIN_VERSION, 'all');
+
+		wp_enqueue_style('kuetemeier_essentials_admin_css');
+	}
+
+
 
 	/**
 	 * Returns a valid instance of Kuetemeier_Essentials.

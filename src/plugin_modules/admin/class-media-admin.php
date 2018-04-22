@@ -126,75 +126,73 @@ class Media_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 
 		if ( $this->get_wp_plugin()->get_options()->get_option($this->get_id(), 'external_media_enabled', false) ) {
 			add_submenu_page(
-				'upload.php',
-				__( 'Reference by URL' ),
-				__( 'Reference by URL' ),
-				'manage_options',
-				'add-external-media-without-import',
-				array( &$this, 'print_submenu_page' )
+				'upload.php', // parent_slug
+				__( 'Reference by URL' ), // page_title
+				__( 'Reference by URL' ), // menu_title
+				'manage_options', // capability
+				'add-external-media-without-import', // menu_slug
+				array( &$this, 'callback__submenu_page_media_by_reference' ) // callable
 			);
 		}
 	}
 
 
 	function print_media_new_panel( $is_in_upload_ui ) {
-		$url = '';
-		if (isset($_GET['url'])) {
-			$url = $_GET['url'];
-		}
-		$width = '';
-		if (isset($_GET['width'])) {
-			$url = $_GET['width'];
-		}
-		$height = '';
-		if (isset($_GET['height'])) {
-			$url = $_GET['height'];
-		}
-		$mime_type = '';
-		if (isset($_GET['mime-type'])) {
-			$mime_type = $_GET['mime-type'];
-		}
+
+		$url       = isset( $_GET['url'] )       ? $_GET['url']       : '';
+		$width     = isset( $_GET['width'] )     ? $_GET['width']     : '';
+		$height    = isset( $_GET['height'] )    ? $_GET['height']    : '';
+		$mime_type = isset( $_GET['mime-type'] ) ? $_GET['mime-type'] : '';
+		$error     = isset( $_GET['error'] )     ? $_GET['error']     : '';
+
 		?>
 		<div id="emwi-media-new-panel" <?php if ( $is_in_upload_ui  ) : ?>style="display: none"<?php endif; ?>>
 		  <div class="url-row">
-			<label><?php echo __('Add a media from URL'); ?></label>
+			<label><?php _e( 'URL to reference Media to', 'kuetemeier-essentials' ); ?></label>
 			<span id="emwi-url-input-wrapper">
-			  <input id="emwi-url" name="url" type="url" required placeholder="<?php echo __('Image URL');?>" value="<?php echo esc_url( $url ); ?>">
+			  <input id="emwi-url" name="url" type="url" required placeholder="<?php _e( 'Image URL (https://my.domain/my-image.jpg)', 'kuetemeier-essentials' );?>" value="<?php echo esc_url( $url ); ?>">
 			</span>
 		  </div>
-		  <div id="emwi-hidden" <?php if ( $is_in_upload_ui || empty( $_GET['error'] ) ) : ?>style="display: none"<?php endif; ?>>
+		  <div id="emwi-hidden" <?php if ( $is_in_upload_ui || empty( $error ) ) : ?>style="display: none"<?php endif; ?>>
 			<div>
-			  <span id="emwi-error"><?php echo esc_html( $_GET['error'] ); ?></span>
-			  <?php echo _('Please fill in the following properties manually. If you leave the fields blank (or 0 for width/height), the plugin will try to resolve them automatically'); ?>
+			  <span id="emwi-error"><?php echo esc_html( $error ); ?></span>
+			  <?php _e( 'Please fill in the following properties manually. If you leave the fields blank (or 0 for width/height), the plugin will try to resolve them automatically', 'kuetemeier-essentials' ); ?>
 			</div>
 			<div id="emwi-properties">
-			  <label><?php echo __('Width'); ?></label>
+			  <label><?php _e('Width', 'kuetemeier-essentials' ); ?></label>
 			  <input id="emwi-width" name="width" type="number" value="<?php echo esc_html( $width ); ?>">
-			  <label><?php echo __('Height'); ?></label>
+			  <label><?php _e('Height', 'kuetemeier-essentials' ); ?></label>
 			  <input id="emwi-height" name="height" type="number" value="<?php echo esc_html( $height ); ?>">
-			  <label><?php echo __('MIME Type'); ?></label>
+			  <label><?php _e('MIME Type', 'kuetemeier-essentials' ); ?></label>
 			  <input id="emwi-mime-type" name="mime-type" type="text" value="<?php echo esc_html( $mime_type ); ?>">
 			</div>
 		  </div>
 		  <div id="emwi-buttons-row">
+			<p class="submit">
+
 			<input type="hidden" name="action" value="add_external_media_without_import">
 			<span class="spinner"></span>
-			<input type="button" id="emwi-clear" class="button" value="<?php echo __('Clear') ?>">
-			<input type="submit" id="emwi-add" class="button button-primary" value="<?php echo __('Add') ?>">
+
+			<?php /* <input type="button" id="emwi-clear" class="button" value="<?php echo __('Clear') ?>"> */ ?>
+			<input type="submit" id="emwi-add" class="button button-primary" value="<?php _e('Add', 'kuetemeier-essentials' ) ?>">
 			<?php if ( $is_in_upload_ui  ) : ?>
-			  <input type="button" id="emwi-cancel" class="button" value="<?php echo __('Cancel') ?>">
+			  <input type="button" id="emwi-cancel" class="button" value="<?php _e('Cancel', 'kuetemeier-essentials' ) ?>">
 			<?php endif; ?>
+		    </p>
 		  </div>
 		</div>
 	<?php
 	}
 
 
-	function print_submenu_page() {
+	public function callback__submenu_page_media_by_reference() {
 	?>
-		<form action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="post">
-		  <?php $this->print_media_new_panel( false ); ?>
-		</form>
+		<div class="wrap">
+			<h2>Add Media Reference (by URL)</h2>
+			<form action="<?php echo esc_url( admin_url('admin-post.php') ); ?>" method="post">
+			  <?php $this->print_media_new_panel( false ); ?>
+			</form>
+		</div>
 	<?php
 	}
 

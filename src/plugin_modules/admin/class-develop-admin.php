@@ -56,7 +56,7 @@ class Develop_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 			// WP_Plugin instance
 			$wp_plugin
 		);
-
+/*
 		$wp_plugin->get_options()->add_admin_subpage(
 			// slug
 			$this->get_admin_page_slug(),
@@ -71,6 +71,8 @@ class Develop_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 			//
 			10000
 		);
+*/
+
 	}
 
 }

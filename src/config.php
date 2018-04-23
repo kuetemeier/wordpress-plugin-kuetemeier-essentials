@@ -47,9 +47,10 @@ const PLUGIN_VERSION_STABLE = 'not released yet';
  */
 const AVAILABLE_MODULES = array(
 	'core'         => 'Core',
-	'data-privacy' => 'Data_Privacy',
+	'optimization' => 'Optimization',
 	'media'        => 'Media',
-	'develop'      => 'Develop',
+	'data-privacy' => 'Data_Privacy',
+	// 'develop'      => 'Develop',
 );
 
 /**

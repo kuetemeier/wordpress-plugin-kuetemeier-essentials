@@ -70,7 +70,9 @@ class Media_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 			'Kuetemeier > ' . __( 'Media', 'kuetemeier-essentials' ),
 			__( 'Media', 'kuetemeier-essentials' ),
 			array(
-				'media-options' => __( 'Media Options', 'kuetemeier-essentials' ),
+				'media-common' => __( 'Media Library Options', 'kuetemeier-essentials' ),
+				'media-imgix' => __( 'imgix Support', 'kuetemeier-essentials' ),
+				'media-kimg' => __( 'kimg Shortcode', 'kuetemeier-essentials' )
 			),
 			200
 		);
@@ -80,20 +82,76 @@ class Media_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 
 		$options = $this->get_wp_plugin()->get_options();
 
-		$options->add_option_section(
-			new \Kuetemeier_Essentials\Options\Section(
+		$sections = array(
+			array(
 				// ID
-				'ke-media-media-options',
+				'ke-media-common',
 				// title
-				__( 'Media Library Options', 'kuetemeier-essentials' ),
+				__( 'Common Media Library Options', 'kuetemeier-essentials' ),
 				// page
 				$this->get_admin_page_slug(),
 				// tab
-				'media-options',
+				'media-common',
 				// content
-				__( 'Enable / Disable the needed functions to extend the Media Library.', 'kuetemeier-essentials' )
-			)
+				__( 'On this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there.', 'kuetemeier-essentials' )
+			),
+			array(
+				// ID
+				'ke-media-common-external',
+				// title
+				__( 'Add external Media to the Library', 'kuetemeier-essentials' ),
+				// page
+				$this->get_admin_page_slug(),
+				// tab
+				'media-common',
+				// content
+				__( '<p>If activated, this feature will allow you to add external Media (by it\'s URL) to the Media Library.<br />The media is NOT imported, but you can use it like "normal" media and enhance it with custom fields (like captions or copyright informations).</p><p>This is usefull for S3, CDN or imgix integration.' ),
+				'NOESC!'
+			),
+			array(
+				// ID
+				'ke-media-imgix',
+				// title
+				__( 'imgix Support', 'kuetemeier-essentials' ),
+				// page
+				$this->get_admin_page_slug(),
+				// tab
+				'media-imgix',
+				// content
+				__( 'imgix (https://imgix.com) is a "Powerful image processing,'.
+                    ' simple API - Optimize, deliver, and cache your entire image library for fast, stress-free '.
+                    'websites and apps TRY IT FREE"', 'kuetemeier-essentials' )
+			),
+			array(
+				// ID
+				'ke-media-imgix-config',
+				// title
+				__( 'imgix Source Settings', 'kuetemeier-essentials' ),
+				// page
+				$this->get_admin_page_slug(),
+				// tab
+				'media-imgix',
+				// content
+				__( 'Default imgix source settings.', 'kuetemeier-essentials' )
+			),
+			array(
+				// ID
+				'ke-media-media-kimg',
+				// title
+				__( '"kimg" - Kuetemeier Image Shortcode', 'kuetemeier-essentials' ),
+				// page
+				$this->get_admin_page_slug(),
+				// tab
+				'media-kimg',
+				// content
+				__( 'Usefull Shortcut to create image tags with imgix support and copyright informations.', 'kuetemeier-essentials' )
+			),
 		);
+
+		foreach ($sections as $section) {
+			$options->add_option_section(new \Kuetemeier_Essentials\Options\Section( ...$section ));
+		}
+
 
 		if ( $this->get_wp_plugin()->get_options()->get_option('media', 'external_media_enabled', false) ) {
 			add_action( 'post-plupload-upload-ui', array( &$this, 'post_upload_ui' ) );

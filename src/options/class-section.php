@@ -145,6 +145,27 @@ class Section {
 	}
 
 	/**
+	 * Display function that do NOT escape the content.
+	 *
+	 * WARNING: This is a callback. Never call it directly!
+	 * This method has to be public, so WordPress can see and call it.
+	 *
+	 * @param array $args WordPress default args for display functions.
+	 *
+	 * @return void
+	 *
+	 * @see Option_Setting::display_function()
+	 * @since 0.1.0
+	 */
+	public function callback__display_function_no_esc( $args ) {
+		?>
+		<div id="<?php echo esc_attr( $args['id'] ); ?>">
+			<?php echo $this->get_content(); ?>
+		</div>
+		<?php
+	}
+
+	/**
 	 * Default display function.
 	 *
 	 * WARNING: This is a callback. Never call it directly!
@@ -178,7 +199,11 @@ class Section {
 		if ( empty( $display_function ) ) {
 			$this->display_function = array( &$this, 'callback__display_function' );
 		} else {
-			$this->display_function = $display_function;
+			if ( $display_function === 'NOESC!') {
+				$this->display_function = array( &$this, 'callback__display_function_no_esc' );
+			} else {
+				$this->display_function = $display_function;
+			}
 		}
 	}
 

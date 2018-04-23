@@ -56,6 +56,39 @@ class Core_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 			// WP_Plugin instance
 			$wp_plugin
 		);
+
+		$options = $this->get_wp_plugin()->get_options();
+
+		$options->add_admin_subpage(
+			$this->get_wp_plugin()->get_admin_page_slug(),
+			'Kuetemeier > Essentials',
+			'Essentials',
+			array(
+				'general' => __( 'General', 'kuetemeier-essentials' ),
+				'modules' => __( 'Modules', 'kuetemeier-essentials' ),
+			),
+			0
+		);
+
+		$options->add_option_section(
+			new \Kuetemeier_Essentials\Options\Section(
+				// id
+				'ke-section-general-version',
+				// title
+				'Version Information',
+				// page
+				$this->get_wp_plugin()->get_admin_page_slug(),
+				// (optional) tab
+				'general',
+				// (optional) content
+				'<p><b>Kuetemeier Essentials Plugin Version:</b> ' . \Kuetemeier_Essentials\Config\PLUGIN_VERSION .
+				'</p><p><b>License:</b> Alpha Test Version - limitied license</p>',
+				// (optional) display_function
+				'NOESC!'
+			)
+		);
+
+
 	}
 
 }

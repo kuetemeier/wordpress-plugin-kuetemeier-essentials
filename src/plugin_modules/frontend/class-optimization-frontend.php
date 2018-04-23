@@ -40,7 +40,7 @@ require_once dirname( __FILE__ ) . '/../../class-options.php';
 /**
  * Data privacy Module of the Kuetemeier-Essentials Plugin.
  */
-final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Module {
+final class Optimization_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Module {
 
 	/**
 	 * Option: Enable reference Media from URLs
@@ -78,14 +78,14 @@ final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Fronten
 		);
 
 		$this->init_options();
-
+/*
 		if ($this->option_imgix_js_enabled->get() ) {
 			add_action( 'wp_enqueue_scripts', array( &$this, 'add_scripts' ) );
 			add_action( 'wp_head', array( &$this, 'add_imgix_dns_prefetch_to_header'), 0 );
 
 			add_shortcode( 'kimg', array( &$this, 'callback__add_shortcode_kimg' ) );
 		}
-
+*/
 	}
 
 
@@ -99,7 +99,7 @@ final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Fronten
 	private function init_options() {
 
 		$options = $this->get_wp_plugin()->get_options();
-
+/*
 		$this->option_external_media_enabled = new \Kuetemeier_Essentials\Options\Setting_Checkbox(
 			// WP_Plugin instance
 			$this->get_wp_plugin(),
@@ -145,51 +145,7 @@ final class Media_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Fronten
 		);
 
 		$options->add_option_setting( $this->option_imgix_js_enabled );
-	}
-
-	public function add_scripts() {
-		//wp_register_script('kuetemeier_essentials_media_public', plugins_url('assets/scripts/imgix.min.js', dirname(__FILE__).'/../..' ) );
-		wp_register_script('kuetemeier_essentials_media_public', plugins_url('assets/scripts/imgix.min.js', str_replace('src/plugin_modules/frontend', '', __FILE__ ) ) );
-
-		wp_enqueue_script('kuetemeier_essentials_media_public');
-	}
-
-	// TODO: build an option field for this!
-	public function add_imgix_dns_prefetch_to_header() {
-		?>
-		<link rel="dns-prefetch" href="//kuetemeier.imgix.com">
-		<?php
-	}
-
-
-	public function callback__add_shortcode_kimg( $atts ) {
-		$a = shortcode_atts( array(
-			'id' => '',
-			'src' => '',
-			'c' => '1',
-			'copyright' => '1'
-		), $atts );
-
-		if ( $a['c'] === 'false' ) { $a['c'] = 0; }
-		if ( $a['copyright'] === 'false' ) { $a['copyright'] = 0; }
-
-		$copyright = ( (!$a['c']) || (!$a['copyright']) ) ? false : true;
-
-		$ret = '';
-
-		if ($copyright) {
-			$ret .= '[caption';
-			if ( !empty($a['id']) ) {
-				$ret .= ' id="' . $a['id'] . '"';
-			}
-			$ret .= ']';
-		}
-		$ret .= '<img src="'.$a['src'].'" alt="%caption%" title="%copyright%" />';
-		if ($copyright) {
-			$ret .= '[/caption]';
-		}
-
-		return do_shortcode( $ret );
+*/
 	}
 
 }

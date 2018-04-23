@@ -61,17 +61,7 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 
 		$options = $this->get_wp_plugin()->get_options();
 
-		$options->add_admin_subpage(
-			$this->get_wp_plugin()->get_admin_page_slug(),
-			'Kuetemeier > Essentials',
-			'Essentials',
-			array(
-				'general' => __( 'General', 'kuetemeier-essentials' ),
-				'modules' => __( 'Modules', 'kuetemeier-essentials' ),
-			),
-			0
-		);
-
+/*
 		$options->add_option_section(
 			new \Kuetemeier_Essentials\Options\Section(
 				// id
@@ -159,7 +149,7 @@ class Develop_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\Frontend_Mo
 				'Dies ist ein Textfeld'
 			)
 		);
-
+*/
 	}
 
 }

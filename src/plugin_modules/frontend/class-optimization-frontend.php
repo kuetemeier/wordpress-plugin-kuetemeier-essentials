@@ -47,17 +47,7 @@ final class Optimization_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\
 	 *
 	 * @var \Kuetemeier_Essentials\Option_Setting_Checkbox
 	 */
-	private $option_external_media_enabled;
-
-	/**
-	 * Option: Enable IMGIX JS support
-	 *
-	 * @var \Kuetemeier_Essentials\Option_Setting_Checkbox
-	 */
-	private $option_imgix_js_enabled;
-
-
-	private $option_kimg_copyright_default = false;
+	private $option_disable_emojis;
 
 	/**
 	 * Create Data Privacy Module.
@@ -70,22 +60,18 @@ final class Optimization_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\
 	public function __construct( $wp_plugin ) {
 		parent::__construct(
 			// id
-			'media',
+			'optimization',
 			// name
-			__( 'Media', 'kuetemeier-essentials' ),
+			__( 'Optimization', 'kuetemeier-essentials' ),
 			// WP_Plugin instance
 			$wp_plugin
 		);
 
 		$this->init_options();
-/*
-		if ($this->option_imgix_js_enabled->get() ) {
-			add_action( 'wp_enqueue_scripts', array( &$this, 'add_scripts' ) );
-			add_action( 'wp_head', array( &$this, 'add_imgix_dns_prefetch_to_header'), 0 );
 
-			add_shortcode( 'kimg', array( &$this, 'callback__add_shortcode_kimg' ) );
+		if ( $this->option_disable_emojis->get() ) {
+			add_action( 'init', array( &$this, 'callback__disable_emojis' ) );
 		}
-*/
 	}
 
 
@@ -99,53 +85,80 @@ final class Optimization_Frontend extends \Kuetemeier_Essentials\Plugin_Modules\
 	private function init_options() {
 
 		$options = $this->get_wp_plugin()->get_options();
-/*
-		$this->option_external_media_enabled = new \Kuetemeier_Essentials\Options\Setting_Checkbox(
+
+		$this->option_disable_emojis = new \Kuetemeier_Essentials\Options\Setting_Checkbox(
 			// WP_Plugin instance
 			$this->get_wp_plugin(),
 			// module
 			$this->get_id(),
 			// option id
-			'external_media_enabled',
+			'disable_emoji',
 			// default value
 			false,
 			// label
-			__( 'Enable external Media', 'kuetemeier-essentials' ),
+			__( 'Disable WordPress Emojis', 'kuetemeier-essentials' ),
 			// page
 			$this->get_admin_page_slug(),
 			// tab
-			'media-common',
+			'ke-tab-optimization-common',
 			// section
-			'ke-media-common-external',
+			'ke-optimization-common',
 			// description
-			__( 'Check to be able to reference external Media and add it to the Media Library.', 'kuetemeier-essentials' )
+			__( 'Check (recommended) to disable the Emojis support in WordPress.', 'kuetemeier-essentials' )
 		);
 
-		$options->add_option_setting( $this->option_external_media_enabled );
-
-		$this->option_imgix_js_enabled = new \Kuetemeier_Essentials\Options\Setting_Checkbox(
-			// WP_Plugin instance
-			$this->get_wp_plugin(),
-			// module
-			$this->get_id(),
-			// option id
-			'imgix_js_enabled',
-			// default value
-			false,
-			// label
-			__( 'Enable IMGIX JavaScript', 'kuetemeier-essentials' ),
-			// page
-			$this->get_admin_page_slug(),
-			// tab
-			'media-options',
-			// section
-			'ke-media-media-options',
-			// description
-			__( 'Check to enable the IMGIX JavaScript functionality.', 'kuetemeier-essentials' )
-		);
-
-		$options->add_option_setting( $this->option_imgix_js_enabled );
-*/
+ 		$options->add_option_setting( $this->option_disable_emojis );
 	}
 
+
+	/**
+	 * Disable the emoji's
+	 *
+	 * @see https://kinsta.com/knowledgebase/disable-emojis-wordpress
+	 */
+	public function callback__disable_emojis() {
+		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+		remove_action( 'wp_print_styles', 'print_emoji_styles' );
+		remove_action( 'admin_print_styles', 'print_emoji_styles' );
+		remove_filter( 'the_content_feed', 'wp_staticize_emoji' );
+		remove_filter( 'comment_text_rss', 'wp_staticize_emoji' );
+		remove_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
+		add_filter( 'tiny_mce_plugins', array( &$this, 'callback__disable_emojis_tinymce' ) );
+		add_filter( 'wp_resource_hints', array( &$this, 'callback__disable_emojis_remove_dns_prefetch' ), 10, 2 );
+	}
+
+
+	/**
+	 * Filter function used to remove the tinymce emoji plugin.
+	 *
+	 * @param array $plugins
+	 * @return array Difference betwen the two arrays
+	 */
+	public function callback__disable_emojis_tinymce( $plugins ) {
+		if ( is_array( $plugins ) ) {
+			return array_diff( $plugins, array( 'wpemoji' ) );
+		} else {
+			return array();
+		}
+	}
+
+
+	/**
+	 * Remove emoji CDN hostname from DNS prefetching hints.
+	 *
+	 * @param array $urls URLs to print for resource hints.
+	 * @param string $relation_type The relation type the URLs are printed for.
+	 * @return array Difference betwen the two arrays.
+	 */
+	function callback__disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
+		if ( 'dns-prefetch' == $relation_type ) {
+			/** This filter is documented in wp-includes/formatting.php */
+			$emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' );
+
+			$urls = array_diff( $urls, array( $emoji_svg_url ) );
+		}
+
+		return $urls;
+	}
 }

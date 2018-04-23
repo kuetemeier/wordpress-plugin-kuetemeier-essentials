@@ -68,7 +68,7 @@ class Optimization_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Mod
 			'Kuetemeier > ' . __( 'Optimization', 'kuetemeier-essentials' ),
 			__( 'Optimization', 'kuetemeier-essentials' ),
 			array(
-				'tab-optimization-common' => __( 'Common Optimizations', 'kuetemeier-essentials' ),
+				'ke-tab-optimization-common' => __( 'Common Optimizations', 'kuetemeier-essentials' ),
 			),
 			200
 		);
@@ -87,7 +87,7 @@ class Optimization_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Mod
 				// page
 				$this->get_admin_page_slug(),
 				// tab
-				'tab-optimization-common',
+				'ke-tab-optimization-common',
 				// content
 				__( 'On this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there.', 'kuetemeier-essentials' )
 			),

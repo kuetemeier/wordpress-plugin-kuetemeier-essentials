@@ -49,6 +49,7 @@ const AVAILABLE_MODULES = array(
 	'core'         => 'Core',
 	'optimization' => 'Optimization',
 	'media'        => 'Media',
+	'analytics'    => 'Analytics',
 	'data-privacy' => 'Data_Privacy',
 	// 'develop'      => 'Develop',
 );

@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Data privacy Module of the Kuetemeier-Essentials Plugin.
  */
-class Optimization extends {
+class Optimization extends \Kuetemeier\WordPress\Module {
 
 	public static function manifest() {
 		return array(
@@ -91,7 +91,8 @@ class Optimization extends {
 					'label'       => __( 'Disable WordPress Emojis', 'kuetemeier-essentials' ),
 					'description' => __( 'Check (recommended) to disable the Emojis support in WordPress.', 'kuetemeier-essentials' )
 				)
-			);
+			)
+		);
 	}
 
 

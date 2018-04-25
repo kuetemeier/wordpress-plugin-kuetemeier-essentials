@@ -84,17 +84,17 @@ final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
 	 */
 	public function __construct() {
 
-		parent::__construct( array(
-			'version' => Config\PLUGIN_VERSION,
-			'version_stable' => Config\PLUGIN_VERSION_STABLE )
-		);
+		$config = new \Kuetemeier\WordPress\Config(Config\PLUGIN_CONFIG);
+		$config->set('plugin/dir', KUETEMEIER_ESSENTIALS_PLUGIN_DIR, true);
+		$config->set('plugin/modules/namespace', 'Kuetemeier_Essentials\Module', true);
+		parent::__construct($config);
 
-		$this->options = new Options( $this );
+/*		$this->options = new Options( $this );
 		$this->modules = new Modules( $this, Config\AVAILABLE_MODULES );
 
 		$this->modules->init_frontend_prepare_backend();
 
-		$this->options->init_admin_hooks();
+		$this->options->init_admin_hooks();*/
 
 		add_action( 'wp_enqueue_scripts', array( &$this, 'callback__add_public_scripts' ) );
 
@@ -183,9 +183,9 @@ final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
 	 *
 	 * @since 0.1.11
 	 */
-	public function get_modules() {
+/*	public function get_modules() {
 		return $this->modules;
-	}
+	}*/
 
 
 	/**
@@ -195,9 +195,9 @@ final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
 	 *
 	 * @since 0.1.11
 	 */
-	public function get_options() {
+/*	public function get_options() {
 		return $this->options;
-	}
+	}*/
 
 
 	/**
@@ -236,9 +236,9 @@ final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
 	 *
 	 * @since 0.2.1
 	 */
-	public function get_db_option_table_base_key() {
+/*	public function get_db_option_table_base_key() {
 		// const from config.php
 		return Config\DB_OPTION_TABLE_BASE_KEY;
-	}
+	} */
 
 }

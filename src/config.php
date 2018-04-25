@@ -46,12 +46,12 @@ const PLUGIN_VERSION_STABLE = 'not released yet';
  * @see Modules
  */
 const AVAILABLE_MODULES = array(
-	'core'         => 'Core',
+/*	'core'         => 'Core',
 	'optimization' => 'Optimization',
 	'media'        => 'Media',
 	'analytics'    => 'Analytics',
 	'data-privacy' => 'Data_Privacy',
-	// 'develop'      => 'Develop',
+	// 'develop'      => 'Develop',*/
 );
 
 /**
@@ -77,3 +77,19 @@ const ADMIN_PAGE_SLUG = 'kuetemeier-essentials';
  */
 const DB_OPTION_TABLE_BASE_KEY = 'kuetemeier-essentials';
 
+const PLUGIN_CONFIG = array(
+	'plugin' => array (
+		'version' => array (
+			'this'   => PLUGIN_VERSION,
+			'stable' => PLUGIN_VERSION_STABLE
+		),
+		'options' => array(
+			'key' => DB_OPTION_TABLE_BASE_KEY
+		),
+		'modules' => array(
+			'list' => array(
+				'optimization'
+			)
+		)
+	)
+);

@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Data privacy Module of the Kuetemeier-Essentials Plugin.
  */
-class Optimization extends \Kuetemeier\WordPress\Module {
+class Optimization extends \Kuetemeier\WordPress\PluginModule {
 
 	public static function manifest() {
 		return array(
@@ -49,6 +49,9 @@ class Optimization extends \Kuetemeier\WordPress\Module {
 				'disable_embeds' => 0,
 			)
 		);
+	}
+
+	public function common_init() {
 	}
 
 	public function frontend_init() {
@@ -101,7 +104,7 @@ class Optimization extends \Kuetemeier\WordPress\Module {
 	 * ------------------------------------------------------------------------------------------------------------------------ */
 
 	private function frontend_init_disable_emojis() {
-		if ( $this->config->get('optimization/disable_emoji') ) {
+		if ( $this->config->get_option('optimization/disable_emoji') ) {
 			add_action( 'init', array( &$this, 'callback__init__disable_emojis' ) );
 		}
 	}
@@ -166,7 +169,8 @@ class Optimization extends \Kuetemeier\WordPress\Module {
 
 
 	public function frontend_init_disable_embeds() {
-		if ( $this->config->get('optimization/disable_emoji') ) {
+		if ( $this->config->get_option('optimization/disable_embeds') ) {
+
 			add_action( 'init', array( &$this, 'callback__init__disable_embeds', 9999 ) );
 		}
 	}

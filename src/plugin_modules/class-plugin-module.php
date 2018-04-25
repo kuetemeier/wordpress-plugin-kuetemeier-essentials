@@ -93,8 +93,8 @@ abstract class Plugin_Module {
 			wp_die( 'FATAL ERROR: The name of a module cannot be empty.' );
 		}
 
-		if ( ! ( isset( $wp_plugin ) && is_subclass_of( $wp_plugin, 'Kuetemeier_Essentials\WP_Plugin' ) ) ) {
-			wp_die( 'FATAL ERROR: wp_plugin has to be a valid instance of a subclass of WP_Plugin' );
+		if ( ! ( isset( $wp_plugin ) && is_subclass_of( $wp_plugin, 'Kuetemeier\WordPress\Plugin' ) ) ) {
+			wp_die( 'FATAL ERROR: wp_plugin has to be a valid instance of a subclass of Kuetemeier\WordPress\Plugin' );
 		}
 
 		$this->id = $id;

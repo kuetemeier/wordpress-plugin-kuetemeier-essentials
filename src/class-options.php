@@ -33,7 +33,7 @@ namespace Kuetemeier_Essentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once dirname( __FILE__ ) . '/class-wp-plugin.php';
+require_once dirname( __FILE__ ) . '/class-kuetemeier-essentials.php';
 require_once dirname( __FILE__ ) . '/options/class-tab.php';
 require_once dirname( __FILE__ ) . '/options/class-section.php';
 require_once dirname( __FILE__ ) . '/options/class-setting.php';
@@ -687,7 +687,7 @@ final class Options {
 	/**
 	 * Returns a valid instance of the Main Plugin object. A subclass of WP_Plugin.
 	 *
-	 * @return WP_Plugin A valid instance of the Main Plugin object.
+	 * @return Kuetemeier_Essentials A valid instance of the Main Plugin object.
 	 *
 	 * @since 0.2.1
 	 */

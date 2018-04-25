@@ -86,7 +86,7 @@ class Core_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 				'general',
 				// (optional) content
 				'<p><b>Kuetemeier Essentials Plugin Version:</b> ' . \Kuetemeier_Essentials\Config\PLUGIN_VERSION .
-				'</p><p><b>License:</b> Alpha Test Version - limitied license</p>'.'<p>'.$this->test->get('hallo').'</p>',
+				'</p><p><b>License:</b> Alpha Test Version - limitied license</p>'.'<p>'.$this->get_wp_plugin()->config()->get('version').'</p>',
 				// (optional) display_function
 				'NOESC!'
 			)

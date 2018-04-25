@@ -42,7 +42,36 @@ require_once dirname( __FILE__ ) . '/config.php';
  *
  * @since 0.1.0
  */
-final class Kuetemeier_Essentials extends WP_Plugin {
+final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
+
+	/**
+	 * Holding a vaild instance.
+	 *
+	 * @var Plugin
+	 *
+	 * @since 0.1.0
+	 */
+	private static $instance = null;
+
+
+	/**
+	 * Instance of the Modules Class.
+	 *
+	 * @var Modules
+	 *
+	 * @since 0.1.11
+	 */
+	private $modules;
+
+
+	/**
+	 * Instance of the Options Class.
+	 *
+	 * @var Options
+	 *
+	 * @since 0.1.11
+	 */
+	private $options;
 
 
 	/**
@@ -55,15 +84,17 @@ final class Kuetemeier_Essentials extends WP_Plugin {
 	 */
 	public function __construct() {
 
-		$options = new Options( $this );
-		$modules = new Modules( $this, Config\AVAILABLE_MODULES );
-
-		parent::__construct(
-			Config\PLUGIN_VERSION,
-			Config\PLUGIN_VERSION_STABLE,
-			$options,
-			$modules
+		parent::__construct( array(
+			'version' => Config\PLUGIN_VERSION,
+			'version_stable' => Config\PLUGIN_VERSION_STABLE )
 		);
+
+		$this->options = new Options( $this );
+		$this->modules = new Modules( $this, Config\AVAILABLE_MODULES );
+
+		$this->modules->init_frontend_prepare_backend();
+
+		$this->options->init_admin_hooks();
 
 		add_action( 'wp_enqueue_scripts', array( &$this, 'callback__add_public_scripts' ) );
 
@@ -105,23 +136,23 @@ final class Kuetemeier_Essentials extends WP_Plugin {
 	}
 
 
-
 	/**
-	 * Returns a valid instance of Kuetemeier_Essentials.
+	 * Ensures only one instance of the plugin class is loaded or can be loaded.
 	 *
-	 * @param sting $self Needed for internal purpose. DO NOT USE IT, LEVE IT BLANK.
+	 * @param string $self Class name to be instanciated.
 	 *
-	 * @return Kuetemeier_Essentials
+	 * @return WP_Plugin A valid WP_Plugin instance
 	 *
-	 * @see WP_Plugin::instance()
 	 * @since 0.1.11
 	 */
-	public static function instance( $self = '' ) {
-		if ( ! empty( $self ) ) {
-			die( 'Do not use the parameter \$self!' );
+	public static function instance() {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new self();
+			do_action( 'kuetemeier_wp_plugin_loaded', self::$instance );
 		}
-		return parent::instance( __CLASS__ );
+		return self::$instance;
 	}
+
 
 	/**
 	 * Send a debug message to the browser console.
@@ -142,6 +173,72 @@ final class Kuetemeier_Essentials extends WP_Plugin {
 				esc_html( KUETEMEIER_ESSENTIALS_NAME ) .
 				': ' . esc_html( $data ) . '" );</script>' );
 		}
+	}
+
+
+	/**
+	 * Get the instance of the Modules class.
+	 *
+	 * @return Modules    A valid instance of the Module class.
+	 *
+	 * @since 0.1.11
+	 */
+	public function get_modules() {
+		return $this->modules;
+	}
+
+
+	/**
+	 * Get the instance of the Options class.
+	 *
+	 * @return Options    A valid instance of the Options class.
+	 *
+	 * @since 0.1.11
+	 */
+	public function get_options() {
+		return $this->options;
+	}
+
+
+	/**
+	 * Returns the slug of admin menu page for the given module (or the default admin slug).
+	 *
+	 * @param string $plugin_module_id (optional) A valid id of a Plugin_Module.
+	 *
+	 * @return string Default admin menu page slug.
+	 *
+	 * @since 0.2.1
+	 */
+	public function get_admin_page_slug( $plugin_module_id = '' ) {
+
+		if ( ! isset( $plugin_module_id ) ) {
+			wp_die( 'FATAL ERROR: Something is wrong, \$plugin_module_id is not set' );
+		}
+
+		trim( $plugin_module_id );
+
+		if ( empty( $plugin_module_id ) ) {
+			// const from config.php
+			return Config\ADMIN_PAGE_SLUG;
+		} else {
+			return sanitize_text_field( Config\ADMIN_PAGE_SLUG . '-' . $plugin_module_id );
+		}
+	}
+
+
+	/**
+	 * Returns the base key for the WordPress option table.
+	 *
+	 * The key of the WordPress Option table is in the column `option_name`.
+	 * The default value for the key should be a lowercase version of the Plugin name.
+	 *
+	 * @return string Database key for the WordPress options table.
+	 *
+	 * @since 0.2.1
+	 */
+	public function get_db_option_table_base_key() {
+		// const from config.php
+		return Config\DB_OPTION_TABLE_BASE_KEY;
 	}
 
 }

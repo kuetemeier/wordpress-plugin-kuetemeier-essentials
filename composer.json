@@ -9,10 +9,17 @@
 			"homepage": "https://kuetemeier.de"
 
 		}
-	],
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/kuetemeier/php-kuetemeier-wordpress"
+    }
+  ],
 	"require"    : {
 		"php" : ">=5.6",
-		"kuetemeier/collection": "dev-master"
+    "kuetemeier/collection": "dev-master",
+    "kuetemeier/wordpress": "dev-master"
 	},
   "autoload": {
     "psr-4": {

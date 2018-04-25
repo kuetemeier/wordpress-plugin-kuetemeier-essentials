@@ -40,6 +40,8 @@ require_once plugin_dir_path( __FILE__ ) . '/../class-admin-module.php';
  */
 class Core_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 
+	private $test;
+
 	/**
 	 * Create Core module.
 	 *
@@ -56,6 +58,8 @@ class Core_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 			// WP_Plugin instance
 			$wp_plugin
 		);
+
+		$this->test = new \Kuetemeier\Collection\Collection(array('hallo' => 'Welt'));
 
 		$options = $this->get_wp_plugin()->get_options();
 
@@ -82,7 +86,7 @@ class Core_Admin extends \Kuetemeier_Essentials\Plugin_Modules\Admin_Module {
 				'general',
 				// (optional) content
 				'<p><b>Kuetemeier Essentials Plugin Version:</b> ' . \Kuetemeier_Essentials\Config\PLUGIN_VERSION .
-				'</p><p><b>License:</b> Alpha Test Version - limitied license</p>',
+				'</p><p><b>License:</b> Alpha Test Version - limitied license</p>'.'<p>'.$this->test->get('hallo').'</p>',
 				// (optional) display_function
 				'NOESC!'
 			)

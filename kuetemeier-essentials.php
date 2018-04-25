@@ -43,6 +43,7 @@
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
+require __DIR__ . '/vendor/autoload.php';
 
 /********************************************************
  * Define constants, use old style for php version check

@@ -87,7 +87,15 @@ const PLUGIN_CONFIG = array(
 			'key' => DB_OPTION_TABLE_BASE_KEY
 		),
 		'modules' => array(
-			'list' => array(
+			// numer is init priority, smaller means priority, load before higher numbers
+			'available' => array(
+				'core' => 0,
+				'optimization' => 50
+			),
+			'always-enabled' => array(
+				'core'
+			),
+			'default-enabled' => array(
 				'optimization'
 			)
 		)

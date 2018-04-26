@@ -34,7 +34,7 @@ namespace Kuetemeier_Essentials\Module;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 /**
- * Data privacy Module of the Kuetemeier-Essentials Plugin.
+ * Optimization Module of the Kuetemeier-Essentials Plugin.
  */
 class Optimization extends \Kuetemeier\WordPress\PluginModule {
 
@@ -42,7 +42,7 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 		return array(
 			'id'         => 'optimization',
 			'short'		 => __( 'Optimization', 'kuetemeier-essentials' ),
-			'desciption' => __( 'WordPress Optimization options', 'kuetemeier-essentials' ),
+			'desciption' => __( 'WordPress optimization options.', 'kuetemeier-essentials' ),
 
 			'config'     => array(
 				'disable_emoji' => 0,
@@ -170,7 +170,6 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 
 	public function frontend_init_disable_embeds() {
 		if ( $this->config->get_option('optimization/disable_embeds') ) {
-
 			add_action( 'init', array( &$this, 'callback__init__disable_embeds', 9999 ) );
 		}
 	}

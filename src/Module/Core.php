@@ -49,18 +49,25 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 		);
 	}
 
-	public function common_init() {
-	}
+	public function getAdminOptionSettings() {
 
-	public function frontend_init() {
-	}
-
-	public function admin_init() {
-
-		$admin_page_options = array(
+		return array(
 			'pages' => array(
-
+				array(
+					'id'         => 'kuetemeier',
+					'title'      => 'Kuetemeier',
+					'menu-title' => 'Kuetemeier',
+				)
 			),
+			'subpages' => array(
+				array(
+					'id'         => 'kuetemeier',
+					'parentSlug' => 'kuetemeier',
+					'title'      => 'Kuetemeier Essentials',
+					'menuTitle'  => 'Essentials',
+					'priority'   => 0
+				)
+				),
 			'tabs' => array(
 
 			),

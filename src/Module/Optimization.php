@@ -51,19 +51,20 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 		);
 	}
 
-	public function common_init() {
-	}
-
 	public function frontend_init() {
 		$this->frontend_init_disable_emojis();
 		$this->frontend_init_disable_embeds();
 	}
 
-	public function admin_init() {
+	public function getAdminOptionSettings() {
 
-		$admin_page_options = array(
-			'pages' => array(
-
+		return array(
+			'subpages' => array(
+				array(
+					'id'        	=> 'optimization',
+					'parentSlug'	=> 'kuetemeier',
+					'title'			=> __('Optimization', 'kuetemeier-essentials')
+				)
 			),
 			'tabs' => array(
 

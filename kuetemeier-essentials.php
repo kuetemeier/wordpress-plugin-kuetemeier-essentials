@@ -181,12 +181,12 @@ function kuetemeier_essentials_init() {
 		add_action( 'admin_init', 'kuetemeier_essentials_callback_admin_init' );
 
 		// Everything O.K., let's go! Include the main Kuetemeier_Essentials class.
-		if ( ! class_exists( \Kuetemeier_Essentials\Kuetemeier_Essentials::class ) ) {
-			include_once KUETEMEIER_ESSENTIALS_PLUGIN_DIR . '/src/class-kuetemeier-essentials.php';
+		if ( ! class_exists( \KuetemeierEssentials\KuetemeierEssentialsPlugin::class ) ) {
+			include_once KUETEMEIER_ESSENTIALS_PLUGIN_DIR . '/src/KuetemeierEssentialsPlugin.php';
 		}
 
 		// Initialize plugin.
-		\Kuetemeier_Essentials\Kuetemeier_Essentials::instance();
+		\KuetemeierEssentials\KuetemeierEssentialsPlugin::instance();
 	}
 }
 

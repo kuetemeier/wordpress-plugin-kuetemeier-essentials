@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Module;
+namespace KuetemeierEssentials\Module;
 
 /*********************************
  * KEEP THIS for security reasons

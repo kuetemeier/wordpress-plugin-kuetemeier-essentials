@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials;
+namespace KuetemeierEssentials;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -33,8 +33,6 @@ namespace Kuetemeier_Essentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once dirname( __FILE__ ) . '/class-modules.php';
-require_once dirname( __FILE__ ) . '/class-options.php';
 require_once dirname( __FILE__ ) . '/config.php';
 
 /**
@@ -42,7 +40,7 @@ require_once dirname( __FILE__ ) . '/config.php';
  *
  * @since 0.1.0
  */
-final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
+final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 
 	/**
 	 * Holding a vaild instance.
@@ -86,7 +84,7 @@ final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
 
 		$config = new \Kuetemeier\WordPress\Config(Config\PLUGIN_CONFIG);
 		$config->set('plugin/dir', KUETEMEIER_ESSENTIALS_PLUGIN_DIR, true);
-		$config->set('plugin/modules/namespace', 'Kuetemeier_Essentials\Module', true);
+		$config->set('plugin/modules/namespace', 'KuetemeierEssentials\Module', true);
 		parent::__construct($config);
 
 /*		$this->options = new Options( $this );
@@ -148,7 +146,7 @@ final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
 	public static function instance() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
-			do_action( 'kuetemeier_wp_plugin_loaded', self::$instance );
+			do_action( 'KuetemeierEssentials-loaded', self::$instance );
 		}
 		return self::$instance;
 	}
@@ -177,30 +175,6 @@ final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
 
 
 	/**
-	 * Get the instance of the Modules class.
-	 *
-	 * @return Modules    A valid instance of the Module class.
-	 *
-	 * @since 0.1.11
-	 */
-/*	public function get_modules() {
-		return $this->modules;
-	}*/
-
-
-	/**
-	 * Get the instance of the Options class.
-	 *
-	 * @return Options    A valid instance of the Options class.
-	 *
-	 * @since 0.1.11
-	 */
-/*	public function get_options() {
-		return $this->options;
-	}*/
-
-
-	/**
 	 * Returns the slug of admin menu page for the given module (or the default admin slug).
 	 *
 	 * @param string $plugin_module_id (optional) A valid id of a Plugin_Module.
@@ -224,21 +198,5 @@ final class Kuetemeier_Essentials extends \Kuetemeier\WordPress\Plugin {
 			return sanitize_text_field( Config\ADMIN_PAGE_SLUG . '-' . $plugin_module_id );
 		}
 	}
-
-
-	/**
-	 * Returns the base key for the WordPress option table.
-	 *
-	 * The key of the WordPress Option table is in the column `option_name`.
-	 * The default value for the key should be a lowercase version of the Plugin name.
-	 *
-	 * @return string Database key for the WordPress options table.
-	 *
-	 * @since 0.2.1
-	 */
-/*	public function get_db_option_table_base_key() {
-		// const from config.php
-		return Config\DB_OPTION_TABLE_BASE_KEY;
-	} */
 
 }

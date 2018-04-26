@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace Kuetemeier_Essentials\Config;
+namespace KuetemeierEssentials\Config;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -79,6 +79,7 @@ const DB_OPTION_TABLE_BASE_KEY = 'kuetemeier-essentials';
 
 const PLUGIN_CONFIG = array(
 	'plugin' => array (
+		'id' => 'KuetemeierEssentials',
 		'version' => array (
 			'this'   => PLUGIN_VERSION,
 			'stable' => PLUGIN_VERSION_STABLE
@@ -89,14 +90,14 @@ const PLUGIN_CONFIG = array(
 		'modules' => array(
 			// numer is init priority, smaller means priority, load before higher numbers
 			'available' => array(
-				'core' => 0,
-				'optimization' => 50
+				'Core' => 0,
+				'Optimization' => 50
 			),
 			'always-enabled' => array(
-				'core'
+				'Core'
 			),
 			'default-enabled' => array(
-				'optimization'
+				'Optimization'
 			)
 		)
 	)

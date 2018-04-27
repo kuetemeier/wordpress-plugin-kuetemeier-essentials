@@ -62,14 +62,24 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 			'subpages' => array(
 				array(
 					'id'         => 'kuetemeier',
-					'parentSlug' => 'kuetemeier',
+					'parent'     => 'kuetemeier',
 					'title'      => 'Kuetemeier Essentials',
 					'menuTitle'  => 'Essentials',
-					'priority'   => 0
+					'priority'   => 0,
+					'content'	 => 'Some glorious content!'
 				)
 				),
 			'tabs' => array(
-
+				array(
+					'id'         => 'general',
+					'subpage'    => 'kuetemeier',
+					'title'      => __( 'General', 'kuetemeier-essentials' )
+				),
+				array(
+					'id'         => 'modules',
+					'subpage'    => 'kuetemeier',
+					'title'      => __( 'Modules', 'kuetemeier-essentials' ),
+				)
 			),
 			'sections' => array(
 

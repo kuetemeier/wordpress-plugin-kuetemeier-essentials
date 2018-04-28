@@ -105,7 +105,7 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 	 * ------------------------------------------------------------------------------------------------------------------------ */
 
 	private function frontend_init_disable_emojis() {
-		if ( $this->config->get_option('optimization/disable_emoji') ) {
+		if ( $this->config->getOption('optimization/disable_emoji') ) {
 			add_action( 'init', array( &$this, 'callback__init__disable_emojis' ) );
 		}
 	}
@@ -170,7 +170,7 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 
 
 	public function frontend_init_disable_embeds() {
-		if ( $this->config->get_option('optimization/disable_embeds') ) {
+		if ( $this->config->getOption('optimization/disable_embeds') ) {
 			add_action( 'init', array( &$this, 'callback__init__disable_embeds', 9999 ) );
 		}
 	}

@@ -41,8 +41,8 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 	public static function manifest() {
 		return array(
 			'id'         => 'core',
-			'short'		 => __( 'Core', 'kuetemeier-essentials' ),
-			'desciption' => __( 'Kuetemeier Essentials Core Module.', 'kuetemeier-essentials' ),
+			'short'		 => __('Core', 'kuetemeier-essentials'),
+			'desciption' => __('Kuetemeier Essentials Core Module.', 'kuetemeier-essentials'),
 
 			'config'     => array(
 			)
@@ -68,24 +68,45 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 					'priority'   => 0,
 					'content'	 => 'Some glorious content!'
 				)
-				),
+			),
 			'tabs' => array(
 				array(
 					'id'         => 'general',
-					'subpage'    => 'kuetemeier',
-					'title'      => __( 'General', 'kuetemeier-essentials' )
+					'page'       => 'kuetemeier',
+					'title'      => __('General', 'kuetemeier-essentials')
 				),
 				array(
 					'id'         => 'modules',
-					'subpage'    => 'kuetemeier',
-					'title'      => __( 'Modules', 'kuetemeier-essentials' ),
+					'page'       => 'kuetemeier',
+					'title'      => __('Modules', 'kuetemeier-essentials'),
 				)
 			),
 			'sections' => array(
-
+				array(
+					'id'         => 'test',
+					'page'       => 'kuetemeier',
+					'title'      => __('Test', 'kuetemeier-essentials'),
+					'content'	 => 'Einfach ein Test'
+				),
+				array(
+					'id'         => 'version',
+					'page'       => 'kuetemeier',
+					'tab'        => 'general',
+					'title'      => __('Version Information', 'kuetemeier-essentials'),
+					'content'	 => array(&$this, 'contentVersion')
+				)
 			),
 			'options' => array(
 			)
 		);
+	}
+
+	public function contentVersion($section) {
+		$plugin = $section->get('config')->getPlugin();
+		$stable = $plugin->is_stable_version() ? __('Stable Version', 'kuetemeier-essentials') : __('Development Version', 'kuetemeier-essentials');
+
+		echo '<p><b>Kuetemeier Essentials Plugin Version:</b> ' . $plugin->getVersion();
+		echo '</p><p><b>License:</b> Alpha Test Version - limitied license</p>'.'<p>'.$stable.'</p>';
+
 	}
 }

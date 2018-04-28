@@ -51,27 +51,6 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 	 */
 	private static $instance = null;
 
-
-	/**
-	 * Instance of the Modules Class.
-	 *
-	 * @var Modules
-	 *
-	 * @since 0.1.11
-	 */
-	private $modules;
-
-
-	/**
-	 * Instance of the Options Class.
-	 *
-	 * @var Options
-	 *
-	 * @since 0.1.11
-	 */
-	private $options;
-
-
 	/**
 	 * Constructor of Kuetemeier_Essentials.
 	 *
@@ -93,6 +72,9 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 		$this->modules->init_frontend_prepare_backend();
 
 		$this->options->init_admin_hooks();*/
+
+		$this->config->set('plugin/options/saveButtonText', __('Save', 'kuetemeier-essentials'));
+		$this->config->set('plugin/options/resetButtonText', __('Reset to Defaults', 'kuetemeier-essentials'));
 
 		add_action( 'wp_enqueue_scripts', array( &$this, 'callback__add_public_scripts' ) );
 

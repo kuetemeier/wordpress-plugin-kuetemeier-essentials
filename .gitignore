@@ -12,3 +12,4 @@ phpdocs
 **/*.pot~
 node_modules
 assets/
+.vscode

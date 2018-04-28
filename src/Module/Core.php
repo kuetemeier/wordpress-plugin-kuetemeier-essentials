@@ -91,7 +91,7 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'         => 'version',
 					'page'       => 'kuetemeier',
-					'tab'        => 'general',
+					'tab'        =>  array('general', 'modules'),
 					'title'      => __('Version Information', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentVersion')
 				)
@@ -102,7 +102,7 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 	}
 
 	public function contentVersion($section) {
-		$plugin = $section->get('config')->getPlugin();
+		$plugin = $section->getPlugin();
 		$stable = $plugin->is_stable_version() ? __('Stable Version', 'kuetemeier-essentials') : __('Development Version', 'kuetemeier-essentials');
 
 		echo '<p><b>Kuetemeier Essentials Plugin Version:</b> ' . $plugin->getVersion();

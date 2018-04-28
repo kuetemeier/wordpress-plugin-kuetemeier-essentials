@@ -67,14 +67,24 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 				)
 			),
 			'tabs' => array(
-
+				array(
+					'id'         => 'optimization-general',
+					'page'       => 'optimization',
+					'title'      => __('General', 'kuetemeier-essentials')
+				),
 			),
 			'sections' => array(
-
+				array(
+					'id'         => 'optimization-general',
+					'tab'		 => 'optimization-general',
+					'title'      => __('General', 'kuetemeier-essentials'),
+					'content'	 => __('Some recommended optimization features', 'kuetemeier-essentials')
+				),
 			),
 			'options' => array(
 				array(
 					'id'          => 'disable_emoji',
+					'section'     => 'optimization-general',
 					'pro'		  => false,
 					'alpha'		  => false,
 					'beta'		  => false,
@@ -86,6 +96,7 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 				),
 				array(
 					'id'          => 'disable_embeds',
+					'section'     => 'optimization-general',
 					'pro'		  => false,
 					'alpha'		  => false,
 					'beta'		  => false,

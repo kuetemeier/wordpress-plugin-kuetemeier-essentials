@@ -38,7 +38,8 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
  */
 class Core extends \Kuetemeier\WordPress\PluginModule {
 
-	public static function manifest() {
+	public static function manifest()
+	{
 		return array(
 			'id'         => 'core',
 			'short'		 => __('Core', 'kuetemeier-essentials'),
@@ -49,7 +50,8 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 		);
 	}
 
-	public function getAdminOptionSettings() {
+	public function getAdminOptionSettings()
+	{
 
 		return array(
 			'pages' => array(
@@ -90,8 +92,8 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 				),
 				array(
 					'id'         => 'version',
-					'page'       => 'kuetemeier',
-					'tab'        =>  array('general', 'modules'),
+					//'page'       => 'kuetemeier',
+					'tabs'       =>  array('general', 'modules'),
 					'title'      => __('Version Information', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentVersion')
 				)
@@ -101,7 +103,8 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 		);
 	}
 
-	public function contentVersion($section) {
+	public function contentVersion($section)
+	{
 		$plugin = $section->getPlugin();
 		$stable = $plugin->is_stable_version() ? __('Stable Version', 'kuetemeier-essentials') : __('Development Version', 'kuetemeier-essentials');
 

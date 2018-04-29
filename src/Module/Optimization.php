@@ -38,7 +38,8 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
  */
 class Optimization extends \Kuetemeier\WordPress\PluginModule {
 
-	public static function manifest() {
+	public static function manifest()
+	{
 		return array(
 			'id'         => 'optimization',
 			'short'		 => __( 'Optimization', 'kuetemeier-essentials' ),
@@ -51,12 +52,14 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 		);
 	}
 
-	public function frontend_init() {
+	public function frontend_init()
+	{
 		$this->frontend_init_disable_emojis();
 		$this->frontend_init_disable_embeds();
 	}
 
-	public function getAdminOptionSettings() {
+	public function getAdminOptionSettings()
+	{
 
 		return array(
 			'subpages' => array(
@@ -115,7 +118,8 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 	 * BEGIN - disable emojis
 	 * ------------------------------------------------------------------------------------------------------------------------ */
 
-	private function frontend_init_disable_emojis() {
+	private function frontend_init_disable_emojis()
+	{
 		if ( $this->config->getOption('optimization/disable_emoji') ) {
 			add_action( 'init', array( &$this, 'callback__init__disable_emojis' ) );
 		}
@@ -126,7 +130,8 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 	 *
 	 * @see https://kinsta.com/knowledgebase/disable-emojis-wordpress
 	 */
-	public function callback__init__disable_emojis() {
+	public function callback__init__disable_emojis()
+	{
 		remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 		remove_action( 'wp_print_styles', 'print_emoji_styles' );
@@ -145,7 +150,8 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 	 * @param array $plugins
 	 * @return array Difference betwen the two arrays
 	 */
-	public function callback__disable_emojis_tinymce( $plugins ) {
+	public function callback__disable_emojis_tinymce( $plugins )
+	{
 		if ( is_array( $plugins ) ) {
 			return array_diff( $plugins, array( 'wpemoji' ) );
 		} else {
@@ -161,7 +167,8 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 	 * @param string $relation_type The relation type the URLs are printed for.
 	 * @return array Difference betwen the two arrays.
 	 */
-	public function callback__disable_emojis_remove_dns_prefetch( $urls, $relation_type ) {
+	public function callback__disable_emojis_remove_dns_prefetch( $urls, $relation_type )
+	{
 		if ( 'dns-prefetch' == $relation_type ) {
 			/** This filter is documented in wp-includes/formatting.php */
 			$emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' );
@@ -180,14 +187,16 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 	 * ------------------------------------------------------------------------------------------------------------------------ */
 
 
-	public function frontend_init_disable_embeds() {
+	public function frontend_init_disable_embeds()
+	{
 		if ( $this->config->getOption('optimization/disable_embeds') ) {
 			add_action( 'init', array( &$this, 'callback__init__disable_embeds', 9999 ) );
 		}
 	}
 
 
-	public function callback__init__disable_embeds() {
+	public function callback__init__disable_embeds()
+	{
 		// Remove the REST API endpoint.
 		remove_action( 'rest_api_init', 'wp_oembed_register_route' );
 
@@ -212,12 +221,14 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 	}
 
 
-	public function callback__disable_embeds_tiny_mce_plugin( $plugins ) {
+	public function callback__disable_embeds_tiny_mce_plugin( $plugins )
+	{
 		return array_diff( $plugins, array( 'wpembed' ) );
 	}
 
 
-	public function callback__disable_embeds_rewrites( $rules ) {
+	public function callback__disable_embeds_rewrites( $rules )
+	{
 		foreach( $rules as $rule => $rewrite ) {
 			if( false !== strpos( $rewrite, 'embed=true' ) ) {
 				unset( $rules[$rule] );

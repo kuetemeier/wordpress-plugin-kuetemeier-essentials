@@ -75,10 +75,15 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 					'page'       => 'optimization',
 					'title'      => __('General', 'kuetemeier-essentials')
 				),
+				array(
+					'id'         => 'test-from-optimization',
+					'page'       => 'kuetemeier',
+					'title'      => __('Test From Optimization', 'kuetemeier-essentials'),
+				)
 			),
 			'sections' => array(
 				array(
-					'id'         => 'optimization-general',
+					'id'         => 'ogeneral',
 					'tab'		 => 'optimization-general',
 					'title'      => __('General', 'kuetemeier-essentials'),
 					'content'	 => __('Some recommended optimization features', 'kuetemeier-essentials')
@@ -87,25 +92,21 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 			'options' => array(
 				array(
 					'id'          => 'disable_emoji',
-					'section'     => 'optimization-general',
+					'section'     => 'ogeneral',
 					'pro'		  => false,
 					'alpha'		  => false,
 					'beta'		  => false,
 					'type'        => 'Checkbox',
-					'label'       => __( 'Disable WordPress Emojis', 'kuetemeier-essentials' ),
-					'section'     => 'optimization/common/emojis',
 					'label'       => __( 'Disable WordPress Emojis', 'kuetemeier-essentials' ),
 					'description' => __( 'Check (recommended) to disable the Emojis support in WordPress.', 'kuetemeier-essentials' )
 				),
 				array(
 					'id'          => 'disable_embeds',
-					'section'     => 'optimization-general',
+					'section'     => 'ogeneral',
 					'pro'		  => false,
 					'alpha'		  => false,
 					'beta'		  => false,
 					'type'        => 'Checkbox',
-					'label'       => __( 'Disable WordPress Emojis', 'kuetemeier-essentials' ),
-					'section'     => 'optimization/common/emojis',
 					'label'       => __( 'Disable WordPress Emojis', 'kuetemeier-essentials' ),
 					'description' => __( 'Check (recommended) to disable the Emojis support in WordPress.', 'kuetemeier-essentials' )
 				)

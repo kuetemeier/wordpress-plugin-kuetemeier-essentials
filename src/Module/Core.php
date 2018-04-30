@@ -81,6 +81,11 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 					'id'         => 'modules',
 					'page'       => 'kuetemeier',
 					'title'      => __('Modules', 'kuetemeier-essentials'),
+				),
+				array(
+					'id'         => 'test',
+					'page'       => 'kuetemeier',
+					'title'      => __('Test', 'kuetemeier-essentials'),
 				)
 			),
 			'sections' => array(
@@ -89,6 +94,12 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 					'page'       => 'kuetemeier',
 					'title'      => __('Test', 'kuetemeier-essentials'),
 					'content'	 => 'Einfach ein Test'
+				),
+				array(
+					'id'         => 'test2',
+					'tab'        => 'test',
+					'title'      => __('Test 2', 'kuetemeier-essentials'),
+					'content'	 => 'Und noch ein Test'
 				),
 				array(
 					'id'         => 'version',

@@ -46,8 +46,8 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 			'desciption' => __( 'WordPress optimization options.', 'kuetemeier-essentials' ),
 
 			'config'     => array(
-				'disable_emoji' => 0,
-				'disable_embeds' => 0,
+				'disable-emoji' => 0,
+				'disable-embeds' => 0,
 			)
 		);
 	}
@@ -91,25 +91,17 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 			),
 			'options' => array(
 				array(
-					'id'          => 'disable_emoji',
-					'module'      => 'optimization',
+					'id'          => 'disable-emoji',
 					'section'     => 'ogeneral',
 					'title'		  => __('WP Emojis Support', 'kuetemeier-essentials'),
-					'pro'		  => false,
-					'alpha'		  => false,
-					'beta'		  => false,
 					'type'        => 'Checkbox',
 					'label'       => __( 'Disable WordPress Emojis', 'kuetemeier-essentials' ),
 					'description' => __( 'Check (recommended) to disable the Emojis support in WordPress.', 'kuetemeier-essentials' )
 				),
 				array(
-					'id'          => 'disable_embeds',
-					'module'      => 'optimization',
+					'id'          => 'disable-embeds',
 					'section'     => 'ogeneral',
 					'title'       => __('WP Embeds Support', 'kuetemeier-essentials'),
-					'pro'		  => false,
-					'alpha'		  => false,
-					'beta'		  => false,
 					'type'        => 'Checkbox',
 					'label'       => __( 'Disable WordPress Embeds', 'kuetemeier-essentials' ),
 					'description' => __( 'Check (recommended) to disable the "Embed" functionality in WordPress.', 'kuetemeier-essentials' )

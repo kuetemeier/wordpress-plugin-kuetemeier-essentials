@@ -91,13 +91,15 @@ const PLUGIN_CONFIG = array(
 			// numer is init priority, smaller means priority, load before higher numbers
 			'available' => array(
 				'core' => 0,
-				'optimization' => 50
+				'optimization' => 50,
+				'dataprivacy' => 60
 			),
 			'always-enabled' => array(
 				'core'
 			),
 			'default-enabled' => array(
-				'optimization'
+				'optimization',
+				'dataprivacy'
 			)
 		)
 	)

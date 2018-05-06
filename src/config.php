@@ -90,14 +90,14 @@ const PLUGIN_CONFIG = array(
 		'modules' => array(
 			// numer is init priority, smaller means priority, load before higher numbers
 			'available' => array(
-				'Core' => 0,
-				'Optimization' => 50
+				'core' => 0,
+				'optimization' => 50
 			),
 			'always-enabled' => array(
-				'Core'
+				'core'
 			),
 			'default-enabled' => array(
-				'Optimization'
+				'optimization'
 			)
 		)
 	)

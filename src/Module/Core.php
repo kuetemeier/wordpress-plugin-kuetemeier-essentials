@@ -103,7 +103,6 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 				),
 				array(
 					'id'         => 'version',
-					//'page'       => 'kuetemeier',
 					'tabs'       =>  array('general', 'modules'),
 					'title'      => __('Version Information', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentVersion')

@@ -61,7 +61,7 @@ class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 					'parent'     => 'kuetemeier',
 					'title'      => 'Data Privacy',
 					'menuTitle'  => 'Data Privacy',
-					'priority'   => 0,
+					'priority'   => 200,
 				)
 			),
 			'tabs' => array(

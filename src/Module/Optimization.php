@@ -66,27 +66,23 @@ class Optimization extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'        	=> 'optimization',
 					'parentSlug'	=> 'kuetemeier',
-					'title'			=> __('Optimization', 'kuetemeier-essentials')
+					'title'			=> __('Optimization', 'kuetemeier-essentials'),
+					'content'		=> __('Options to optimze your WordPress installation.')
 				)
 			),
 			'tabs' => array(
 				array(
 					'id'         => 'optimization-general',
 					'page'       => 'optimization',
-					'title'      => __('General', 'kuetemeier-essentials')
+					'title'      => __('Speed Optimizations', 'kuetemeier-essentials')
 				),
-				array(
-					'id'         => 'test-from-optimization',
-					'page'       => 'kuetemeier',
-					'title'      => __('Test From Optimization', 'kuetemeier-essentials'),
-				)
 			),
 			'sections' => array(
 				array(
 					'id'         => 'ogeneral',
 					'tab'		 => 'optimization-general',
-					'title'      => __('General', 'kuetemeier-essentials'),
-					'content'	 => __('Some recommended optimization features', 'kuetemeier-essentials')
+					'title'      => __('Basic WordPress Features', 'kuetemeier-essentials'),
+					'content'	 => __('These are basic WordPress features, that most likely are not needed and we recommend to disable them.', 'kuetemeier-essentials')
 				),
 			),
 			'options' => array(

@@ -48,6 +48,9 @@ const esLint = require('gulp-eslint');
 // exec
 const exec = require('child_process').exec;
 
+const wpPot = require('gulp-wp-pot');
+const gettext = require('gulp-gettext');
+
 
 // get config
 var pkg = JSON.parse(fs.readFileSync('./package.json'));
@@ -128,6 +131,20 @@ gulp.task('replace_src_config_php', function() {
 
 gulp.task('replace', ['replace_readme_txt', 'replace_kuetemeier_essentials_php', 'replace_readme_md', 'replace_src_config_php']);
 
+gulp.task('pot', function () {
+	return gulp.src(['src/**/*.php', './index.php'])
+			.pipe(wpPot( {
+					domain: 'kuetemeier-essentials',
+					package: 'Kuetemeier-Essentials'
+			} ))
+			.pipe(gulp.dest('languages/kuetemeier-essentials.pot'));
+});
+
+gulp.task('gettext', () => {
+  gulp.src('language/*.po')
+    .pipe(gettext())
+    .pipe(gulp.dest('language'));
+});
 
 gulp.task('zip', function () {
   return gulp.src([

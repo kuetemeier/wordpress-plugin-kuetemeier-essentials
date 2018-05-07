@@ -1,74 +1,273 @@
-#, fuzzy
+# Copyright (C) 2018 Kuetemeier-Essentials
+# This file is distributed under the same license as the Kuetemeier-Essentials package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Kuetemeier Essentials\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-27 16:25+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: \n"
-"Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Kuetemeier-Essentials\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco https://localise.biz/"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#. %1$s Plugin Version
-#: kuetemeier-essentials.php:86
-#, php-format
-msgid "Error: Plugin \"%s\" requires a newer version of PHP."
+#: src/class-options.php:676
+msgid "Save Settings"
 msgstr ""
 
-#: kuetemeier-essentials.php:87
-msgid "Minimal PHP version required:"
+#: src/class-options.php:677
+msgid "Reset Defaults"
 msgstr ""
 
-#: kuetemeier-essentials.php:89
-msgid "Current PHP version running on this server:"
+#: src/KuetemeierEssentialsPlugin.php:76
+msgid "Save"
 msgstr ""
 
-#: src/admin/module/class-data-privacy-admin.php:50
-#: src/admin/module/class-data-privacy-admin.php:51
+#: src/KuetemeierEssentialsPlugin.php:77
+msgid "Reset to Defaults"
+msgstr ""
+
+#: src/Module/Core.php:45, src/plugin_modules/admin/class-core-admin.php:57, src/plugin_modules/frontend/class-core-frontend.php:55
+msgid "Core"
+msgstr ""
+
+#: src/Module/Core.php:46
+msgid "Kuetemeier Essentials Core Module."
+msgstr ""
+
+#: src/Module/Core.php:78, src/plugin_modules/admin/class-core-admin.php:71
+msgid "General"
+msgstr ""
+
+#: src/Module/Core.php:83, src/plugin_modules/admin/class-core-admin.php:72
+msgid "Modules"
+msgstr ""
+
+#: src/Module/Core.php:88, src/Module/Core.php:95
+msgid "Test"
+msgstr ""
+
+#: src/Module/Core.php:101
+msgid "Test 2"
+msgstr ""
+
+#: src/Module/Core.php:107
+msgid "Version Information"
+msgstr ""
+
+#: src/Module/Core.php:119, src/Module/Dataprivacy.php:90
+msgid "Stable Version"
+msgstr ""
+
+#: src/Module/Core.php:119, src/Module/Dataprivacy.php:90
+msgid "Development Version"
+msgstr ""
+
+#: src/Module/Dataprivacy.php:45, src/plugin_modules/admin/class-data-privacy-admin.php:57, src/plugin_modules/admin/class-data-privacy-admin.php:68, src/plugin_modules/admin/class-data-privacy-admin.php:69, src/plugin_modules/frontend/class-data-privacy-frontend.php:72
 msgid "Data Privacy"
 msgstr ""
 
-#. title
-#: src/admin/module/class-data-privacy-admin.php:62
+#: src/Module/Dataprivacy.php:46
+msgid "Kuetemeier Essentials Data Privacy Module."
+msgstr ""
+
+#: src/Module/Dataprivacy.php:71
+msgid "General Data Privacy"
+msgstr ""
+
+#: src/Module/Dataprivacy.php:78
+msgid "Introduction"
+msgstr ""
+
+#: src/Module/Optimization.php:45, src/Module/Optimization.php:69, src/plugin_modules/admin/class-optimization-admin.php:57, src/plugin_modules/admin/class-optimization-admin.php:68, src/plugin_modules/admin/class-optimization-admin.php:69, src/plugin_modules/frontend/class-optimization-frontend.php:65
+msgid "Optimization"
+msgstr ""
+
+#: src/Module/Optimization.php:46
+msgid "WordPress optimization options."
+msgstr ""
+
+#: src/Module/Optimization.php:77
+msgid "Speed Optimizations"
+msgstr ""
+
+#: src/Module/Optimization.php:84
+msgid "Basic WordPress Features"
+msgstr ""
+
+#: src/Module/Optimization.php:85
+msgid "These are basic WordPress features, that most likely are not needed and we recommend to disable them."
+msgstr ""
+
+#: src/Module/Optimization.php:92
+msgid "WP Emojis Support"
+msgstr ""
+
+#: src/Module/Optimization.php:94, src/plugin_modules/frontend/class-optimization-frontend.php:99
+msgid "Disable WordPress Emojis"
+msgstr ""
+
+#: src/Module/Optimization.php:95, src/plugin_modules/frontend/class-optimization-frontend.php:107
+msgid "Check (recommended) to disable the Emojis support in WordPress."
+msgstr ""
+
+#: src/Module/Optimization.php:100
+msgid "WP Embeds Support"
+msgstr ""
+
+#: src/Module/Optimization.php:102
+msgid "Disable WordPress Embeds"
+msgstr ""
+
+#: src/Module/Optimization.php:103
+msgid "Check (recommended) to disable the \"Embed\" functionality in WordPress."
+msgstr ""
+
+#: src/plugin_modules/admin/class-analytics-admin.php:57, src/plugin_modules/admin/class-analytics-admin.php:68, src/plugin_modules/admin/class-analytics-admin.php:69, src/plugin_modules/frontend/class-analytics-frontend.php:65
+msgid "Analytics"
+msgstr ""
+
+#: src/plugin_modules/admin/class-analytics-admin.php:71
+msgid "Common Analytics"
+msgstr ""
+
+#: src/plugin_modules/admin/class-analytics-admin.php:86
+msgid "Google Analytics"
+msgstr ""
+
+#: src/plugin_modules/admin/class-analytics-admin.php:92
+msgid "Features to include Google Analytics in your Website."
+msgstr ""
+
+#: src/plugin_modules/admin/class-data-privacy-admin.php:71
 msgid "WordPress Comments"
 msgstr ""
 
-#. content
-#: src/admin/module/class-data-privacy-admin.php:68
+#: src/plugin_modules/admin/class-data-privacy-admin.php:86
+msgid "Data Privacy Statement in WordPress Comments"
+msgstr ""
+
+#: src/plugin_modules/admin/class-data-privacy-admin.php:92
 msgid "Users of the comment system should agree to our privacy policy"
 msgstr ""
 
-#. label
-#: src/admin/module/class-data-privacy-admin.php:81
+#: src/plugin_modules/admin/class-develop-admin.php:55, src/plugin_modules/frontend/class-develop-frontend.php:57
+msgid "Development"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:59, src/plugin_modules/admin/class-media-admin.php:70, src/plugin_modules/admin/class-media-admin.php:71, src/plugin_modules/frontend/class-media-frontend.php:75
+msgid "Media"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:73
+msgid "Media Library Options"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:74, src/plugin_modules/admin/class-media-admin.php:115
+msgid "imgix Support"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:75
+msgid "kimg Shortcode"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:90
+msgid "Common Media Library Options"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:96, src/plugin_modules/admin/class-optimization-admin.php:92
+msgid "On this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there."
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:102
+msgid "Add external Media to the Library"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:121
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:129
+msgid "imgix Source Settings"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:135
+msgid "Default imgix source settings."
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:141
+msgid "\"kimg\" - Kuetemeier Image Shortcode"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:147
+msgid "Usefull Shortcut to create image tags with imgix support and copyright informations."
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:209
+msgid "URL to reference Media to"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:211
+msgid "Image URL (https://my.domain/my-image.jpg)"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:217
+msgid "Please fill in the following properties manually. If you leave the fields blank (or 0 for width/height), the plugin will try to resolve them automatically"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:220
+msgid "Width"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:222
+msgid "Height"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:224
+msgid "MIME Type"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:235
+msgid "Add"
+msgstr ""
+
+#: src/plugin_modules/admin/class-media-admin.php:237
+msgid "Cancel"
+msgstr ""
+
+#: src/plugin_modules/admin/class-optimization-admin.php:71, src/plugin_modules/admin/class-optimization-admin.php:86
+msgid "Common Optimizations"
+msgstr ""
+
+#: src/plugin_modules/frontend/class-data-privacy-frontend.php:104
 msgid "Privacy Checkbox"
 msgstr ""
 
-#. description
-#: src/admin/module/class-data-privacy-admin.php:89
+#: src/plugin_modules/frontend/class-data-privacy-frontend.php:112
 msgid "Add privacy checkbox to comment fields"
 msgstr ""
 
-#. Name of the plugin
-msgid "Kuetemeier Essentials"
+#: src/plugin_modules/frontend/class-data-privacy-frontend.php:127
+msgid "URL to data privacy statement"
 msgstr ""
 
-#. Description of the plugin
-msgid "Essential and fast addons for WordPress websites"
+#: src/plugin_modules/frontend/class-data-privacy-frontend.php:138
+msgid "Valid URL (e.g. /data-privacy/)"
 msgstr ""
 
-#. URI of the plugin
-msgid "http://wordpress.org/extend/plugins/kuetemeier-essentials/"
+#: src/plugin_modules/frontend/class-media-frontend.php:113
+msgid "Enable external Media"
 msgstr ""
 
-#. Author of the plugin
-msgid "Jörg Kütemeier"
+#: src/plugin_modules/frontend/class-media-frontend.php:121
+msgid "Check to be able to reference external Media and add it to the Media Library."
 msgstr ""
 
-#. Author URI of the plugin
-msgid "https://kuetemeier.de"
+#: src/plugin_modules/frontend/class-media-frontend.php:136
+msgid "Enable IMGIX JavaScript"
+msgstr ""
+
+#: src/plugin_modules/frontend/class-media-frontend.php:144
+msgid "Check to enable the IMGIX JavaScript functionality."
 msgstr ""

@@ -63,7 +63,7 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 
 		$config = new \Kuetemeier\WordPress\Config(Config\PLUGIN_CONFIG);
 		$config->set('plugin/dir', KUETEMEIER_ESSENTIALS_PLUGIN_DIR, true);
-		$config->set('plugin/modules/namespace', 'KuetemeierEssentials\Module', true);
+		$config->set('plugin/modules/namespace', 'KuetemeierEssentials\Modules', true);
 		parent::__construct($config);
 
 /*		$this->options = new Options( $this );

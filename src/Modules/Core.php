@@ -25,7 +25,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace KuetemeierEssentials\Module;
+namespace KuetemeierEssentials\Modules;
 
 /*********************************
  * KEEP THIS for security reasons
@@ -46,6 +46,12 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 			'desciption' => __('Kuetemeier Essentials Core Module.', 'kuetemeier-essentials'),
 
 			'config'     => array(
+				'test' => '',
+				'testarea' => 'Test Area',
+				'test-number' => 10,
+				'test-email' => '',
+				'test-select' => 'b',
+				'test-radio' => 'b'
 			)
 		);
 	}
@@ -109,6 +115,68 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 				)
 			),
 			'options' => array(
+				array(
+					'id'          => 'test',
+					'section'     => 'version',
+					'title'		  => __('Test', 'kuetemeier-essentials'),
+					'type'        => 'Text',
+					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
+					'description' => __( 'A Description', 'kuetemeier-essentials' ),
+				),
+				array(
+					'id'          => 'testarea',
+					'section'     => 'version',
+					'title'		  => __('Test', 'kuetemeier-essentials'),
+					'type'        => 'TextArea',
+					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
+					'description' => __( 'A Description', 'kuetemeier-essentials' ),
+					'allowHTML'   => 1,
+					'allowScripts' => 1,
+					'code'		  => true,
+					'large'		  => true,
+					'cols'		  => 50
+				),
+				array(
+					'id'          => 'test-number',
+					'section'     => 'version',
+					'title'		  => __('Number', 'kuetemeier-essentials'),
+					'type'        => 'Number',
+					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
+					'description' => __( 'A Description', 'kuetemeier-essentials' ),
+				),
+				array(
+					'id'          => 'test-email',
+					'section'     => 'version',
+					'title'		  => __('Email', 'kuetemeier-essentials'),
+					'type'        => 'Email',
+					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
+					'description' => __( 'A Description', 'kuetemeier-essentials' ),
+				),
+				array(
+					'id'          => 'test-select',
+					'section'     => 'version',
+					'title'		  => __('Select', 'kuetemeier-essentials'),
+					'type'        => 'Select',
+					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
+					'description' => __( 'A Description', 'kuetemeier-essentials' ),
+					'values'	  => array(
+						'1' => 'First',
+						'b' => 'Second',
+						'c' => 'Third'
+					)
+				),
+				array(
+					'id'          => 'test-radio',
+					'section'     => 'version',
+					'title'		  => __('Select', 'kuetemeier-essentials'),
+					'type'        => 'Radio',
+					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
+					'description' => __( 'A Description', 'kuetemeier-essentials' ),
+					'values'	  => array(
+						'1' => 'On',
+						'0' => 'Off',
+					),
+				),
 			)
 		);
 	}

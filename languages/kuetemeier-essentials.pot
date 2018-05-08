@@ -29,7 +29,7 @@ msgstr ""
 msgid "Reset to Defaults"
 msgstr ""
 
-#: src/Module/Core.php:45, src/plugin_modules/admin/class-core-admin.php:57, src/plugin_modules/frontend/class-core-frontend.php:55
+#: src/Module/Core.php:45, src/plugin_modules/frontend/class-core-frontend.php:55
 msgid "Core"
 msgstr ""
 
@@ -37,35 +37,55 @@ msgstr ""
 msgid "Kuetemeier Essentials Core Module."
 msgstr ""
 
-#: src/Module/Core.php:78, src/plugin_modules/admin/class-core-admin.php:71
+#: src/Module/Core.php:84
 msgid "General"
 msgstr ""
 
-#: src/Module/Core.php:83, src/plugin_modules/admin/class-core-admin.php:72
+#: src/Module/Core.php:89
 msgid "Modules"
 msgstr ""
 
-#: src/Module/Core.php:88, src/Module/Core.php:95
+#: src/Module/Core.php:94, src/Module/Core.php:101, src/Module/Core.php:121, src/Module/Core.php:129
 msgid "Test"
 msgstr ""
 
-#: src/Module/Core.php:101
+#: src/Module/Core.php:107
 msgid "Test 2"
 msgstr ""
 
-#: src/Module/Core.php:107
+#: src/Module/Core.php:113
 msgid "Version Information"
 msgstr ""
 
-#: src/Module/Core.php:119, src/Module/Dataprivacy.php:90
+#: src/Module/Core.php:123, src/Module/Core.php:131, src/Module/Core.php:144, src/Module/Core.php:152, src/Module/Core.php:160, src/Module/Core.php:173
+msgid "A Label"
+msgstr ""
+
+#: src/Module/Core.php:124, src/Module/Core.php:132, src/Module/Core.php:145, src/Module/Core.php:153, src/Module/Core.php:161, src/Module/Core.php:174
+msgid "A Description"
+msgstr ""
+
+#: src/Module/Core.php:142
+msgid "Number"
+msgstr ""
+
+#: src/Module/Core.php:150
+msgid "Email"
+msgstr ""
+
+#: src/Module/Core.php:158, src/Module/Core.php:171
+msgid "Select"
+msgstr ""
+
+#: src/Module/Core.php:187, src/Module/Dataprivacy.php:90
 msgid "Stable Version"
 msgstr ""
 
-#: src/Module/Core.php:119, src/Module/Dataprivacy.php:90
+#: src/Module/Core.php:187, src/Module/Dataprivacy.php:90
 msgid "Development Version"
 msgstr ""
 
-#: src/Module/Dataprivacy.php:45, src/plugin_modules/admin/class-data-privacy-admin.php:57, src/plugin_modules/admin/class-data-privacy-admin.php:68, src/plugin_modules/admin/class-data-privacy-admin.php:69, src/plugin_modules/frontend/class-data-privacy-frontend.php:72
+#: src/Module/Dataprivacy.php:45, src/plugin_modules/frontend/class-data-privacy-frontend.php:72
 msgid "Data Privacy"
 msgstr ""
 
@@ -81,7 +101,102 @@ msgstr ""
 msgid "Introduction"
 msgstr ""
 
-#: src/Module/Optimization.php:45, src/Module/Optimization.php:69, src/plugin_modules/admin/class-optimization-admin.php:57, src/plugin_modules/admin/class-optimization-admin.php:68, src/plugin_modules/admin/class-optimization-admin.php:69, src/plugin_modules/frontend/class-optimization-frontend.php:65
+#: src/Module/Media.php:45, src/Module/Media.php:71, src/plugin_modules/frontend/class-media-frontend.php:75
+msgid "Media"
+msgstr ""
+
+#: src/Module/Media.php:46
+msgid "WordPress media enhancements."
+msgstr ""
+
+#: src/Module/Media.php:72
+msgid "WordPress Media Library enhancements."
+msgstr ""
+
+#: src/Module/Media.php:79
+msgid "Common Media Library Options"
+msgstr ""
+
+#: src/Module/Media.php:80
+msgid "\nOn this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there."
+msgstr ""
+
+#: src/Module/Media.php:85, src/Module/Media.php:106
+msgid "imgix Support"
+msgstr ""
+
+#: src/Module/Media.php:90
+msgid "kimg Shortcode"
+msgstr ""
+
+#: src/Module/Media.php:97
+msgid "Add external Media to the Library"
+msgstr ""
+
+#: src/Module/Media.php:98
+msgid "If activated, this feature will allow you to add external Media (by it's URL) to the Media Library."
+msgstr ""
+
+#: src/Module/Media.php:99
+msgid " The media is NOT imported, but you can use it like \"normal\" media and enhance it with custom fields (like captions or copyright informations)."
+msgstr ""
+
+#: src/Module/Media.php:100
+msgid " This is usefull for S3, CDN or imgix integration."
+msgstr ""
+
+#: src/Module/Media.php:107
+msgstr ""
+
+#: src/Module/Media.php:114
+msgid "imgix Source Settings"
+msgstr ""
+
+#: src/Module/Media.php:115
+msgid "Default imgix source settings."
+msgstr ""
+
+#: src/Module/Media.php:120
+msgid "\"kimg\" - Kuetemeier Image Shortcode"
+msgstr ""
+
+#: src/Module/Media.php:121
+msgid "Usefull Shortcut to create image tags with imgix support and copyright informations."
+msgstr ""
+
+#: src/Module/Media.php:212
+msgid "URL to reference Media to"
+msgstr ""
+
+#: src/Module/Media.php:214
+msgid "Image URL (https://my.domain/my-image.jpg)"
+msgstr ""
+
+#: src/Module/Media.php:220
+msgid "Please fill in the following properties manually. If you leave the fields blank (or 0 for width/height), the plugin will try to resolve them automatically"
+msgstr ""
+
+#: src/Module/Media.php:223
+msgid "Width"
+msgstr ""
+
+#: src/Module/Media.php:225
+msgid "Height"
+msgstr ""
+
+#: src/Module/Media.php:227
+msgid "MIME Type"
+msgstr ""
+
+#: src/Module/Media.php:238
+msgid "Add"
+msgstr ""
+
+#: src/Module/Media.php:240
+msgid "Cancel"
+msgstr ""
+
+#: src/Module/Optimization.php:45, src/Module/Optimization.php:69, src/plugin_modules/frontend/class-optimization-frontend.php:65
 msgid "Optimization"
 msgstr ""
 
@@ -125,119 +240,8 @@ msgstr ""
 msgid "Check (recommended) to disable the \"Embed\" functionality in WordPress."
 msgstr ""
 
-#: src/plugin_modules/admin/class-analytics-admin.php:57, src/plugin_modules/admin/class-analytics-admin.php:68, src/plugin_modules/admin/class-analytics-admin.php:69, src/plugin_modules/frontend/class-analytics-frontend.php:65
+#: src/plugin_modules/frontend/class-analytics-frontend.php:65
 msgid "Analytics"
-msgstr ""
-
-#: src/plugin_modules/admin/class-analytics-admin.php:71
-msgid "Common Analytics"
-msgstr ""
-
-#: src/plugin_modules/admin/class-analytics-admin.php:86
-msgid "Google Analytics"
-msgstr ""
-
-#: src/plugin_modules/admin/class-analytics-admin.php:92
-msgid "Features to include Google Analytics in your Website."
-msgstr ""
-
-#: src/plugin_modules/admin/class-data-privacy-admin.php:71
-msgid "WordPress Comments"
-msgstr ""
-
-#: src/plugin_modules/admin/class-data-privacy-admin.php:86
-msgid "Data Privacy Statement in WordPress Comments"
-msgstr ""
-
-#: src/plugin_modules/admin/class-data-privacy-admin.php:92
-msgid "Users of the comment system should agree to our privacy policy"
-msgstr ""
-
-#: src/plugin_modules/admin/class-develop-admin.php:55, src/plugin_modules/frontend/class-develop-frontend.php:57
-msgid "Development"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:59, src/plugin_modules/admin/class-media-admin.php:70, src/plugin_modules/admin/class-media-admin.php:71, src/plugin_modules/frontend/class-media-frontend.php:75
-msgid "Media"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:73
-msgid "Media Library Options"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:74, src/plugin_modules/admin/class-media-admin.php:115
-msgid "imgix Support"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:75
-msgid "kimg Shortcode"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:90
-msgid "Common Media Library Options"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:96, src/plugin_modules/admin/class-optimization-admin.php:92
-msgid "On this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there."
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:102
-msgid "Add external Media to the Library"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:121
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:129
-msgid "imgix Source Settings"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:135
-msgid "Default imgix source settings."
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:141
-msgid "\"kimg\" - Kuetemeier Image Shortcode"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:147
-msgid "Usefull Shortcut to create image tags with imgix support and copyright informations."
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:209
-msgid "URL to reference Media to"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:211
-msgid "Image URL (https://my.domain/my-image.jpg)"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:217
-msgid "Please fill in the following properties manually. If you leave the fields blank (or 0 for width/height), the plugin will try to resolve them automatically"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:220
-msgid "Width"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:222
-msgid "Height"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:224
-msgid "MIME Type"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:235
-msgid "Add"
-msgstr ""
-
-#: src/plugin_modules/admin/class-media-admin.php:237
-msgid "Cancel"
-msgstr ""
-
-#: src/plugin_modules/admin/class-optimization-admin.php:71, src/plugin_modules/admin/class-optimization-admin.php:86
-msgid "Common Optimizations"
 msgstr ""
 
 #: src/plugin_modules/frontend/class-data-privacy-frontend.php:104
@@ -254,6 +258,10 @@ msgstr ""
 
 #: src/plugin_modules/frontend/class-data-privacy-frontend.php:138
 msgid "Valid URL (e.g. /data-privacy/)"
+msgstr ""
+
+#: src/plugin_modules/frontend/class-develop-frontend.php:57
+msgid "Development"
 msgstr ""
 
 #: src/plugin_modules/frontend/class-media-frontend.php:113

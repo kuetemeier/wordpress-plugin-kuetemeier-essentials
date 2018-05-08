@@ -92,12 +92,14 @@ const PLUGIN_CONFIG = array(
 			'available' => array(
 				'core' => 0,
 				'optimization' => 50,
-				'dataprivacy' => 60
+				'media' => 100,
+				'dataprivacy' => 150,
 			),
 			'always-enabled' => array(
 				'core'
 			),
 			'default-enabled' => array(
+				'media',
 				'optimization',
 				'dataprivacy'
 			)

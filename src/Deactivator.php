@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Deactivator
  */
-class Deactivator {
+final class Deactivator {
 
 	/**
 	 * This function is called, when the plugin is deactivated.

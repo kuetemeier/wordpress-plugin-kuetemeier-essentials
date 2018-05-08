@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Activator
  */
-class Activator {
+final class Activator {
 
 	/**
 	 * This function is called, when the plugin is activated.

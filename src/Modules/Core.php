@@ -36,22 +36,16 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Core Module of the Kuetemeier-Essentials Plugin.
  */
-class Core extends \Kuetemeier\WordPress\PluginModule {
+final class Core extends \Kuetemeier\WordPress\PluginModule {
 
 	public static function manifest()
 	{
 		return array(
-			'id'         => 'core',
-			'short'		 => __('Core', 'kuetemeier-essentials'),
-			'desciption' => __('Kuetemeier Essentials Core Module.', 'kuetemeier-essentials'),
+			'id'          => 'core',
+			'short'		  => __('Core', 'kuetemeier-essentials'),
+			'description' => __('Kuetemeier Essentials Core Module.', 'kuetemeier-essentials'),
 
-			'config'     => array(
-				'test' => '',
-				'testarea' => 'Test Area',
-				'test-number' => 10,
-				'test-email' => '',
-				'test-select' => 'b',
-				'test-radio' => 'b'
+			'config'      => array(
 			)
 		);
 	}
@@ -74,7 +68,7 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 					'title'      => 'Kuetemeier Essentials',
 					'menuTitle'  => 'Essentials',
 					'priority'   => 0,
-					'content'	 => 'Some glorious content!'
+					'content'	 => __('Essential Features for WordPress!', 'kuetemeier-essentials')
 				)
 			),
 			'tabs' => array(
@@ -88,95 +82,28 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 					'page'       => 'kuetemeier',
 					'title'      => __('Modules', 'kuetemeier-essentials'),
 				),
-				array(
-					'id'         => 'test',
-					'page'       => 'kuetemeier',
-					'title'      => __('Test', 'kuetemeier-essentials'),
-				)
 			),
 			'sections' => array(
 				array(
-					'id'         => 'test',
-					'page'       => 'kuetemeier',
-					'title'      => __('Test', 'kuetemeier-essentials'),
-					'content'	 => 'Einfach ein Test'
-				),
-				array(
-					'id'         => 'test2',
-					'tab'        => 'test',
-					'title'      => __('Test 2', 'kuetemeier-essentials'),
-					'content'	 => 'Und noch ein Test'
-				),
-				array(
-					'id'         => 'version',
-					'tabs'       =>  array('general', 'modules'),
+					'id'         => 'core-version',
+					'tabs'       => array('general'),
 					'title'      => __('Version Information', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentVersion')
-				)
+				),
+				array(
+					'id'         => 'core-installed-modules',
+					'tab'        =>  'modules',
+					'title'      => __('Installed Modules', 'kuetemeier-essentials'),
+					'content'	 => array(&$this, 'contentModules')
+				),
+				array(
+					'id'         => 'core-module-management',
+					'tab'        =>  'modules',
+					'title'      => __('Module Management', 'kuetemeier-essentials'),
+					'content'	 => __('Coming soon.', 'kuetemeier-essentials')
+				),
 			),
 			'options' => array(
-				array(
-					'id'          => 'test',
-					'section'     => 'version',
-					'title'		  => __('Test', 'kuetemeier-essentials'),
-					'type'        => 'Text',
-					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
-					'description' => __( 'A Description', 'kuetemeier-essentials' ),
-				),
-				array(
-					'id'          => 'testarea',
-					'section'     => 'version',
-					'title'		  => __('Test', 'kuetemeier-essentials'),
-					'type'        => 'TextArea',
-					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
-					'description' => __( 'A Description', 'kuetemeier-essentials' ),
-					'allowHTML'   => 1,
-					'allowScripts' => 1,
-					'code'		  => true,
-					'large'		  => true,
-					'cols'		  => 50
-				),
-				array(
-					'id'          => 'test-number',
-					'section'     => 'version',
-					'title'		  => __('Number', 'kuetemeier-essentials'),
-					'type'        => 'Number',
-					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
-					'description' => __( 'A Description', 'kuetemeier-essentials' ),
-				),
-				array(
-					'id'          => 'test-email',
-					'section'     => 'version',
-					'title'		  => __('Email', 'kuetemeier-essentials'),
-					'type'        => 'Email',
-					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
-					'description' => __( 'A Description', 'kuetemeier-essentials' ),
-				),
-				array(
-					'id'          => 'test-select',
-					'section'     => 'version',
-					'title'		  => __('Select', 'kuetemeier-essentials'),
-					'type'        => 'Select',
-					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
-					'description' => __( 'A Description', 'kuetemeier-essentials' ),
-					'values'	  => array(
-						'1' => 'First',
-						'b' => 'Second',
-						'c' => 'Third'
-					)
-				),
-				array(
-					'id'          => 'test-radio',
-					'section'     => 'version',
-					'title'		  => __('Select', 'kuetemeier-essentials'),
-					'type'        => 'Radio',
-					'label'       => __( 'A Label', 'kuetemeier-essentials' ),
-					'description' => __( 'A Description', 'kuetemeier-essentials' ),
-					'values'	  => array(
-						'1' => 'On',
-						'0' => 'Off',
-					),
-				),
 			)
 		);
 	}
@@ -186,8 +113,19 @@ class Core extends \Kuetemeier\WordPress\PluginModule {
 		$plugin = $section->getPlugin();
 		$stable = $plugin->is_stable_version() ? __('Stable Version', 'kuetemeier-essentials') : __('Development Version', 'kuetemeier-essentials');
 
-		echo '<p><b>Kuetemeier Essentials Plugin Version:</b> ' . $plugin->getVersion();
-		echo '</p><p><b>License:</b> Alpha Test Version - limitied license</p>'.'<p>'.$stable.'</p>';
+		echo '<p><b>Kuetemeier Essentials Plugin Version:</b> '.esc_html($plugin->getVersion());
+		echo '</p><p><b>License:</b> Alpha Test Version - limitied license</p>'.'<p>'.esc_html($stable).'</p>';
+	}
 
+	public function contentModules($section)
+	{
+		$modules = $section->getPluginModules();
+
+		foreach($modules->keys() as $key) {
+            $module = $modules->get($key);
+			$manifest = $module->manifest();
+
+			echo '<p><strong>'.esc_html($manifest['short']).'</strong> - '.esc_html($manifest['description']).'</p>';
+        }
 	}
 }

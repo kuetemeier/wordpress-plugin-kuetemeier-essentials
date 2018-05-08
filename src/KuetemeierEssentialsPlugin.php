@@ -33,7 +33,7 @@ namespace KuetemeierEssentials;
  */
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
-require_once dirname( __FILE__ ) . '/config.php';
+require_once dirname( __FILE__ ) . '/Config.php';
 
 /**
  * The main plugin class.
@@ -65,13 +65,6 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 		$config->set('plugin/dir', KUETEMEIER_ESSENTIALS_PLUGIN_DIR, true);
 		$config->set('plugin/modules/namespace', 'KuetemeierEssentials\Modules', true);
 		parent::__construct($config);
-
-/*		$this->options = new Options( $this );
-		$this->modules = new Modules( $this, Config\AVAILABLE_MODULES );
-
-		$this->modules->init_frontend_prepare_backend();
-
-		$this->options->init_admin_hooks();*/
 
 		$this->config->set('plugin/options/saveButtonText', __('Save', 'kuetemeier-essentials'));
 		$this->config->set('plugin/options/resetButtonText', __('Reset to Defaults', 'kuetemeier-essentials'));
@@ -154,31 +147,4 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 				': ' . esc_html( $data ) . '" );</script>' );
 		}
 	}
-
-
-	/**
-	 * Returns the slug of admin menu page for the given module (or the default admin slug).
-	 *
-	 * @param string $plugin_module_id (optional) A valid id of a Plugin_Module.
-	 *
-	 * @return string Default admin menu page slug.
-	 *
-	 * @since 0.2.1
-	 */
-	public function get_admin_page_slug( $plugin_module_id = '' ) {
-
-		if ( ! isset( $plugin_module_id ) ) {
-			wp_die( 'FATAL ERROR: Something is wrong, \$plugin_module_id is not set' );
-		}
-
-		trim( $plugin_module_id );
-
-		if ( empty( $plugin_module_id ) ) {
-			// const from config.php
-			return Config\ADMIN_PAGE_SLUG;
-		} else {
-			return sanitize_text_field( Config\ADMIN_PAGE_SLUG . '-' . $plugin_module_id );
-		}
-	}
-
 }

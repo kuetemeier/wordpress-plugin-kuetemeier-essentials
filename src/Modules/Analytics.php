@@ -36,16 +36,16 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Analytics Module of the Kuetemeier-Essentials Plugin.
  */
-class Analytics extends \Kuetemeier\WordPress\PluginModule {
+final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 
 	public static function manifest()
 	{
 		return array(
-			'id'         => 'analytics',
-			'short'		 => __('Analytics', 'kuetemeier-essentials'),
-			'desciption' => __('Kuetemeier Essentials Analytics Module.', 'kuetemeier-essentials'),
+			'id'          => 'analytics',
+			'short'		  => __('Analytics', 'kuetemeier-essentials'),
+			'description' => __('Kuetemeier Essentials Analytics Module.', 'kuetemeier-essentials'),
 
-			'config'     => array(
+			'config'      => array(
 				'google-tag-manger-tag' => '',
 				'header-code' => '',
 				'footer-code' => '',

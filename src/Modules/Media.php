@@ -36,14 +36,14 @@ defined( 'ABSPATH' ) || die( 'No direct call!' );
 /**
  * Media Module of the Kuetemeier-Essentials Plugin.
  */
-class Media extends \Kuetemeier\WordPress\PluginModule {
+final class Media extends \Kuetemeier\WordPress\PluginModule {
 
 	public static function manifest()
 	{
 		return array(
 			'id'         => 'media',
 			'short'		 => __( 'Media', 'kuetemeier-essentials' ),
-			'desciption' => __( 'WordPress media enhancements.', 'kuetemeier-essentials' ),
+			'description' => __( 'WordPress media enhancements.', 'kuetemeier-essentials' ),
 
 			'config'     => array(
 				/*

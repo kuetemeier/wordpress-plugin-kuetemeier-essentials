@@ -46,19 +46,12 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 			'description' => __( 'WordPress media enhancements.', 'kuetemeier-essentials' ),
 
 			'config'     => array(
-				/*
-				'disable-emoji' => 0,
-				'disable-embeds' => 0,
-				*/
+				'external-media-enabled' => 0,
+				'imgix-js-enabled' => 0,
 			)
 		);
 	}
 
-	public function frontend_init()
-	{
-		//$this->frontend_init_disable_emojis();
-		//$this->frontend_init_disable_embeds();
-	}
 
 	public function getAdminOptionSettings()
 	{
@@ -92,7 +85,7 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 			),
 			'sections' => array(
 				array(
-					'id'        => 'ke-media-common-external',
+					'id'        => 'media-common-external',
 					'tab'       => 'media-common',
 					'title'     => __('Add external Media to the Library', 'kuetemeier-essentials'),
 					'content'   => __('If activated, this feature will allow you to add external Media (by it\'s URL) to the Media Library.', 'kuetemeier-essentials')."\n\n".
@@ -101,21 +94,22 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 					'markdown'  => 1,
 				),
 				array(
-					'id'        => 'ke-media-imgix',
+					'id'        => 'media-imgix',
 					'tab'       => 'media-imgix',
 					'title'     => __( 'imgix Support', 'kuetemeier-essentials' ),
-					'content'   => __( 'imgix (https://imgix.com) is a "Powerful image processing,'.
+					'content'   => __( '[imgix](https://imgix.com) is a "Powerful image processing,'.
 						' simple API - Optimize, deliver, and cache your entire image library for fast, stress-free '.
-						'websites and apps TRY IT FREE"', 'kuetemeier-essentials' )
+						'websites and apps TRY IT FREE"', 'kuetemeier-essentials' ),
+					'markdown'  => 1
 				),
 				array(
-					'id'        => 'ke-media-imgix-source',
+					'id'        => 'media-imgix-source',
 					'tab'       => 'media-imgix',
 					'title'     => __( 'imgix Source Settings', 'kuetemeier-essentials' ),
 					'content'   => __( 'Default imgix source settings.', 'kuetemeier-essentials' )
 				),
 				array(
-					'id'        => 'ke-media-kimg',
+					'id'        => 'media-kimg',
 					'tab'       => 'media-kimg',
 					'title'     => __( '"kimg" - Kuetemeier Image Shortcode', 'kuetemeier-essentials' ),
 					'content'   => __( 'Usefull Shortcut to create image tags with imgix support and copyright informations.', 'kuetemeier-essentials' )
@@ -123,69 +117,128 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 
 			),
 			'options' => array(
-				/*
 				array(
-					'id'          => 'disable-emoji',
-					'section'     => 'ogeneral',
-					'title'		  => __('WP Emojis Support', 'kuetemeier-essentials'),
+					'id'          => 'external-media-enabled',
+					'section'     => 'media-common-external',
+					'title'		  => __('Enable external Media', 'kuetemeier-essentials'),
 					'type'        => 'Checkbox',
-					'label'       => __( 'Disable WordPress Emojis', 'kuetemeier-essentials' ),
-					'description' => __( 'Check (recommended) to disable the Emojis support in WordPress.', 'kuetemeier-essentials' )
-				),
+					//'label'       => __( 'Enable external Media', 'kuetemeier-essentials' ),
+					'label' => __( 'Check to be able to reference external Media and add it to the Media Library.', 'kuetemeier-essentials' )				),
 				array(
-					'id'          => 'disable-embeds',
-					'section'     => 'ogeneral',
-					'title'       => __('WP Embeds Support', 'kuetemeier-essentials'),
+					'id'          => 'imgix-js-enabled',
+					'section'     => 'media-imgix',
+					'title'       => __('Enable IMGIX JavaScript', 'kuetemeier-essentials'),
 					'type'        => 'Checkbox',
-					'label'       => __( 'Disable WordPress Embeds', 'kuetemeier-essentials' ),
-					'description' => __( 'Check (recommended) to disable the "Embed" functionality in WordPress.', 'kuetemeier-essentials' )
-				)*/
+					'label'       => __( 'Check to enable the IMGIX JavaScript', 'kuetemeier-essentials' ),
+					//'label' => __( 'Check (recommended) to disable the "Embed" functionality in WordPress.', 'kuetemeier-essentials' )
+				)
 			)
 		);
 	}
 
-/*
+
+	public function frontend_init()
+	{
+		parent::frontend_init();
+
+		if ($this->getOption('imgix-js-enabled')) {
+			add_action( 'wp_enqueue_scripts', array( &$this, 'add_scripts' ) );
+			add_action( 'wp_head', array( &$this, 'add_imgix_dns_prefetch_to_header'), 0 );
+			add_shortcode( 'kimg', array( &$this, 'callback__add_shortcode_kimg' ) );
+		}
+	}
+
+
+	public function admin_init($options)
+	{
+		parent::admin_init($options);
+
+		$this->enableExternalMedia();
+	}
+
+
+	public function add_scripts()
+	{
+		//wp_register_script('kuetemeier_essentials_media_public', plugins_url('assets/scripts/imgix.min.js', dirname(__FILE__).'/../..' ) );
+		wp_register_script('kuetemeier_essentials_media_public', plugins_url('assets/scripts/imgix.min.js', str_replace('src/plugin_modules/frontend', '', __FILE__ ) ) );
+
+		wp_enqueue_script('kuetemeier_essentials_media_public');
+	}
+
+
+	// TODO: build an option field for this!
+	public function add_imgix_dns_prefetch_to_header()
+	{
+		?>
+		<link rel="dns-prefetch" href="//kuetemeier.imgix.com">
+		<?php
+	}
+
+
+	/* ------------------------------------------------------------------------------------------------------------------------
+	 * BEGIN - ShortCut 'kimg'
+	 * ------------------------------------------------------------------------------------------------------------------------ */
+
+
+	public function callback__add_shortcode_kimg( $atts )
+	{
+		$a = shortcode_atts( array(
+			'id' => '',
+			'src' => '',
+			'c' => '1',
+			'copyright' => '1'
+		), $atts );
+
+		if ( $a['c'] === 'false' ) { $a['c'] = 0; }
+		if ( $a['copyright'] === 'false' ) { $a['copyright'] = 0; }
+
+		$copyright = ( (!$a['c']) || (!$a['copyright']) ) ? false : true;
+
+		$ret = '';
+
+		if ($copyright) {
+			$ret .= '[caption';
+			if ( !empty($a['id']) ) {
+				$ret .= ' id="' . $a['id'] . '"';
+			}
+			$ret .= ']';
+		}
+		$ret .= '<img src="'.$a['src'].'" alt="%caption%" title="%copyright%" />';
+		if ($copyright) {
+			$ret .= '[/caption]';
+		}
+
+		return do_shortcode( $ret );
+	}
+
+
+	/* ------------------------------------------------------------------------------------------------------------------------
+	 * END - ShortCut 'kimg'
+	 * ------------------------------------------------------------------------------------------------------------------------ */
+
+
+	/* ------------------------------------------------------------------------------------------------------------------------
+	 * BEGIN - add-external-media
+	 * ------------------------------------------------------------------------------------------------------------------------ */
 
 
 	const PAGE_SLUG_ADD_MEDIA = 'kuetemeier-add-media-by-reference';
 
 
-
-		if ( $this->get_wp_plugin()->get_options()->get_option('media', 'external_media_enabled', false) ) {
-			add_action( 'post-plupload-upload-ui', array( &$this, 'post_upload_ui' ) );
-			add_action( 'post-html-upload-ui', array( &$this, 'post_upload_ui' ) );
-			add_action( 'wp_ajax_add_external_media_without_import', array( &$this, 'wp_ajax_add_external_media_without_import' ) );
-			add_action( 'admin_post_add_external_media_without_import', array( &$this, 'admin_post_add_external_media_without_import' ) );
+	public function enableExternalMedia()
+	{
+		if ($this->getOption('external-media-enabled')) {
+			add_action('admin_menu', array(&$this, 'callback__admin_menu__AddExternalMedia'));
+			add_action('post-plupload-upload-ui', array( &$this, 'post_upload_ui'));
+			add_action('post-html-upload-ui', array( &$this, 'post_upload_ui'));
+			add_action('wp_ajax_add_external_media_without_import', array( &$this, 'wp_ajax_add_external_media_without_import'));
+			add_action('admin_post_add_external_media_without_import', array( &$this, 'admin_post_add_external_media_without_import'));
 		}
-
 	}
 
 
-	*/
-
-
-	/* ------------------------------------------------------------------------------------------------------------------------
-	 * END - disable embeds
-	 * ------------------------------------------------------------------------------------------------------------------------ */
-
-
-
-	public function callback__admin_menu() {
-		/*
-		$style = 'emwi-css';
-		$css_file = plugins_url( '/external-media-without-import.css', __FILE__ );
-		wp_register_style( $style, $css_file );
-		wp_enqueue_style( $style );
-		*/
-
-		/*
-		$script = 'emwi-js';
-		$js_file = plugins_url( '/external-media-without-import.js', __FILE__ );
-		wp_register_script( $script, $js_file, array( 'jquery' ) );
-		wp_enqueue_script( $script );
-		*/
-
-		if ( $this->get_wp_plugin()->get_options()->get_option($this->get_id(), 'external_media_enabled', false) ) {
+	public function callback__admin_menu__AddExternalMedia() {
+		if ($this->getOption('external-media-enabled')) {
 			add_submenu_page(
 				'upload.php', // parent_slug
 				__( 'Reference by URL' ), // page_title
@@ -299,7 +352,9 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 		}
 	}
 
-	function admin_post_add_external_media_without_import() {
+
+	function admin_post_add_external_media_without_import()
+	{
 		$info = $this->add_external_media_without_import();
 
 		$redirect_url = 'upload.php';
@@ -314,7 +369,9 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 		exit;
 	}
 
-	function sanitize_and_validate_input() {
+
+	function sanitize_and_validate_input()
+	{
 		// Don't call sanitize_text_field on url because it removes '%20'.
 		// Always use esc_url/esc_url_raw when sanitizing URLs. See:
 		// https://codex.wordpress.org/Function_Reference/esc_url
@@ -345,7 +402,9 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 		return $input;
 	}
 
-	function add_external_media_without_import() {
+
+	function add_external_media_without_import()
+	{
 		$input = $this->sanitize_and_validate_input();
 
 		if ( isset( $input['error'] ) ) {
@@ -399,5 +458,9 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 		return $input;
 	}
 
+
+	/* ------------------------------------------------------------------------------------------------------------------------
+	 * END - add-external-media
+	 * ------------------------------------------------------------------------------------------------------------------------ */
 
 }

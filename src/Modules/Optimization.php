@@ -113,7 +113,7 @@ final class Optimization extends \Kuetemeier\WordPress\PluginModule {
 
 	private function frontend_init_disable_emojis()
 	{
-		if ( $this->getOption('disable_emoji') ) {
+		if ( $this->getOption('disable-emoji') ) {
 			add_action( 'init', array( &$this, 'callback__init__disable_emojis' ) );
 		}
 	}
@@ -182,7 +182,7 @@ final class Optimization extends \Kuetemeier\WordPress\PluginModule {
 
 	public function frontend_init_disable_embeds()
 	{
-		if ( $this->config->getOption('optimization/disable_embeds') ) {
+		if ( $this->getOption('disable-embeds') ) {
 			add_action( 'init', array( &$this, 'callback__init__disable_embeds', 9999 ) );
 		}
 	}

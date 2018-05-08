@@ -55,7 +55,6 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 
 	public function getAdminOptionSettings()
 	{
-
 		return array(
 			'subpages' => array(
 				array(
@@ -95,5 +94,4 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 			)
 		);
 	}
-
 }

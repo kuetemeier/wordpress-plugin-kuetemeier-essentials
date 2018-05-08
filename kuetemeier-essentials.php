@@ -127,7 +127,7 @@ function kuetemeier_essentials_is_php_version_requirements_fulfilled() {
  * @since 0.1.0
  */
 function kuetemeier_essentials_activation_hook() {
-	include_once plugin_dir_path( __FILE__ ) . 'src/class-activator.php';
+	include_once plugin_dir_path( __FILE__ ) . 'src/Activator.php';
 	\Kuetemeier_Essentials\Activator::activate();
 }
 
@@ -141,7 +141,7 @@ function kuetemeier_essentials_activation_hook() {
  * @since 0.1.0
  */
 function kuetemeier_essentials_deactivation_hook() {
-	include_once plugin_dir_path( __FILE__ ) . 'src/class-deactivator.php';
+	include_once plugin_dir_path( __FILE__ ) . 'src/Deactivator.php';
 	\Kuetemeier_Essentials\Deactivator::deactivate();
 }
 

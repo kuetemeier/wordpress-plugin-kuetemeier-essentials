@@ -44,6 +44,7 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 			'id'          => 'analytics',
 			'short'		  => __('Analytics', 'kuetemeier-essentials'),
 			'description' => __('Kuetemeier Essentials Analytics Module.', 'kuetemeier-essentials'),
+			'page'        => 'kuetemeier-analytics',
 
 			'config'      => array(
 				'google-tag-manger-tag' => '',
@@ -59,7 +60,7 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 		return array(
 			'subpages' => array(
 				array(
-					'id'           => 'ke-analytics',
+					'id'           => 'kuetemeier-analytics',
 					'parent'       => 'kuetemeier',
 					'title'        => __('Analytics', 'kuetemeier-essentials'),
 					'menuTitle'    => __('Analytics', 'kuetemeier-essentials'),
@@ -69,17 +70,17 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 			'tabs' => array(
 				array(
 					'id'           => 'analytics-google',
-					'page'         => 'ke-analytics',
+					'page'         => 'kuetemeier-analytics',
 					'title'        => __('Google', 'kuetemeier-essentials')
 				),
 				array(
 					'id'           => 'analytics-active-campaign',
-					'page'         => 'ke-analytics',
+					'page'         => 'kuetemeier-analytics',
 					'title'        => __('Active Campaign', 'kuetemeier-essentials')
 				),
 				array(
 					'id'           => 'analytics-header-footer',
-					'page'         => 'ke-analytics',
+					'page'         => 'kuetemeier-analytics',
 					'title'        => __('Header & Footer Code', 'kuetemeier-essentials')
 				),
 			),
@@ -120,7 +121,7 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 					'large'        => 1,
 					'rows'         => 10,
 					'title'	       => __('Code to insert into Footer', 'kuetemeier-essentials'),
-					'description'  => __( 'Valid HTML Code, that will be directly inserted just before the closing </body> tag (global, on every post and page). Shortcodes will be parsed and executed.', 'kuetemeier-essentials' ),
+					'description'  => __('Valid HTML Code, that will be directly inserted just before the closing </body> tag (global, on every post and page). Shortcodes will be parsed and executed.', 'kuetemeier-essentials' ),
 					'customDesign' => 1,
 					//'args'         => array('label_for' => 'footer-code', 'class' => 'test-class')
 				),
@@ -135,10 +136,6 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 
 		if (!empty($this->getOption('header-code'))) {
 			add_action('wp_head', array(&$this, 'callback__addHeaderCode'), 0);
-		}
-
-		if (!empty($this->getOption('body-code'))) {
-			add_action('wp_head', array(&$this, 'callback__addBodyCode'), 0);
 		}
 
 		if (!empty($this->getOption('footer-code'))) {

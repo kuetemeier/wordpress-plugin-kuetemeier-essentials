@@ -44,6 +44,7 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 			'id'          => 'core',
 			'short'		  => __('Core', 'kuetemeier-essentials'),
 			'description' => __('Kuetemeier Essentials Core Module.', 'kuetemeier-essentials'),
+			'page'        => 'kuetemeier',
 
 			'config'      => array(
 			)
@@ -75,17 +76,20 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'         => 'core-general',
 					'page'       => 'kuetemeier',
-					'title'      => __('General', 'kuetemeier-essentials')
+					'title'      => __('General', 'kuetemeier-essentials'),
+					'noButtons'  => 1,
 				),
 				array(
 					'id'         => 'core-modules',
 					'page'       => 'kuetemeier',
 					'title'      => __('Modules', 'kuetemeier-essentials'),
+					'noButtons'  => 1,
 				),
 				array(
 					'id'         => 'core-insights',
 					'page'       => 'kuetemeier',
 					'title'      => __('Insights', 'kuetemeier-essentials'),
+					'noButtons'  => 1
 				)
 			),
 			'sections' => array(
@@ -97,15 +101,21 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 				),
 				array(
 					'id'         => 'core-installed-modules',
-					'tab'        =>  'core-modules',
+					'tab'        => 'core-modules',
 					'title'      => __('Installed Modules', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentModules')
 				),
 				array(
 					'id'         => 'core-module-management',
-					'tab'        =>  'core-modules',
+					'tab'        => 'core-modules',
 					'title'      => __('Module Management', 'kuetemeier-essentials'),
 					'content'	 => __('Coming soon.', 'kuetemeier-essentials')
+				),
+				array(
+					'id'         => 'core-insights',
+					'tab'        => 'core-insights',
+					'title'      => __('Userfull informations about your WordPress installation:', 'kuetemeier-essentials'),
+					'content'	 => array(&$this, 'contentInsights')
 				),
 			),
 			'options' => array(
@@ -126,11 +136,105 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 	{
 		$modules = $section->getPluginModules();
 
+		echo '<table class="ke-info-table"><tbody>';
+		echo '<tr><td>'.__('Module', 'kuetemeier-essentials').'</td><td>'.__('Description', 'kuetemeier-essentials').'</td></tr>';
 		foreach($modules->keys() as $key) {
             $module = $modules->get($key);
 			$manifest = $module->manifest();
 
-			echo '<p><strong>'.esc_html($manifest['short']).'</strong> - '.esc_html($manifest['description']).'</p>';
+			$link = (isset($manifest['page'])) ? '/wp-admin/admin.php?page='.esc_attr($manifest['page']) : null;
+
+			if (isset($link)) {
+				echo '<tr><th>'.esc_html($manifest['short']).'</th><td><a href="'.esc_url($link).'">'.esc_html($manifest['description']).'</a></td></tr>';;
+			} else {
+				echo '<tr><th>'.esc_html($manifest['short']).'</th><td>'.esc_html($manifest['description']).'</td></tr5';;
+			}
         }
+		echo '</tbody><table>';
+	}
+
+	public function contentInsights(){
+		global $wp_version;
+
+		$isMultisite = (is_multisite()) ? __('yes', 'kuetemeier-essentials') : __('no', 'kuetemeier-essentials');
+
+		$server_signature = (isset($_SERVER['SERVER_SIGNATURE'])) ? $_SERVER['SERVER_SIGNATURE'] : '';
+
+		$maxFileUpload = $this->getMaximumFileUploadSize();
+
+		$infos = array(
+			array('WordPress Version', $wp_version),
+			array('Multisite Installation', $isMultisite),
+			array('PHP Version', PHP_VERSION),
+			array('PHP_DEBUG', PHP_DEBUG),
+			array('WP_DEBUG', WP_DEBUG),
+			array('Operating System', php_uname()),
+			array('PHP Memory Limit', ini_get('memory_limit')),
+			array('Server Name', (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '')) ,
+			array('Server Signature', $server_signature),
+			array('Server IP', (isset($_SERVER['SERVER_ADDR']) ?$_SERVER['SERVER_ADDR'] : '')),
+			array('Server Software', (isset($_SERVER['SERVER_SOFTWARE']) ?$_SERVER['SERVER_SOFTWARE'] : '')),
+			array('Server Protocoll', (isset($_SERVER['SERVER_PROTOCOL']) ?$_SERVER['SERVER_PROTOCOL'] : '')),
+			array('Document Root', (isset($_SERVER['DOCUMENT_ROOT']) ?$_SERVER['DOCUMENT_ROOT'] : '')),
+			array('Post Max Size', ini_get('post_max_size')),
+			array('Max Upload Filesize', ini_get('upload_max_filesize')),
+			array('Effective Maximum File Upload Size', $maxFileUpload.' Bytes'),
+		);
+
+		echo '<table class="ke-info-table"><tbody>';
+		foreach ($infos as $info) {
+			$value = (isset($info[1])) ? $info[1] : '';
+			echo '<tr><th>'.esc_html($info[0]).':</th><td>'.esc_html($value).'</td></tr>';
+		}
+		echo '</tbody><table>';
+	}
+
+
+	/**
+	* This function returns the maximum files size that can be uploaded
+	* in PHP
+	* @returns int File size in bytes
+	*
+	* @see https://stackoverflow.com/questions/13076480/php-get-actual-maximum-upload-size
+	**/
+	private function getMaximumFileUploadSize()
+	{
+		return min($this->convertPHPSizeToBytes(ini_get('post_max_size')), $this->convertPHPSizeToBytes(ini_get('upload_max_filesize')));
+	}
+
+	/**
+	* This function transforms the php.ini notation for numbers (like '2M') to an integer (2*1024*1024 in this case)
+	*
+	* @param string $sSize
+	* @return integer The value in bytes
+	*
+	* @see https://stackoverflow.com/questions/13076480/php-get-actual-maximum-upload-size
+	*/
+	private function convertPHPSizeToBytes($sSize)
+	{
+		//
+		$sSuffix = strtoupper(substr($sSize, -1));
+		if (!in_array($sSuffix,array('P','T','G','M','K'))){
+			return (int)$sSize;
+		}
+		$iValue = substr($sSize, 0, -1);
+		switch ($sSuffix) {
+			case 'P':
+				$iValue *= 1024;
+				// Fallthrough intended
+			case 'T':
+				$iValue *= 1024;
+				// Fallthrough intended
+			case 'G':
+				$iValue *= 1024;
+				// Fallthrough intended
+			case 'M':
+				$iValue *= 1024;
+				// Fallthrough intended
+			case 'K':
+				$iValue *= 1024;
+				break;
+		}
+		return (int)$iValue;
 	}
 }

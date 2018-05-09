@@ -121,3 +121,24 @@
 	margin-right: 1.5em;
 }
 
+.ke-info-table {
+	border: 1px solid #fff;
+}
+
+.ke-info-table th {
+	text-align: left;
+	padding: 5px;
+	padding-right: 8px;
+}
+
+.ke-info-table td {
+	padding: 5px;
+}
+
+.ke-info-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.ke-info-table tr:nth-child(even) {
+    background-color: #ddd;
+}

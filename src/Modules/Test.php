@@ -42,11 +42,12 @@ final class Test extends \Kuetemeier\WordPress\PluginModule {
 	public static function manifest()
 	{
 		return array(
-			'id'         => 'test',
-			'short'		 => __('Test', 'kuetemeier-essentials'),
+			'id'          => 'test',
+			'short'		  => __('Test', 'kuetemeier-essentials'),
 			'description' => __('Test module for development - Not recommended!.', 'kuetemeier-essentials'),
+			'page'        => 'kuetemeier-test',
 
-			'config'     => array(
+			'config'      => array(
 				'test-text' => '',
 				'test-textarea' => 'Test Area',
 				'test-number' => 10,
@@ -63,7 +64,7 @@ final class Test extends \Kuetemeier\WordPress\PluginModule {
 		return array(
 			'subpages' => array(
 				array(
-					'id'         => 'ke-test',
+					'id'         => 'kuetemeier-test',
 					'parent'     => 'kuetemeier',
 					'title'      => __('Test', 'kuetemeier-essentials'),
 					'menuTitle'  => __('Test', 'kuetemeier-essentials'),
@@ -74,7 +75,7 @@ final class Test extends \Kuetemeier\WordPress\PluginModule {
 			'tabs' => array(
 				array(
 					'id'         => 'test-general',
-					'page'       => 'ke-test',
+					'page'       => 'kuetemeier-test',
 					'title'      => __('Test General', 'kuetemeier-essentials')
 				),
 				array(

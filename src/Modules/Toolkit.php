@@ -41,11 +41,12 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule {
 	public static function manifest()
 	{
 		return array(
-			'id'         => 'toolkit',
-			'short'		 => __( 'Toolkit', 'kuetemeier-essentials' ),
+			'id'          => 'toolkit',
+			'short'		  => __( 'Toolkit', 'kuetemeier-essentials' ),
 			'description' => __( 'Little helper and tools for enriching your WordPress installation.', 'kuetemeier-essentials' ),
+			'page'        => 'kuetemeier-toolkit',
 
-			'config'     => array(
+			'config'      => array(
 			)
 		);
 	}

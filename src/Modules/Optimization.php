@@ -44,6 +44,7 @@ final class Optimization extends \Kuetemeier\WordPress\PluginModule {
 			'id'          => 'optimization',
 			'short'       => __( 'Optimization', 'kuetemeier-essentials' ),
 			'description' => __( 'Optimize your WordPress installation.', 'kuetemeier-essentials' ),
+			'page'        => 'kuetemeier-optimization',
 
 			'config'      => array(
 				'disable-emoji' => 0,
@@ -58,7 +59,7 @@ final class Optimization extends \Kuetemeier\WordPress\PluginModule {
 		return array(
 			'subpages' => array(
 				array(
-					'id'        	=> 'optimization',
+					'id'        	=> 'kuetemeier-optimization',
 					'parentSlug'	=> 'kuetemeier',
 					'title'			=> __('Optimization', 'kuetemeier-essentials'),
 					'content'		=> __('Optimize your WordPress installation.')
@@ -67,7 +68,7 @@ final class Optimization extends \Kuetemeier\WordPress\PluginModule {
 			'tabs' => array(
 				array(
 					'id'         => 'optimization-general',
-					'page'       => 'optimization',
+					'page'       => 'kuetemeier-optimization',
 					'title'      => __('Speed Optimizations', 'kuetemeier-essentials')
 				),
 			),

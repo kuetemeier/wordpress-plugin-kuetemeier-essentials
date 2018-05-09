@@ -44,6 +44,7 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 			'id'          => 'data-privacy',
 			'short'		  => __('Data Privacy', 'kuetemeier-essentials'),
 			'description' => __('Kuetemeier Essentials Data Privacy Module.', 'kuetemeier-essentials'),
+			'page'        => 'kuetemeier-data-privacy',
 
 			'config'      => array(
 				'wp-comments-add-data-privacy-field' => 1,
@@ -58,7 +59,7 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 		return array(
 			'subpages' => array(
 				array(
-					'id'         => 'data-privacy',
+					'id'         => 'kuetemeier-data-privacy',
 					'parent'     => 'kuetemeier',
 					'title'      => 'Data Privacy',
 					'menuTitle'  => 'Data Privacy',
@@ -69,7 +70,7 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 			'tabs' => array(
 				array(
 					'id'         => 'data-privacy-general',
-					'page'       => 'data-privacy',
+					'page'       => 'kuetemeier-data-privacy',
 					'title'      => __('General Data Privacy', 'kuetemeier-essentials')
 				),
 			),

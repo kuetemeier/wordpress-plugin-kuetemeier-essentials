@@ -41,11 +41,12 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 	public static function manifest()
 	{
 		return array(
-			'id'         => 'media',
-			'short'		 => __( 'Media', 'kuetemeier-essentials' ),
+			'id'          => 'media',
+			'short'		  => __( 'Media', 'kuetemeier-essentials' ),
 			'description' => __( 'WordPress media enhancements.', 'kuetemeier-essentials' ),
+			'page'        => 'kuetemeier-media',
 
-			'config'     => array(
+			'config'      => array(
 				'external-media-enabled' => 0,
 				'imgix-js-enabled' => 0,
 			)

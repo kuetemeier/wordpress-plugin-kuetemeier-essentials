@@ -71,7 +71,7 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'         => 'data-privacy-general',
 					'page'       => 'kuetemeier-data-privacy',
-					'title'      => __('General Data Privacy', 'kuetemeier-essentials')
+					'title'      => __('General Data Privacy', 'kuetemeier-essentials'),
 				),
 			),
 			'sections' => array(
@@ -79,13 +79,13 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 					'id'         => 'data-privacy-introduction',
 					'tab'        => 'data-privacy-general',
 					'title'      => __('Introduction', 'kuetemeier-essentials'),
-					'content'	 => 'An introduction and more help to data privacy. (Comming soon).'
+					'content'	 => __('An introduction and more help to data privacy. (Comming soon).', 'kuetemeier-essentials'),
 				),
 				array(
 					'id'         => 'data-privacy-comments',
 					'tab'        => 'data-privacy-general',
 					'title'      => __('WordPress Comments', 'kuetemeier-essentials'),
-					'content'	 => 'It is recommended to add a privacy checkbox to the commentary function.'
+					'content'	 => __('It is recommended to add a privacy checkbox to the commentary function.', 'kuetemeier-essentials'),
 				),
 			),
 			'options' => array(
@@ -94,8 +94,8 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 					'section'     => 'data-privacy-comments',
 					'title'       => __('Privacy for WordPress Comments', 'kuetemeier-essentials'),
 					'type'        => 'Checkbox',
-					'label'       => __( 'Add Privacy Checkbox', 'kuetemeier-essentials' ),
-					'description' => __( '(recommended) Adds a privacy checkbox to the WordPress comment system.', 'kuetemeier-essentials' )
+					'label'       => __('Add Privacy Checkbox', 'kuetemeier-essentials' ),
+					'description' => __('(recommended) Adds a privacy checkbox to the WordPress comment system.', 'kuetemeier-essentials'),
 				),
 				array(
 					'id'          => 'wp-comments-data-privacy-statement-url',
@@ -103,7 +103,7 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 					'title'       => __('URL to data privacy statement', 'kuetemeier-essentials'),
 					'type'        => 'Text',
 					'label'	      => __('', 'kuetemeier-essentials'),
-					'description' => __( 'A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/.\nPoint this to you privacy statement URL (A link to it is shown in the notice).', 'kuetemeier-essentials' )
+					'description' => __( 'A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/.\nPoint this to you privacy statement URL (A link to it is shown in the notice).', 'kuetemeier-essentials'),
 				)
 			)
 		);

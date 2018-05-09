@@ -73,11 +73,12 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 					'page'         => 'kuetemeier-analytics',
 					'title'        => __('Google', 'kuetemeier-essentials')
 				),
+				/*
 				array(
 					'id'           => 'analytics-active-campaign',
 					'page'         => 'kuetemeier-analytics',
 					'title'        => __('Active Campaign', 'kuetemeier-essentials')
-				),
+				),*/
 				array(
 					'id'           => 'analytics-header-footer',
 					'page'         => 'kuetemeier-analytics',
@@ -89,7 +90,7 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 					'id'           => 'analytics-google-tag-manager',
 					'tab'          => 'analytics-google',
 					'title'        => __('Google Tag Manger', 'kuetemeier-essentials'),
-					'content'	   => __('If you use the Google Tag Manager, you can include it here.', 'kuetemeier-essentials'),
+					'content'	   => __('Google Analytics and Google Tag Manger Support - Comming soon.', 'kuetemeier-essentials'),
 				),
 				array(
 					'id'           => 'analytics-header-footer',

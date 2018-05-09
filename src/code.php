@@ -4,7 +4,7 @@ die("not for now!");
 
 
 /******************************************/
-
+/* This is code for inspiration           */
 
 
 // remove Font-Awesome Generate Press
@@ -38,3 +38,12 @@ function kuetemeier_plugins_loaded() {
 add_action( 'plugins_loaded', 'kuetemeier_plugins_loaded', 100 );
 */
 
+/************************************************************ */
+
+if ( version_compare( $GLOBALS['wp_version'], '3.9', '<' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	deactivate_plugins( __FILE__ );
+	if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'activate' || $_GET['action'] == 'error_scrape' ) ) {
+		exit( sprintf( __( 'This Plugin requires WordPress version %s or greater.', 'kuetemeier-essentials' ), '3.9' ) );
+	}
+}

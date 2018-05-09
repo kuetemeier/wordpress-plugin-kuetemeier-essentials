@@ -102,7 +102,7 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'         => 'core-installed-modules',
 					'tab'        => 'core-modules',
-					'title'      => __('Installed Modules', 'kuetemeier-essentials'),
+					'title'      => __('Enabled Modules', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentModules')
 				),
 				array(
@@ -129,7 +129,8 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 		$stable = $plugin->is_stable_version() ? __('Stable Version', 'kuetemeier-essentials') : __('Development Version', 'kuetemeier-essentials');
 
 		echo '<p><b>Kuetemeier Essentials Plugin Version:</b> '.esc_html($plugin->getVersion());
-		echo '</p><p><b>License:</b> Alpha Test Version - limitied license</p>'.'<p>'.esc_html($stable).'</p>';
+		echo '<p><strong>Version Type:</strong> '.esc_html($stable).'</p>';
+		echo '</p><p><b>License:</b> Beta Test Version - limitied license</p>';
 	}
 
 	public function contentModules($section)

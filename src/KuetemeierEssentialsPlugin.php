@@ -59,24 +59,30 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 	 * @since 0.1.0
 	 * @since 0.1.12 Reworked for WP_Plugin init process.
 	 */
-	public function __construct() {
-
+	public function __construct()
+	{
 		$config = new \Kuetemeier\WordPress\Config(Config\PLUGIN_CONFIG);
 		$config->set('plugin/dir', KUETEMEIER_ESSENTIALS_PLUGIN_DIR, true);
 		$config->set('plugin/modules/namespace', 'KuetemeierEssentials\Modules', true);
 		parent::__construct($config);
 
-		$this->config->set('plugin/options/saveButtonText', __('Save', 'kuetemeier-essentials'));
-		$this->config->set('plugin/options/resetButtonText', __('Reset to Defaults', 'kuetemeier-essentials'));
-
-		add_action( 'wp_enqueue_scripts', array( &$this, 'callback__add_public_scripts' ) );
+		add_action('wp_enqueue_scripts', array(&$this, 'callback__add_public_scripts'));
 
 		if (is_admin()) {
-			add_action( 'admin_enqueue_scripts', array( &$this, 'callback__add_admin_scripts' ) );
+			add_action('admin_enqueue_scripts', array(&$this, 'callback__add_admin_scripts'));
+			add_action('admin_init', array(&$this, 'callback__adminInit'));
 		}
 	}
 
-	public function callback__add_public_scripts() {
+
+	public function callback__adminInit()
+	{
+		$this->config->set('plugin/options/saveButtonText', __('Save', 'kuetemeier-essentials'), 1);
+		$this->config->set('plugin/options/resetButtonText', __('Reset to Defaults', 'kuetemeier-essentials'), 1);
+	}
+
+	public function callback__add_public_scripts()
+	{
 		wp_register_script('kuetemeier_essentials_public_js', plugins_url(
 			'assets/scripts/kuetemeier-essentials-public.min.js',
 			str_replace('src', '', __FILE__ ) ),
@@ -92,7 +98,8 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 		wp_enqueue_style('kuetemeier_essentials_public_css');
 	}
 
-	public function callback__add_admin_scripts() {
+	public function callback__add_admin_scripts()
+	{
 		wp_register_script('kuetemeier_essentials_admin_js', plugins_url(
 			'assets/scripts/kuetemeier-essentials-admin.min.js',
 			str_replace('src', '', __FILE__ ) ),
@@ -118,7 +125,8 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 	 *
 	 * @since 0.1.11
 	 */
-	public static function instance() {
+	public static function instance()
+	{
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
 			do_action( 'KuetemeierEssentials-loaded', self::$instance );
@@ -136,7 +144,8 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 	 *
 	 * @since 0.1.0
 	 */
-	public function debug_to_console( $data ) {
+	public function debug_to_console( $data )
+	{
 		if ( is_array( $data ) || is_object( $data ) ) {
 			echo( '<script>console.log( "' .
 				esc_html( KUETEMEIER_ESSENTIALS_NAME ) . ': "' .

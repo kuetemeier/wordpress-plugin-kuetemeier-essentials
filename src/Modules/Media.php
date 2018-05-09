@@ -81,57 +81,56 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'         => 'media-kimg',
 					'page'       => 'kuetemeier-media',
-					'title'      => __('kimg Shortcode', 'kuetemeier-essentials')
+					'title'      => __('kimg Shortcode', 'kuetemeier-essentials'),
+					'noButtons'  => 1
 				),
 			),
 			'sections' => array(
 				array(
-					'id'        => 'media-common-external',
-					'tab'       => 'media-common',
-					'title'     => __('Add external Media to the Library', 'kuetemeier-essentials'),
-					'content'   => __('If activated, this feature will allow you to add external Media (by it\'s URL) to the Media Library.', 'kuetemeier-essentials')."\n\n".
-					               __('The media is NOT imported, but you can use it like "normal" media and enhance it with custom fields (like captions or copyright informations).', 'kuetemeier-essentials')."\n\n".
-								   __('This is usefull for [S3](https://aws.amazon.com/s3), CDN or [imgix](https://imgix.com) integration.', 'kuetemeier-essentials'),
-					'markdown'  => 1,
+					'id'         => 'media-common-external',
+					'tab'        => 'media-common',
+					'title'      => __('Add external Media to the Library', 'kuetemeier-essentials'),
+					'content'    => __('If activated, this feature will allow you to add external Media (by it\'s URL) to the Media Library.', 'kuetemeier-essentials')."\n\n".
+					                __('The media is NOT imported, but you can use it like "normal" media and enhance it with custom fields (like captions or copyright informations).', 'kuetemeier-essentials')."\n\n".
+								    __('This is usefull for [S3](https://aws.amazon.com/s3), CDN or [imgix](https://imgix.com) integration.', 'kuetemeier-essentials'),
+					'markdown'   => 1,
 				),
 				array(
-					'id'        => 'media-imgix',
-					'tab'       => 'media-imgix',
-					'title'     => __( 'imgix Support', 'kuetemeier-essentials' ),
-					'content'   => __( '[imgix](https://imgix.com) is a "Powerful image processing,'.
+					'id'         => 'media-imgix',
+					'tab'        => 'media-imgix',
+					'title'      => __( 'imgix Support', 'kuetemeier-essentials' ),
+					'content'    => __( '[imgix](https://imgix.com) is a "Powerful image processing,'.
 						' simple API - Optimize, deliver, and cache your entire image library for fast, stress-free '.
 						'websites and apps TRY IT FREE"', 'kuetemeier-essentials' ),
-					'markdown'  => 1
+					'markdown'   => 1
 				),
 				array(
-					'id'        => 'media-imgix-source',
-					'tab'       => 'media-imgix',
-					'title'     => __( 'imgix Source Settings', 'kuetemeier-essentials' ),
-					'content'   => __( 'Default imgix source settings.', 'kuetemeier-essentials' )
+					'id'         => 'media-imgix-source',
+					'tab'        => 'media-imgix',
+					'title'      => __( 'imgix Source Settings', 'kuetemeier-essentials' ),
+					'content'    => __( 'Default imgix source settings.', 'kuetemeier-essentials' )
 				),
 				array(
-					'id'        => 'media-kimg',
-					'tab'       => 'media-kimg',
-					'title'     => __( '"kimg" - Kuetemeier Image Shortcode', 'kuetemeier-essentials' ),
-					'content'   => __( 'Usefull Shortcut to create image tags with imgix support and copyright informations.', 'kuetemeier-essentials' )
+					'id'         => 'media-kimg',
+					'tab'        => 'media-kimg',
+					'title'      => __( '"kimg" - Kuetemeier Image Shortcode', 'kuetemeier-essentials' ),
+					'content'    => __( 'Usefull Shortcut to create image tags with imgix support and copyright informations.', 'kuetemeier-essentials' ),
 				),
 
 			),
 			'options' => array(
 				array(
-					'id'          => 'external-media-enabled',
-					'section'     => 'media-common-external',
-					'title'		  => __('Enable external Media', 'kuetemeier-essentials'),
-					'type'        => 'CheckBox',
-					//'label'       => __( 'Enable external Media', 'kuetemeier-essentials' ),
-					'label' => __( 'Check to be able to reference external Media and add it to the Media Library.', 'kuetemeier-essentials' )				),
+					'id'         => 'external-media-enabled',
+					'section'    => 'media-common-external',
+					'title'		 => __('Enable external Media', 'kuetemeier-essentials'),
+					'type'       => 'CheckBox',
+					'label'      => __( 'Check to be able to reference external Media and add it to the Media Library.', 'kuetemeier-essentials' )				),
 				array(
-					'id'          => 'imgix-js-enabled',
-					'section'     => 'media-imgix',
-					'title'       => __('Enable IMGIX JavaScript', 'kuetemeier-essentials'),
-					'type'        => 'CheckBox',
-					'label'       => __( 'Check to enable the IMGIX JavaScript', 'kuetemeier-essentials' ),
-					//'label' => __( 'Check (recommended) to disable the "Embed" functionality in WordPress.', 'kuetemeier-essentials' )
+					'id'         => 'imgix-js-enabled',
+					'section'    => 'media-imgix',
+					'title'      => __('Enable IMGIX JavaScript', 'kuetemeier-essentials'),
+					'type'       => 'CheckBox',
+					'label'      => __( 'Check to enable the IMGIX JavaScript', 'kuetemeier-essentials' ),
 				)
 			)
 		);
@@ -242,11 +241,11 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 		if ($this->getOption('external-media-enabled')) {
 			add_submenu_page(
 				'upload.php', // parent_slug
-				__( 'Reference by URL' ), // page_title
-				__( 'Reference by URL' ), // menu_title
+				__('Reference by URL', 'kuetemeier-essentials'), // page_title
+				__('Reference by URL', 'kuetemeier-essentials'), // menu_title
 				'manage_options', // capability
 				'add-external-media-without-import', // menu_slug
-				array( &$this, 'callback__submenu_page_media_by_reference' ) // callable
+				array(&$this, 'callback__submenu_page_media_by_reference') // callable
 			);
 		}
 	}
@@ -254,18 +253,18 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 
 	function print_media_new_panel( $is_in_upload_ui ) {
 
-		$url       = isset( $_GET['url'] )       ? $_GET['url']       : '';
-		$width     = isset( $_GET['width'] )     ? $_GET['width']     : '';
-		$height    = isset( $_GET['height'] )    ? $_GET['height']    : '';
-		$mime_type = isset( $_GET['mime-type'] ) ? $_GET['mime-type'] : '';
-		$error     = isset( $_GET['error'] )     ? $_GET['error']     : '';
+		$url       = isset($_GET['url'])       ? $_GET['url']       : '';
+		$width     = isset($_GET['width'])     ? $_GET['width']     : '';
+		$height    = isset($_GET['height'])    ? $_GET['height']    : '';
+		$mime_type = isset($_GET['mime-type']) ? $_GET['mime-type'] : '';
+		$error     = isset($_GET['error'])     ? $_GET['error']     : '';
 
 		?>
 		<div id="emwi-media-new-panel" <?php if ( $is_in_upload_ui  ) : ?>style="display: none"<?php endif; ?>>
 		  <div class="url-row">
-			<label><?php _e( 'URL to reference Media to', 'kuetemeier-essentials' ); ?></label>
+			<label><?php _e('URL to reference Media to', 'kuetemeier-essentials'); ?></label>
 			<span id="emwi-url-input-wrapper">
-			  <input id="emwi-url" name="url" type="url" required placeholder="<?php _e( 'Image URL (https://my.domain/my-image.jpg)', 'kuetemeier-essentials' );?>" value="<?php echo esc_url( $url ); ?>">
+			  <input id="emwi-url" name="url" type="url" required placeholder="<?php _e('Image URL (https://my.domain/my-image.jpg)', 'kuetemeier-essentials');?>" value="<?php echo esc_url($url); ?>">
 			</span>
 		  </div>
 		  <div id="emwi-hidden" <?php if ( $is_in_upload_ui || empty( $error ) ) : ?>style="display: none"<?php endif; ?>>
@@ -323,12 +322,12 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 		  <div class="row2">
 			<?php if ( 'grid' === $media_library_mode ) : ?>
 			  <button id="emwi-show" class="button button-large">
-				<?php echo __('Reference Media by URL'); ?>
+				<?php _e('Reference Media by URL', 'kuetemeier-essentials'); ?>
 			  </button>
 			  <?php print_media_new_panel( true ); ?>
 			<?php else : ?>
 			  <a class="button button-large" href="<?php echo esc_url( admin_url( '/upload.php?page=add-external-media-without-import', __FILE__ ) ); ?>">
-				<?php echo __('Add External Media without Import'); ?>
+				<?php _e('Add External Media without Import', 'kuetemeier-essentials'); ?>
 			  </a>
 			<?php endif; ?>
 		  </div>
@@ -360,7 +359,7 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 
 		$redirect_url = 'upload.php';
 		if ( ! isset( $info['id'] ) ) {
-			$redirect_url = $redirect_url .  '?page=add-external-media-without-import&url=' . urlencode( $info['url'] );
+			$redirect_url = $redirect_url . '?page=add-external-media-without-import&url=' . urlencode( $info['url'] );
 			$redirect_url = $redirect_url . '&error=' . urlencode( $info['error'] );
 			$redirect_url = $redirect_url . '&width=' . urlencode( $info['width'] );
 			$redirect_url = $redirect_url . '&height=' . urlencode( $info['height'] );
@@ -386,14 +385,14 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 		$width_str = $input['width'];
 		$width_int = intval( $width_str );
 		if ( ! empty( $width_str ) && $width_int <= 0 ) {
-			$input['error'] = _('Width and height must be non-negative integers.');
+			$input['error'] = __('Width and height must be non-negative integers.', 'kuetemeier-essentials');
 			return $input;
 		}
 
 		$height_str = $input['height'];
 		$height_int = intval( $height_str );
 		if ( ! empty( $height_str ) && $height_int <= 0 ) {
-			$input['error'] = _('Width and height must be non-negative integers.');
+			$input['error'] = __('Width and height must be non-negative integers.', 'kuetemeier-essentials');
 			return $input;
 		}
 
@@ -427,7 +426,7 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 						$input['mime-type'] = $response['headers']['content-type'];
 					}
 				}
-				$input['error'] = _('Unable to get the image size.');
+				$input['error'] = __('Unable to get the image size.', 'kuetemeier-essentials');
 				return $input;
 			}
 

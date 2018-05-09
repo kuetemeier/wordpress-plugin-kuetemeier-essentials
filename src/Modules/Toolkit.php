@@ -69,7 +69,8 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule {
 					'id'         => 'toolkit-shortcodes',
 					'page'       => 'kuetemeier-toolkit',
 					'title'      => __('Shortcodes', 'kuetemeier-essentials'),
-					'content'	 => __('The Toolkit section comes with some handy Shortcodes:', 'kuetemeier-essentials' )
+					'content'	 => __('The Toolkit section comes with some handy Shortcodes:', 'kuetemeier-essentials' ),
+					'noButtons'  => 1
 				),
 			),
 			'sections' => array(

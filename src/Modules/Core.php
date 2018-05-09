@@ -114,7 +114,7 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'         => 'core-insights',
 					'tab'        => 'core-insights',
-					'title'      => __('Userfull informations about your WordPress installation:', 'kuetemeier-essentials'),
+					'title'      => __('Usefull informations about your WordPress installation:', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentInsights')
 				),
 			),
@@ -128,9 +128,9 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 		$plugin = $section->getPlugin();
 		$stable = $plugin->is_stable_version() ? __('Stable Version', 'kuetemeier-essentials') : __('Development Version', 'kuetemeier-essentials');
 
-		echo '<p><b>Kuetemeier Essentials Plugin Version:</b> '.esc_html($plugin->getVersion());
-		echo '<p><strong>Version Type:</strong> '.esc_html($stable).'</p>';
-		echo '</p><p><b>License:</b> Beta Test Version - limitied license</p>';
+		echo '<p><b>'.__('Kuetemeier Essentials Plugin Version', 'kuetemeier-essentials').':</b> '.esc_html($plugin->getVersion());
+		echo '<p><strong>'.__('Version Type', 'kuetemeier-essentials').':</strong> '.esc_html($stable).'</p>';
+		echo '</p><p><b>'.__('License', 'kuetemeier-essentials').':</b> Beta Test Version - limitied license</p>';
 	}
 
 	public function contentModules($section)

@@ -71,7 +71,8 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'           => 'analytics-google',
 					'page'         => 'kuetemeier-analytics',
-					'title'        => __('Google', 'kuetemeier-essentials')
+					'title'        => __('Google', 'kuetemeier-essentials'),
+					'noButtons'    => 1
 				),
 				/*
 				array(

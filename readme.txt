@@ -23,5 +23,8 @@ WordPress PlugIn with essential extensions for speed, data privacy and optimizat
 
 == Changelog ==
 
+= 0.7.0-beta =
+- First public Beta
+
 = 0.1 =
 - Initial Revision

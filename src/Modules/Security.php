@@ -112,7 +112,7 @@ final class Security extends \Kuetemeier\WordPress\PluginModule {
 	public function contentSecurityCommon()
 	{
 		echo '<p>'.__('IT security requires a complete concept that goes beyond the scope of this module.', 'kuetemeier-essentials').'<br />';
-		echo __('But a few useful features help you better secure your WordPress installation (more features coming soon):', 'kuetemeier-essentials').'</p>';
+		echo __('But a few useful features help you to better secure your WordPress installation (more features coming soon):', 'kuetemeier-essentials').'</p>';
 	}
 
 

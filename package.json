@@ -1,6 +1,6 @@
 {
   "name": "kuetemeier-essentials",
-  "version": "0.6.4-beta",
+  "version": "0.7.0-beta",
   "version_stable": "not released yet",
   "author": "Jörg Kütemeier (https://kuetemeier.de/kontakt/)",
   "license": "GPL-3.0",
@@ -31,6 +31,7 @@
     "gulp-gettext": "^0.3.0",
     "gulp-if": "^2.0.2",
     "gulp-minify-css": "^1.2.4",
+    "gulp-octorelease": "^1.0.2",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^3.2.1",

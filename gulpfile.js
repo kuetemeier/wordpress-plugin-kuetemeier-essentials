@@ -284,6 +284,19 @@ gulp.task('watch', ['pre-watch'], function() {
   gulp.watch(['./kuetemeier-essentials.php', './src/**/*.php'], ['phpdoc']);
 });
 
+gulp.task('github', function(){
+	gulp.src('./release/kuetemeier-essentials.zip')
+	.pipe(release({
+		token: process.env.GITHUB_TOKEN,
+		tag: 'v' + pkg.version,
+		name: pkg.name + ' v' + pkg.version,
+		body: 'New ' + pkg.name + ' release v' + pkg.version + '!',
+		assetName: 'kuetemeier-essentials.zip',
+		manifest: pkg
+	}));
+});
+
+gulp.task('release', ['build', 'github']);
 
 gulp.task('test', ['lint']);
 

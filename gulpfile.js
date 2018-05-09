@@ -51,6 +51,8 @@ const exec = require('child_process').exec;
 const wpPot = require('gulp-wp-pot');
 const gettext = require('gulp-gettext');
 
+const release = require('gulp-octorelease').default;
+
 
 // get config
 var pkg = JSON.parse(fs.readFileSync('./package.json'));

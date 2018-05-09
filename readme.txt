@@ -23,6 +23,9 @@ WordPress PlugIn with essential extensions for speed, data privacy and optimizat
 
 == Changelog ==
 
+= 0.7.1-beta =
+- Add german translation
+
 = 0.7.0-beta =
 - First public Beta
 

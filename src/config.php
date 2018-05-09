@@ -95,7 +95,8 @@ const PLUGIN_CONFIG = array(
 				'media' => 100,
 				'analytics' => 150,
 				'dataprivacy' => 200,
-				'toolkit' => 250,
+				'security' => 250,
+				'toolkit' => 300,
 				//'test' => 1,
 			),
 			'always-enabled' => array(
@@ -107,6 +108,7 @@ const PLUGIN_CONFIG = array(
 				'analytics',
 				'dataprivacy',
 				'toolkit',
+				'security',
 				//'test',
 			)
 		)

@@ -5,7 +5,7 @@ Description: WordPress PlugIn with essential extensions for speed, data privacy 
 ## Version Information ##
 
 #### This source code ####
-Version: 0.6.3-beta
+Version: 0.6.4-beta
 
 #### Latest stable ####
 Latest stable version: not released yet

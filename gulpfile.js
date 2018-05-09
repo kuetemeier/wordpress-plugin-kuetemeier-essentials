@@ -158,7 +158,7 @@ gulp.task('zip', function () {
 	'./vendor/composer/**/*',
 	'./vendor/autoload.php',
 	'./vendor/kuetemeier/**/*',
-  ])
+  ], { base: '.' })
 	.pipe(zip('kuetemeier-essentials.zip'))
 	.pipe(gulp.dest('./release/'));
 });

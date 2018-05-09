@@ -157,6 +157,15 @@ gulp.task('zip', function () {
 	'!./languages/*backup*',
 	'./vendor/{composer,kuetemeier}/**/*',
 	'./vendor/autoload.php',
+	'!./vendor/**/node_modules',
+	'!./vendor/**/node_modules/**/*',
+	'!./vendor/**/.*',
+	'!./vendor/**/composer.lock',
+	'!./vendor/**/gulpfile.js',
+	'!./vendor/**/phpcs.xml*',
+	'!./vendor/**/phpunit.xml*',
+	'!./vendor/**/tests/**/*',
+	'!./vendor/**/tests'
 	], { base: '..' })
 	.pipe(zip('kuetemeier-essentials.zip'))
 	.pipe(gulp.dest('./release/'));

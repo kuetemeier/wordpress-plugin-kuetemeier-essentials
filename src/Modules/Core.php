@@ -73,32 +73,37 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 			),
 			'tabs' => array(
 				array(
-					'id'         => 'general',
+					'id'         => 'core-general',
 					'page'       => 'kuetemeier',
 					'title'      => __('General', 'kuetemeier-essentials')
 				),
 				array(
-					'id'         => 'modules',
+					'id'         => 'core-modules',
 					'page'       => 'kuetemeier',
 					'title'      => __('Modules', 'kuetemeier-essentials'),
 				),
+				array(
+					'id'         => 'core-insights',
+					'page'       => 'kuetemeier',
+					'title'      => __('Insights', 'kuetemeier-essentials'),
+				)
 			),
 			'sections' => array(
 				array(
 					'id'         => 'core-version',
-					'tabs'       => array('general'),
+					'tabs'       => array('core-general'),
 					'title'      => __('Version Information', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentVersion')
 				),
 				array(
 					'id'         => 'core-installed-modules',
-					'tab'        =>  'modules',
+					'tab'        =>  'core-modules',
 					'title'      => __('Installed Modules', 'kuetemeier-essentials'),
 					'content'	 => array(&$this, 'contentModules')
 				),
 				array(
 					'id'         => 'core-module-management',
-					'tab'        =>  'modules',
+					'tab'        =>  'core-modules',
 					'title'      => __('Module Management', 'kuetemeier-essentials'),
 					'content'	 => __('Coming soon.', 'kuetemeier-essentials')
 				),

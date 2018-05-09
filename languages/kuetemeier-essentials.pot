@@ -13,269 +13,392 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/class-options.php:676
-msgid "Save Settings"
-msgstr ""
-
-#: src/class-options.php:677
-msgid "Reset Defaults"
-msgstr ""
-
-#: src/KuetemeierEssentialsPlugin.php:76
+#: src/KuetemeierEssentialsPlugin.php:69
 msgid "Save"
 msgstr ""
 
-#: src/KuetemeierEssentialsPlugin.php:77
+#: src/KuetemeierEssentialsPlugin.php:70
 msgid "Reset to Defaults"
 msgstr ""
 
-#: src/Module/Core.php:45, src/plugin_modules/frontend/class-core-frontend.php:55
-msgid "Core"
-msgstr ""
-
-#: src/Module/Core.php:46
-msgid "Kuetemeier Essentials Core Module."
-msgstr ""
-
-#: src/Module/Core.php:84
-msgid "General"
-msgstr ""
-
-#: src/Module/Core.php:89
-msgid "Modules"
-msgstr ""
-
-#: src/Module/Core.php:94, src/Module/Core.php:101, src/Module/Core.php:121, src/Module/Core.php:129
-msgid "Test"
-msgstr ""
-
-#: src/Module/Core.php:107
-msgid "Test 2"
-msgstr ""
-
-#: src/Module/Core.php:113
-msgid "Version Information"
-msgstr ""
-
-#: src/Module/Core.php:123, src/Module/Core.php:131, src/Module/Core.php:144, src/Module/Core.php:152, src/Module/Core.php:160, src/Module/Core.php:173
-msgid "A Label"
-msgstr ""
-
-#: src/Module/Core.php:124, src/Module/Core.php:132, src/Module/Core.php:145, src/Module/Core.php:153, src/Module/Core.php:161, src/Module/Core.php:174
-msgid "A Description"
-msgstr ""
-
-#: src/Module/Core.php:142
-msgid "Number"
-msgstr ""
-
-#: src/Module/Core.php:150
-msgid "Email"
-msgstr ""
-
-#: src/Module/Core.php:158, src/Module/Core.php:171
-msgid "Select"
-msgstr ""
-
-#: src/Module/Core.php:187, src/Module/Dataprivacy.php:90
-msgid "Stable Version"
-msgstr ""
-
-#: src/Module/Core.php:187, src/Module/Dataprivacy.php:90
-msgid "Development Version"
-msgstr ""
-
-#: src/Module/Dataprivacy.php:45, src/plugin_modules/frontend/class-data-privacy-frontend.php:72
-msgid "Data Privacy"
-msgstr ""
-
-#: src/Module/Dataprivacy.php:46
-msgid "Kuetemeier Essentials Data Privacy Module."
-msgstr ""
-
-#: src/Module/Dataprivacy.php:71
-msgid "General Data Privacy"
-msgstr ""
-
-#: src/Module/Dataprivacy.php:78
-msgid "Introduction"
-msgstr ""
-
-#: src/Module/Media.php:45, src/Module/Media.php:71, src/plugin_modules/frontend/class-media-frontend.php:75
-msgid "Media"
-msgstr ""
-
-#: src/Module/Media.php:46
-msgid "WordPress media enhancements."
-msgstr ""
-
-#: src/Module/Media.php:72
-msgid "WordPress Media Library enhancements."
-msgstr ""
-
-#: src/Module/Media.php:79
-msgid "Common Media Library Options"
-msgstr ""
-
-#: src/Module/Media.php:80
-msgid "\nOn this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there."
-msgstr ""
-
-#: src/Module/Media.php:85, src/Module/Media.php:106
-msgid "imgix Support"
-msgstr ""
-
-#: src/Module/Media.php:90
-msgid "kimg Shortcode"
-msgstr ""
-
-#: src/Module/Media.php:97
-msgid "Add external Media to the Library"
-msgstr ""
-
-#: src/Module/Media.php:98
-msgid "If activated, this feature will allow you to add external Media (by it's URL) to the Media Library."
-msgstr ""
-
-#: src/Module/Media.php:99
-msgid " The media is NOT imported, but you can use it like \"normal\" media and enhance it with custom fields (like captions or copyright informations)."
-msgstr ""
-
-#: src/Module/Media.php:100
-msgid " This is usefull for S3, CDN or imgix integration."
-msgstr ""
-
-#: src/Module/Media.php:107
-msgstr ""
-
-#: src/Module/Media.php:114
-msgid "imgix Source Settings"
-msgstr ""
-
-#: src/Module/Media.php:115
-msgid "Default imgix source settings."
-msgstr ""
-
-#: src/Module/Media.php:120
-msgid "\"kimg\" - Kuetemeier Image Shortcode"
-msgstr ""
-
-#: src/Module/Media.php:121
-msgid "Usefull Shortcut to create image tags with imgix support and copyright informations."
-msgstr ""
-
-#: src/Module/Media.php:212
-msgid "URL to reference Media to"
-msgstr ""
-
-#: src/Module/Media.php:214
-msgid "Image URL (https://my.domain/my-image.jpg)"
-msgstr ""
-
-#: src/Module/Media.php:220
-msgid "Please fill in the following properties manually. If you leave the fields blank (or 0 for width/height), the plugin will try to resolve them automatically"
-msgstr ""
-
-#: src/Module/Media.php:223
-msgid "Width"
-msgstr ""
-
-#: src/Module/Media.php:225
-msgid "Height"
-msgstr ""
-
-#: src/Module/Media.php:227
-msgid "MIME Type"
-msgstr ""
-
-#: src/Module/Media.php:238
-msgid "Add"
-msgstr ""
-
-#: src/Module/Media.php:240
-msgid "Cancel"
-msgstr ""
-
-#: src/Module/Optimization.php:45, src/Module/Optimization.php:69, src/plugin_modules/frontend/class-optimization-frontend.php:65
-msgid "Optimization"
-msgstr ""
-
-#: src/Module/Optimization.php:46
-msgid "WordPress optimization options."
-msgstr ""
-
-#: src/Module/Optimization.php:77
-msgid "Speed Optimizations"
-msgstr ""
-
-#: src/Module/Optimization.php:84
-msgid "Basic WordPress Features"
-msgstr ""
-
-#: src/Module/Optimization.php:85
-msgid "These are basic WordPress features, that most likely are not needed and we recommend to disable them."
-msgstr ""
-
-#: src/Module/Optimization.php:92
-msgid "WP Emojis Support"
-msgstr ""
-
-#: src/Module/Optimization.php:94, src/plugin_modules/frontend/class-optimization-frontend.php:99
-msgid "Disable WordPress Emojis"
-msgstr ""
-
-#: src/Module/Optimization.php:95, src/plugin_modules/frontend/class-optimization-frontend.php:107
-msgid "Check (recommended) to disable the Emojis support in WordPress."
-msgstr ""
-
-#: src/Module/Optimization.php:100
-msgid "WP Embeds Support"
-msgstr ""
-
-#: src/Module/Optimization.php:102
-msgid "Disable WordPress Embeds"
-msgstr ""
-
-#: src/Module/Optimization.php:103
-msgid "Check (recommended) to disable the \"Embed\" functionality in WordPress."
-msgstr ""
-
-#: src/plugin_modules/frontend/class-analytics-frontend.php:65
+#: src/Modules/Analytics.php:45, src/Modules/Analytics.php:64, src/Modules/Analytics.php:65
 msgid "Analytics"
 msgstr ""
 
-#: src/plugin_modules/frontend/class-data-privacy-frontend.php:104
-msgid "Privacy Checkbox"
+#: src/Modules/Analytics.php:46
+msgid "Kuetemeier Essentials Analytics Module."
 msgstr ""
 
-#: src/plugin_modules/frontend/class-data-privacy-frontend.php:112
-msgid "Add privacy checkbox to comment fields"
+#: src/Modules/Analytics.php:73
+msgid "Google"
 msgstr ""
 
-#: src/plugin_modules/frontend/class-data-privacy-frontend.php:127
+#: src/Modules/Analytics.php:78
+msgid "Active Campaign"
+msgstr ""
+
+#: src/Modules/Analytics.php:83
+msgid "Header & Footer Code"
+msgstr ""
+
+#: src/Modules/Analytics.php:90
+msgid "Google Tag Manger"
+msgstr ""
+
+#: src/Modules/Analytics.php:91
+msgid "If you use the Google Tag Manager, you can include it here."
+msgstr ""
+
+#: src/Modules/Analytics.php:96
+msgid "Insert custom HTML Code into your Website"
+msgstr ""
+
+#: src/Modules/Analytics.php:109
+msgid "Code to insert into Header"
+msgstr ""
+
+#: src/Modules/Analytics.php:110
+msgid "Valid HTML Code, that will be placed as close as possibe after the opening <head> tag (global, on every post and page). Shortcodes will be parsed and executed."
+msgstr ""
+
+#: src/Modules/Analytics.php:111
+msgid "Note: The Theme has to support the `wp_head` code for this to work - most themes do."
+msgstr ""
+
+#: src/Modules/Analytics.php:122
+msgid "Code to insert into Footer"
+msgstr ""
+
+#: src/Modules/Analytics.php:123
+msgid "Valid HTML Code, that will be directly inserted just before the closing </body> tag (global, on every post and page). Shortcodes will be parsed and executed."
+msgstr ""
+
+#: src/Modules/Analytics.php:153
+msgid "Here you can place code, that will be inserted into the header and footer of your Website."
+msgstr ""
+
+#: src/Modules/Analytics.php:155
+msgid "Some themes will already support this feature. Netherless, this fields are theme independent and useful for the ones, that don't."
+msgstr ""
+
+#: src/Modules/Analytics.php:157
+msgid "If you don't need them, just leave them blank."
+msgstr ""
+
+#: src/Modules/Core.php:45
+msgid "Core"
+msgstr ""
+
+#: src/Modules/Core.php:46
+msgid "Kuetemeier Essentials Core Module."
+msgstr ""
+
+#: src/Modules/Core.php:71
+msgid "Essential Features for WordPress!"
+msgstr ""
+
+#: src/Modules/Core.php:78
+msgid "General"
+msgstr ""
+
+#: src/Modules/Core.php:83
+msgid "Modules"
+msgstr ""
+
+#: src/Modules/Core.php:88
+msgid "Insights"
+msgstr ""
+
+#: src/Modules/Core.php:95
+msgid "Version Information"
+msgstr ""
+
+#: src/Modules/Core.php:101
+msgid "Installed Modules"
+msgstr ""
+
+#: src/Modules/Core.php:107
+msgid "Module Management"
+msgstr ""
+
+#: src/Modules/Core.php:108
+msgid "Coming soon."
+msgstr ""
+
+#: src/Modules/Core.php:119
+msgid "Stable Version"
+msgstr ""
+
+#: src/Modules/Core.php:119
+msgid "Development Version"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:45
+msgid "Data Privacy"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:46
+msgid "Kuetemeier Essentials Data Privacy Module."
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:50
+msgid "\/data-privacy\/"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:73
+msgid "General Data Privacy"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:80
+msgid "Introduction"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:86
+msgid "WordPress Comments"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:94
+msgid "Privacy for WordPress Comments"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:96
+msgid "Add Privacy Checkbox"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:97
+msgid "(recommended) Adds a privacy checkbox to the WordPress comment system."
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:102
 msgid "URL to data privacy statement"
 msgstr ""
 
-#: src/plugin_modules/frontend/class-data-privacy-frontend.php:138
-msgid "Valid URL (e.g. /data-privacy/)"
+#: src/Modules/Dataprivacy.php:104, src/Modules/Toolkit.php:80, src/Modules/Toolkit.php:81
 msgstr ""
 
-#: src/plugin_modules/frontend/class-develop-frontend.php:57
-msgid "Development"
+#: src/Modules/Dataprivacy.php:105
+msgid "A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/.\nPoint this to you privacy statement URL (A link to it is shown in the notice)."
 msgstr ""
 
-#: src/plugin_modules/frontend/class-media-frontend.php:113
+#: src/Modules/Dataprivacy.php:162
+msgid "You must agree to our privacy term by checking the box..."
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:193, src/Modules/Media.php:100
+msgstr ""
+
+#: src/Modules/Media.php:45, src/Modules/Media.php:64
+msgid "Media"
+msgstr ""
+
+#: src/Modules/Media.php:46
+msgid "WordPress media enhancements."
+msgstr ""
+
+#: src/Modules/Media.php:65
+msgid "WordPress Media Library enhancements."
+msgstr ""
+
+#: src/Modules/Media.php:72
+msgid "Common Media Library Options"
+msgstr ""
+
+#: src/Modules/Media.php:73
+msgid "\nOn this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there."
+msgstr ""
+
+#: src/Modules/Media.php:78, src/Modules/Media.php:99
+msgid "imgix Support"
+msgstr ""
+
+#: src/Modules/Media.php:83
+msgid "kimg Shortcode"
+msgstr ""
+
+#: src/Modules/Media.php:90
+msgid "Add external Media to the Library"
+msgstr ""
+
+#: src/Modules/Media.php:91
+msgid "If activated, this feature will allow you to add external Media (by it's URL) to the Media Library."
+msgstr ""
+
+#: src/Modules/Media.php:92
+msgid "The media is NOT imported, but you can use it like \"normal\" media and enhance it with custom fields (like captions or copyright informations)."
+msgstr ""
+
+#: src/Modules/Media.php:93
+msgid "This is usefull for [S3](https://aws.amazon.com/s3), CDN or [imgix](https://imgix.com) integration."
+msgstr ""
+
+#: src/Modules/Media.php:108
+msgid "imgix Source Settings"
+msgstr ""
+
+#: src/Modules/Media.php:109
+msgid "Default imgix source settings."
+msgstr ""
+
+#: src/Modules/Media.php:114
+msgid "\"kimg\" - Kuetemeier Image Shortcode"
+msgstr ""
+
+#: src/Modules/Media.php:115
+msgid "Usefull Shortcut to create image tags with imgix support and copyright informations."
+msgstr ""
+
+#: src/Modules/Media.php:123
 msgid "Enable external Media"
 msgstr ""
 
-#: src/plugin_modules/frontend/class-media-frontend.php:121
+#: src/Modules/Media.php:126
 msgid "Check to be able to reference external Media and add it to the Media Library."
 msgstr ""
 
-#: src/plugin_modules/frontend/class-media-frontend.php:136
+#: src/Modules/Media.php:130
 msgid "Enable IMGIX JavaScript"
 msgstr ""
 
-#: src/plugin_modules/frontend/class-media-frontend.php:144
-msgid "Check to enable the IMGIX JavaScript functionality."
+#: src/Modules/Media.php:132
+msgid "Check to enable the IMGIX JavaScript"
+msgstr ""
+
+#: src/Modules/Media.php:265
+msgid "URL to reference Media to"
+msgstr ""
+
+#: src/Modules/Media.php:267
+msgid "Image URL (https://my.domain/my-image.jpg)"
+msgstr ""
+
+#: src/Modules/Media.php:273
+msgid "Please fill in the following properties manually. If you leave the fields blank (or 0 for width/height), the plugin will try to resolve them automatically"
+msgstr ""
+
+#: src/Modules/Media.php:276
+msgid "Width"
+msgstr ""
+
+#: src/Modules/Media.php:278
+msgid "Height"
+msgstr ""
+
+#: src/Modules/Media.php:280
+msgid "MIME Type"
+msgstr ""
+
+#: src/Modules/Media.php:291
+msgid "Add"
+msgstr ""
+
+#: src/Modules/Media.php:293
+msgid "Cancel"
+msgstr ""
+
+#: src/Modules/Optimization.php:45, src/Modules/Optimization.php:63
+msgid "Optimization"
+msgstr ""
+
+#: src/Modules/Optimization.php:46
+msgid "Optimize your WordPress installation."
+msgstr ""
+
+#: src/Modules/Optimization.php:71
+msgid "Speed Optimizations"
+msgstr ""
+
+#: src/Modules/Optimization.php:78
+msgid "Basic WordPress Features"
+msgstr ""
+
+#: src/Modules/Optimization.php:79
+msgid "These are basic WordPress features, that most likely are not needed and we recommend to disable them."
+msgstr ""
+
+#: src/Modules/Optimization.php:86
+msgid "WP Emojis Support"
+msgstr ""
+
+#: src/Modules/Optimization.php:88
+msgid "Disable WordPress Emojis"
+msgstr ""
+
+#: src/Modules/Optimization.php:89
+msgid "(recommended) Check to disable the Emojis support in WordPress."
+msgstr ""
+
+#: src/Modules/Optimization.php:94
+msgid "WP Embeds Support"
+msgstr ""
+
+#: src/Modules/Optimization.php:96
+msgid "Disable WordPress Embeds"
+msgstr ""
+
+#: src/Modules/Optimization.php:97
+msgid "(recommended) Check to disable the \"Embed\" functionality in WordPress."
+msgstr ""
+
+#: src/Modules/Test.php:46, src/Modules/Test.php:68, src/Modules/Test.php:69, src/Modules/Test.php:83, src/Modules/Test.php:90, src/Modules/Test.php:110, src/Modules/Test.php:118
+msgid "Test"
+msgstr ""
+
+#: src/Modules/Test.php:47
+msgid "Test module for development - Not recommended!."
+msgstr ""
+
+#: src/Modules/Test.php:78
+msgid "Test General"
+msgstr ""
+
+#: src/Modules/Test.php:96
+msgid "Test 2"
+msgstr ""
+
+#: src/Modules/Test.php:102
+msgid "Test 3"
+msgstr ""
+
+#: src/Modules/Test.php:112, src/Modules/Test.php:120, src/Modules/Test.php:133, src/Modules/Test.php:141, src/Modules/Test.php:149, src/Modules/Test.php:162
+msgid "A Label"
+msgstr ""
+
+#: src/Modules/Test.php:113, src/Modules/Test.php:121, src/Modules/Test.php:134, src/Modules/Test.php:142, src/Modules/Test.php:150, src/Modules/Test.php:163
+msgid "A Description"
+msgstr ""
+
+#: src/Modules/Test.php:131
+msgid "Number"
+msgstr ""
+
+#: src/Modules/Test.php:139
+msgid "Email"
+msgstr ""
+
+#: src/Modules/Test.php:147, src/Modules/Test.php:160
+msgid "Select"
+msgstr ""
+
+#: src/Modules/Toolkit.php:45, src/Modules/Toolkit.php:62
+msgid "Toolkit"
+msgstr ""
+
+#: src/Modules/Toolkit.php:46, src/Modules/Toolkit.php:63
+msgid "Little helper and tools for enriching your WordPress installation."
+msgstr ""
+
+#: src/Modules/Toolkit.php:70
+msgid "Shortcodes"
+msgstr ""
+
+#: src/Modules/Toolkit.php:71
+msgid "The Toolkit section comes with some handy Shortcodes:"
+msgstr ""
+
+#: src/Modules/Toolkit.php:78
+msgid "Dates"
+msgstr ""
+
+#: src/Modules/Toolkit.php:79
+msgid "Use `[ke-current-year]` to display the current year. Very helpful in Copyright notices."
 msgstr ""

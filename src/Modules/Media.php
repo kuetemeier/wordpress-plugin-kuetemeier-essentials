@@ -137,9 +137,9 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 	}
 
 
-	public function frontend_init()
+	public function frontendInit()
 	{
-		parent::frontend_init();
+		parent::frontendInit();
 
 		if ($this->getOption('imgix-js-enabled')) {
 			add_action( 'wp_enqueue_scripts', array( &$this, 'add_scripts' ) );
@@ -149,9 +149,9 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 	}
 
 
-	public function admin_init($options)
+	public function adminInit($options)
 	{
-		parent::admin_init($options);
+		parent::adminInit($options);
 
 		$this->enableExternalMedia();
 	}

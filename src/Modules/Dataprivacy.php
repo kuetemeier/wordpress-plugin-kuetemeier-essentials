@@ -109,9 +109,9 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 	}
 
 
-	public function frontend_init()
+	public function frontendInit()
 	{
-		parent::frontend_init();
+		parent::frontendInit();
 		$this->wpCommentsAddDataPrivacyField();
 	}
 

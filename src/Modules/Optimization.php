@@ -100,18 +100,18 @@ final class Optimization extends \Kuetemeier\WordPress\PluginModule {
 		);
 	}
 
-	public function frontend_init()
+	public function frontendInit()
 	{
-		parent::frontend_init();
-		$this->frontend_init_disable_emojis();
-		$this->frontend_init_disable_embeds();
+		parent::frontendInit();
+		$this->frontendInitDisableEmojis();
+		$this->frontendInitDisableEmbeds();
 	}
 
 	/* ------------------------------------------------------------------------------------------------------------------------
 	 * BEGIN - disable emojis
 	 * ------------------------------------------------------------------------------------------------------------------------ */
 
-	private function frontend_init_disable_emojis()
+	private function frontendInitDisableEmojis()
 	{
 		if ( $this->getOption('disable-emoji') ) {
 			add_action( 'init', array( &$this, 'callback__init__disable_emojis' ) );
@@ -180,10 +180,10 @@ final class Optimization extends \Kuetemeier\WordPress\PluginModule {
 	 * ------------------------------------------------------------------------------------------------------------------------ */
 
 
-	public function frontend_init_disable_embeds()
+	public function frontendInitDisableEmbeds()
 	{
 		if ( $this->getOption('disable-embeds') ) {
-			add_action( 'init', array( &$this, 'callback__init__disable_embeds', 9999 ) );
+			add_action('init', array(&$this, 'callback__init__disable_embeds'), PHP_INT_MAX);
 		}
 	}
 

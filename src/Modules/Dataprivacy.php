@@ -93,7 +93,7 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 					'id'          => 'wp-comments-add-data-privacy-field',
 					'section'     => 'data-privacy-comments',
 					'title'       => __('Privacy for WordPress Comments', 'kuetemeier-essentials'),
-					'type'        => 'Checkbox',
+					'type'        => 'CheckBox',
 					'label'       => __('Add Privacy Checkbox', 'kuetemeier-essentials' ),
 					'description' => __('(recommended) Adds a privacy checkbox to the WordPress comment system.', 'kuetemeier-essentials'),
 				),

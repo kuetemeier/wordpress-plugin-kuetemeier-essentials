@@ -90,7 +90,7 @@ final class Security extends \Kuetemeier\WordPress\PluginModule {
 					'id'          => 'remove-wp-version',
 					'section'     => 'security-remove-version',
 					'title'       => __('Remove WordPress Version', 'kuetemeier-essentials'),
-					'type'        => 'Checkbox',
+					'type'        => 'CheckBox',
 					'label'       => __('Check to remove the WordPress Version from the HTML Code and RSS.', 'kuetemeier-essentials' ),
 					'description' => __('(recommended)', 'kuetemeier-essentials'),
 				),

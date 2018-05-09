@@ -155,9 +155,8 @@ gulp.task('zip', function () {
 	'./uninstall.php',
 	'./kuetemeier-essentials.php',
 	'!./languages/*backup*',
-	'./vendor/composer/**/*',
+	'./vendor/{composer,kuetemeier}/**/*',
 	'./vendor/autoload.php',
-	'./vendor/kuetemeier/**/*',
   ], { base: '.' })
 	.pipe(zip('kuetemeier-essentials.zip'))
 	.pipe(gulp.dest('./release/'));

@@ -122,14 +122,14 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 					'id'          => 'external-media-enabled',
 					'section'     => 'media-common-external',
 					'title'		  => __('Enable external Media', 'kuetemeier-essentials'),
-					'type'        => 'Checkbox',
+					'type'        => 'CheckBox',
 					//'label'       => __( 'Enable external Media', 'kuetemeier-essentials' ),
 					'label' => __( 'Check to be able to reference external Media and add it to the Media Library.', 'kuetemeier-essentials' )				),
 				array(
 					'id'          => 'imgix-js-enabled',
 					'section'     => 'media-imgix',
 					'title'       => __('Enable IMGIX JavaScript', 'kuetemeier-essentials'),
-					'type'        => 'Checkbox',
+					'type'        => 'CheckBox',
 					'label'       => __( 'Check to enable the IMGIX JavaScript', 'kuetemeier-essentials' ),
 					//'label' => __( 'Check (recommended) to disable the "Embed" functionality in WordPress.', 'kuetemeier-essentials' )
 				)

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Kuetemeier Essentials\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-05-09 23:14+0000\n"
-"PO-Revision-Date: 2018-05-09 23:16+0000\n"
+"PO-Revision-Date: 2018-05-09 23:53+0000\n"
 "Last-Translator: admin <jk@kuetemeier.net>\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -138,7 +138,7 @@ msgstr ""
 #: src/Modules/Core.php:91
 msgid "Insights"
 msgstr ""
-"Einsichten\n"
+"Einblicke\n"
 
 #: src/Modules/Core.php:99
 msgid "Version Information"

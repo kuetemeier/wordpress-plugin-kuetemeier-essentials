@@ -61,9 +61,9 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'         => 'kuetemeier-data-privacy',
 					'parent'     => 'kuetemeier',
-					'title'      => 'Data Privacy',
-					'menuTitle'  => 'Data Privacy',
-					'content'    => 'Make your WordPress GDPR compliant.',
+					'title'      => __('Data Privacy', 'kuetemeier-essentials'),
+					'menuTitle'  => __('Data Privacy', 'kuetemeier-essentials'),
+					'content'    => __('Helps you with some GDPR requirements.', 'kuetemeier-essentials'),
 					'priority'   => 200,
 				)
 			),
@@ -144,16 +144,15 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 	public function callback__comment_form_field_comment($commentField)
 	{
 		$url = $this->getOption('wp-comments-data-privacy-statement-url');
-
-		$commentField .= '<p class="pprivacy"><input type="checkbox" name="privacy" value="privacy-key" class="privacyBox" aria-req="true"> Hiermit akzeptiere ich die ';
-
+		$statement = '';
 		if ( empty( $url ) ) {
-			$commentField .= 'Datenschutzbedingungen';
+			$statement = __('Data Privacy Statement', 'kuetemeier-essentials');
 		} else {
-			$commentField .= '<a target="blank" href="' . $url . '">Datenschutzbedingungen</a>';
+			$statement = '<a target="blank" href="' . $url . '">'.__('Data Privacy Statement', 'kuetemeier_essentials').'</a>';
 		}
 
-		$commentField .= '<p>';
+		$commentField = '<p class="pprivacy"><input type="checkbox" name="privacy" value="privacy-key" class="privacyBox" aria-req="true"> '.
+			__('I have read and accept the %s.', 'kuetemeier-essentials', $statement).'</p>';
 
 		return $commentField;
 	}

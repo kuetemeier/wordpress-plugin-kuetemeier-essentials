@@ -165,7 +165,7 @@ msgstr ""
 msgid "no"
 msgstr ""
 
-#: src/Modules/Dataprivacy.php:45
+#: src/Modules/Dataprivacy.php:45, src/Modules/Dataprivacy.php:64, src/Modules/Dataprivacy.php:65
 msgid "Data Privacy"
 msgstr ""
 
@@ -175,6 +175,10 @@ msgstr ""
 
 #: src/Modules/Dataprivacy.php:51
 msgid "\/data-privacy\/"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:66
+msgid "Helps you with some GDPR requirements."
 msgstr ""
 
 #: src/Modules/Dataprivacy.php:74
@@ -218,6 +222,14 @@ msgstr ""
 
 #: src/Modules/Dataprivacy.php:106
 msgid "A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/.\nPoint this to you privacy statement URL (A link to it is shown in the notice)."
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:148
+msgid "I have read and accept the"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:151
+msgid "Data Privacy Statement"
 msgstr ""
 
 #: src/Modules/Dataprivacy.php:163

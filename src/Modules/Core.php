@@ -100,6 +100,12 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 					'content'	 => array(&$this, 'contentVersion')
 				),
 				array(
+					'id'         => 'core-what-is-new',
+					'tabs'       => array('core-general'),
+					'title'      => __('What is new?', 'kuetemeier-essentials'),
+					'content'	 => array(&$this, 'contentWhatIsNew')
+				),
+				array(
 					'id'         => 'core-installed-modules',
 					'tab'        => 'core-modules',
 					'title'      => __('Enabled Modules', 'kuetemeier-essentials'),
@@ -133,7 +139,15 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 		echo '</p><p><b>'.__('License', 'kuetemeier-essentials').':</b> '.__('GPL (Standard, free)', 'kuetemeier-essentials').'</p>';
 
 		echo '<p>'.__('Did you know? There is a Pro Version of this plugin available. You can get it here:', 'kuetemeier-essentials').
-		  ' <a href="https://kuetemeier.de/kuetemeier-essentials">https://kuetemeier.de/kuetemeier-essentials</a></p>.';
+		  ' <a href="https://kuetemeier.de/kuetemeier-essentials">https://kuetemeier.de/kuetemeier-essentials</a>.</p>';
+	}
+
+
+	public function contentWhatIsNew($section)
+	{
+		echo '<p>'.__('This is the initial public release. In the next weeks, I will launch some helpfull and documenting articles on my Blog', 'kuetemeier-essentials').
+		' (<a href="https://kuetemeier.de/blog/">https://kuetemeier.de/blog</a>).</p>';
+		echo '<p>'.__('With regard to the GDPR, there will be regular updates and additional functions in the next few days.', 'kuetemeier-essentials').'</p>';
 	}
 
 	public function contentModules($section)

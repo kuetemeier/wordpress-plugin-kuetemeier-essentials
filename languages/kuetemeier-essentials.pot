@@ -138,62 +138,74 @@ msgid "Version Information"
 msgstr ""
 
 #: src/Modules/Core.php:105
-msgid "Enabled Modules"
+msgid "What is new?"
 msgstr ""
 
 #: src/Modules/Core.php:111
-msgid "Module Management"
-msgstr ""
-
-#: src/Modules/Core.php:112
-msgid "Coming soon."
+msgid "Enabled Modules"
 msgstr ""
 
 #: src/Modules/Core.php:117
+msgid "Module Management"
+msgstr ""
+
+#: src/Modules/Core.php:118
+msgid "Coming soon."
+msgstr ""
+
+#: src/Modules/Core.php:123
 msgid "Usefull informations about your WordPress installation:"
 msgstr ""
 
-#: src/Modules/Core.php:129
+#: src/Modules/Core.php:135
 msgid "Stable Version"
 msgstr ""
 
-#: src/Modules/Core.php:129
+#: src/Modules/Core.php:135
 msgid "Development Version"
 msgstr ""
 
-#: src/Modules/Core.php:131
+#: src/Modules/Core.php:137
 msgid "Kuetemeier Essentials Plugin Version"
 msgstr ""
 
-#: src/Modules/Core.php:132
+#: src/Modules/Core.php:138
 msgid "Version Type"
 msgstr ""
 
-#: src/Modules/Core.php:133
+#: src/Modules/Core.php:139
 msgid "License"
 msgstr ""
 
-#: src/Modules/Core.php:133
+#: src/Modules/Core.php:139
 msgid "GPL (Standard, free)"
 msgstr ""
 
-#: src/Modules/Core.php:135
+#: src/Modules/Core.php:141
 msgid "Did you know? There is a Pro Version of this plugin available. You can get it here:"
 msgstr ""
 
-#: src/Modules/Core.php:144
+#: src/Modules/Core.php:148
+msgid "This is the initial public release. In the next weeks, I will launch some helpfull and documenting articles on my Blog"
+msgstr ""
+
+#: src/Modules/Core.php:150
+msgid "With regard to the GDPR, there will be regular updates and additional functions in the next few days."
+msgstr ""
+
+#: src/Modules/Core.php:158
 msgid "Module"
 msgstr ""
 
-#: src/Modules/Core.php:144
+#: src/Modules/Core.php:158
 msgid "Description"
 msgstr ""
 
-#: src/Modules/Core.php:163
+#: src/Modules/Core.php:177
 msgid "yes"
 msgstr ""
 
-#: src/Modules/Core.php:163
+#: src/Modules/Core.php:177
 msgid "no"
 msgstr ""
 

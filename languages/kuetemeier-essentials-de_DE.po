@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kuetemeier Essentials\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-11 09:44+0000\n"
-"PO-Revision-Date: 2018-05-11 09:45+0000\n"
+"POT-Creation-Date: 2018-05-11 10:39+0000\n"
+"PO-Revision-Date: 2018-05-11 10:39+0000\n"
 "Last-Translator: admin <jk@kuetemeier.net>\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -178,46 +178,50 @@ msgstr ""
 "Versions Informationen\n"
 
 #: src/Modules/Core.php:105
+msgid "What is new?"
+msgstr "Was ist neu?"
+
+#: src/Modules/Core.php:111
 msgid "Enabled Modules"
 msgstr "Aktivierte Module"
 
-#: src/Modules/Core.php:111
+#: src/Modules/Core.php:117
 msgid "Module Management"
 msgstr "Modul-Management"
 
-#: src/Modules/Core.php:112
+#: src/Modules/Core.php:118
 msgid "Coming soon."
 msgstr "Bald verfügbar."
 
-#: src/Modules/Core.php:117
+#: src/Modules/Core.php:123
 msgid "Usefull informations about your WordPress installation:"
 msgstr "Nützliche Informationen zu Deiner WordPress Installation."
 
-#: src/Modules/Core.php:129
+#: src/Modules/Core.php:135
 msgid "Stable Version"
 msgstr "Stabile Version"
 
-#: src/Modules/Core.php:129
+#: src/Modules/Core.php:135
 msgid "Development Version"
 msgstr "Entwicklungs Version"
 
-#: src/Modules/Core.php:131
+#: src/Modules/Core.php:137
 msgid "Kuetemeier Essentials Plugin Version"
 msgstr "Kuetemeier Essentials Plugin Version"
 
-#: src/Modules/Core.php:132
+#: src/Modules/Core.php:138
 msgid "Version Type"
 msgstr "Versions Typ"
 
-#: src/Modules/Core.php:133
+#: src/Modules/Core.php:139
 msgid "License"
 msgstr "Lizenz"
 
-#: src/Modules/Core.php:133
+#: src/Modules/Core.php:139
 msgid "GPL (Standard, free)"
 msgstr "GPL (Standard, frei)"
 
-#: src/Modules/Core.php:135
+#: src/Modules/Core.php:141
 msgid ""
 "Did you know? There is a Pro Version of this plugin available. You can get "
 "it here:"
@@ -225,19 +229,36 @@ msgstr ""
 "Wusstest Du schon? Von diesem Plugin gibt es eine Pro Version, diese findest "
 "Du hier:"
 
-#: src/Modules/Core.php:144
+#: src/Modules/Core.php:148
+msgid ""
+"This is the initial public release. In the next weeks, I will launch some "
+"helpfull and documenting articles on my Blog"
+msgstr ""
+"Dies ist das erste öffentliche Release. In den nächsten Wochen werde ich zu "
+"diesem Plugin hilfreiche und unterstützende Artikel auf meinem Blog "
+"veröfffentlichen"
+
+#: src/Modules/Core.php:150
+msgid ""
+"With regard to the GDPR, there will be regular updates and additional "
+"functions in the next few days."
+msgstr ""
+"Im Hinblick auf die DSGVO wird es in den nächsten Tagen regelmäßige Updates "
+"und Zusatzfunktionen geben."
+
+#: src/Modules/Core.php:158
 msgid "Module"
 msgstr "Modul"
 
-#: src/Modules/Core.php:144
+#: src/Modules/Core.php:158
 msgid "Description"
 msgstr "Beschreibung"
 
-#: src/Modules/Core.php:163
+#: src/Modules/Core.php:177
 msgid "yes"
 msgstr "ja"
 
-#: src/Modules/Core.php:163
+#: src/Modules/Core.php:177
 msgid "no"
 msgstr "nein"
 

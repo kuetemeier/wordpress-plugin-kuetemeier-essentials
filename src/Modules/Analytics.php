@@ -51,6 +51,8 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 				'header-code' => '',
 				'body-code' => '',
 				'footer-code' => '',
+				'ga-tracking-id' => '',
+				'ga-ip-anonymization' => 1,
 			)
 		);
 	}
@@ -71,8 +73,8 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'           => 'analytics-google',
 					'page'         => 'kuetemeier-analytics',
-					'title'        => __('Google', 'kuetemeier-essentials'),
-					'noButtons'    => 1
+					'title'        => __('Google Analytics', 'kuetemeier-essentials'),
+					'noButtons'    => 0
 				),
 				/*
 				array(
@@ -87,11 +89,17 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 				),
 			),
 			'sections' => array(
-				array(
+				/*array(
 					'id'           => 'analytics-google-tag-manager',
 					'tab'          => 'analytics-google',
 					'title'        => __('Google Tag Manger', 'kuetemeier-essentials'),
 					'content'	   => __('Google Analytics and Google Tag Manger Support - Comming soon.', 'kuetemeier-essentials'),
+				),*/
+				array(
+					'id'           => 'analytics-google-simple',
+					'tab'          => 'analytics-google',
+					'title'        => __('Google Analytics (Simple Version)', 'kuetemeier-essentials'),
+					'content'	   => __('This is the quick start for your Google Analytics Tracking, just add your GA_TRACKING_ID and done.', 'kuetemeier-essentials'),
 				),
 				array(
 					'id'           => 'analytics-header-footer',
@@ -125,7 +133,24 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 					'title'	       => __('Code to insert into Footer', 'kuetemeier-essentials'),
 					'description'  => __('Valid HTML Code, that will be directly inserted just before the closing </body> tag (global, on every post and page). Shortcodes will be parsed and executed.', 'kuetemeier-essentials' ),
 					'customDesign' => 1,
-					//'args'         => array('label_for' => 'footer-code', 'class' => 'test-class')
+				),
+				array(
+					'id'           => 'ga-tracking-id',
+					'section'      => 'analytics-google-simple',
+					'type'         => 'Text',
+					'code'		   => 1,
+					'title'	       => __('Google Analytics Tracking ID', 'kuetemeier-essentials'),
+					'label'        => __('(e.g. UA-12345678-90)', 'kuetemeier-essentials'),
+					'description'  => __('Your Google Analytics Tracking-ID, found in the property settings.', 'kuetemeier-essentials' ),
+				),
+				array(
+					'id'           => 'ga-ip-anonymization',
+					'section'      => 'analytics-google-simple',
+					'type'         => 'CheckBox',
+					'code'		   => 1,
+					'title'	       => __('Anonymize IP', 'kuetemeier-essentials'),
+					'label'        => __('(highly recommended)', 'kuetemeier-essentials'),
+					'description'  => __('Check to anonymize the IP of the visitor, before it is send to Google.', 'kuetemeier-essentials' ),
 				),
 			)
 		);
@@ -142,6 +167,10 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 
 		if (!empty($this->getOption('footer-code'))) {
 			add_action('wp_footer', array(&$this, 'callback__addFooterCode'), PHP_INT_MAX);
+		}
+
+		if (!empty($this->getOption('ga-tracking-id'))) {
+			add_action('wp_head', array(&$this, 'callback__GoogleAnalyticsHeadCode'), 0);
 		}
 	}
 
@@ -167,5 +196,32 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule {
 	public function callback__addFooterCode()
 	{
 		echo do_shortcode($this->getOption('footer-code'));
+	}
+
+	/**
+	 *
+	 * @see https://developers.google.com/analytics/devguides/collection/gtagjs/ip-anonymization
+	 */
+	public function callback__GoogleAnalyticsHeadCode()
+	{
+		$trackingID = $this->getOption('ga-tracking-id');
+		$anonymizeIP = $this->getOption('ga-ip-anonymization');
+		$gaConfig = array();
+
+		if ($anonymizeIP) {
+			$gaConfig['anonymize_ip'] = 'true';
+		}
+
+		?>
+		<link rel="dns-prefetch" href="//www.googletagmanager.com">
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-27563916-14"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', '<?php echo esc_attr($trackingID) ?>', <?php echo json_encode($gaConfig) ?>);
+		</script>
+		<?php
 	}
 }

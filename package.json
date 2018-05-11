@@ -4,7 +4,7 @@
   "version_stable": "1.0.0",
   "author": "Jörg Kütemeier (https://kuetemeier.de/kontakt/)",
   "license": "GPL-3.0",
-  "description": "WordPress PlugIn with essential extensions for speed, data privacy and optimization.",
+  "description": "WordPress PlugIn with usefull extensions for speed, data privacy and optimization.",
   "wordpress": {
     "tags": "data, privacy, speed, optimiziation, optimize, data, quick, fast, data-privacy",
     "requires_at_least": "4.9",

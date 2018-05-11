@@ -1,6 +1,6 @@
 # WordPress Plugin Kuetemeier Essentials#
 
-Description: WordPress PlugIn with essential extensions for speed, data privacy and optimization.
+Description: WordPress PlugIn with usefull extensions for speed, data privacy and optimization.
 
 ## Version Information ##
 

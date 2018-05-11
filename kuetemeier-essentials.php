@@ -44,7 +44,7 @@
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 require __DIR__ . '/vendor/autoload.php';
-//require 'src/plugin-update-checker-4.4/plugin-update-checker.php';
+require 'src/plugin-update-checker-4.4/plugin-update-checker.php';
 
 /********************************************************
  * Define constants, use old style for php version check
@@ -178,14 +178,14 @@ function kuetemeier_essentials_init() {
 	// Check PHP version requirements.
 	if ( kuetemeier_essentials_is_php_version_requirements_fulfilled() ) {
 
-        /*
+
 		$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 			'https://github.com/kuetemeier/wordpress-plugin-kuetemeier-essentials/',
 			__FILE__,
 			'kuetemeier-essentials'
 		);
         $myUpdateChecker->getVcsApi()->enableReleaseAssets();
-        */
+
 
 		// register activation and deactivation hooks
 		add_action( 'admin_init', 'kuetemeier_essentials_callback_admin_init' );

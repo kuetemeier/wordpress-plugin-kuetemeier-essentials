@@ -78,7 +78,7 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule {
 					'id'        => 'toolkit-shortcodes-dates',
 					'tab'       => 'toolkit-shortcodes',
 					'title'     => __('Dates', 'kuetemeier-essentials'),
-					'content'   => __('Use `[ke-current-year]` to display the current year. Very helpful in Copyright notices.', 'kuetemeier-essentials')."\n\n".
+					'content'   => __('Use the Shortcode `[ke-current-year]` to display the current year. Very helpful in Copyright notices.', 'kuetemeier-essentials')."\n\n".
 					               __('', 'kuetemeier-essentials')."\n\n".
 								   __('', 'kuetemeier-essentials'),
 					'markdown'  => 1,

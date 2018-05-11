@@ -78,7 +78,7 @@ const ADMIN_PAGE_SLUG = 'kuetemeier-essentials';
 const DB_OPTION_TABLE_BASE_KEY = 'kuetemeier-essentials';
 
 const PLUGIN_CONFIG = array(
-	'plugin' => array (
+	'_plugin' => array (
 		'id' => 'KuetemeierEssentials',
 		'version' => array (
 			'this'   => PLUGIN_VERSION,

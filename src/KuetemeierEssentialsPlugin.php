@@ -62,8 +62,8 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 	public function __construct()
 	{
 		$config = new \Kuetemeier\WordPress\Config(Config\PLUGIN_CONFIG);
-		$config->set('plugin/dir', KUETEMEIER_ESSENTIALS_PLUGIN_DIR, true);
-		$config->set('plugin/modules/namespace', 'KuetemeierEssentials\Modules', true);
+		$config->set('_plugin/dir', KUETEMEIER_ESSENTIALS_PLUGIN_DIR, true);
+        $config->set('_plugin/modules/namespace', 'KuetemeierEssentials\Modules', true);
 		parent::__construct($config);
 
 		add_action('wp_enqueue_scripts', array(&$this, 'callback__add_public_scripts'));
@@ -77,8 +77,8 @@ final class KuetemeierEssentialsPlugin extends \Kuetemeier\WordPress\Plugin {
 
 	public function callback__adminInit()
 	{
-		$this->config->set('plugin/options/saveButtonText', __('Save', 'kuetemeier-essentials'), 1);
-		$this->config->set('plugin/options/resetButtonText', __('Reset to Defaults', 'kuetemeier-essentials'), 1);
+		$this->config->set('_plugin/options/saveButtonText', __('Save', 'kuetemeier-essentials'), 1);
+		$this->config->set('_plugin/options/resetButtonText', __('Reset to Defaults', 'kuetemeier-essentials'), 1);
 	}
 
 	public function callback__add_public_scripts()

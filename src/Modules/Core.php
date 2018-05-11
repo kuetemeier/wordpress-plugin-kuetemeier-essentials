@@ -135,11 +135,15 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 		$stable = $plugin->isStableVersion() ? __('Stable Version', 'kuetemeier-essentials') : __('Development Version', 'kuetemeier-essentials');
 
 		echo '<p><b>'.__('Kuetemeier Essentials Plugin Version', 'kuetemeier-essentials').':</b> '.esc_html($plugin->getVersion());
-		echo '<p><strong>'.__('Version Type', 'kuetemeier-essentials').':</strong> '.esc_html($stable).'</p>';
-		echo '</p><p><b>'.__('License', 'kuetemeier-essentials').':</b> '.__('GPL (Standard, free)', 'kuetemeier-essentials').'</p>';
+        echo '<p><strong>'.__('Version Type', 'kuetemeier-essentials').':</strong> '.esc_html($stable).'</p>';
 
-		echo '<p>'.__('Did you know? There is a Pro Version of this plugin available. You can get it here:', 'kuetemeier-essentials').
-		  ' <a href="https://kuetemeier.de/kuetemeier-essentials">https://kuetemeier.de/kuetemeier-essentials</a>.</p>';
+        if ($plugin->proVersionAvailable()) {
+            echo '</p><p><b>'.__('License', 'kuetemeier-essentials').':</b> '.__('Pro Version', 'kuetemeier-essentials').'</p>';
+        } else {
+            echo '</p><p><b>'.__('License', 'kuetemeier-essentials').':</b> '.__('GPL (Standard, free)', 'kuetemeier-essentials').'</p>';
+            echo '<p>'.__('Did you know? There is a Pro Version of this plugin available. You can get it here:', 'kuetemeier-essentials').
+            ' <a href="https://kuetemeier.de/kuetemeier-essentials">https://kuetemeier.de/kuetemeier-essentials</a>.</p>';
+          }
 	}
 
 

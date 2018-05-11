@@ -151,8 +151,8 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 			$statement = '<a target="blank" href="' . $url . '">'.__('Data Privacy Statement', 'kuetemeier_essentials').'</a>';
 		}
 
-		$commentField = '<p class="pprivacy"><input type="checkbox" name="privacy" value="privacy-key" class="privacyBox" aria-req="true"> '.
-			__('I have read and accept the %s.', 'kuetemeier-essentials', $statement).'</p>';
+		$label = sprintf(__('I have read and accept the %s.', 'kuetemeier-essentials'), $statement);
+		$commentField .= '<p class="pprivacy"><input type="checkbox" name="privacy" value="privacy-key" class="privacyBox" aria-req="true"> '.$label.'</p>';
 
 		return $commentField;
 	}

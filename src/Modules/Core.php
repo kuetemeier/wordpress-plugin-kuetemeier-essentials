@@ -130,7 +130,10 @@ final class Core extends \Kuetemeier\WordPress\PluginModule {
 
 		echo '<p><b>'.__('Kuetemeier Essentials Plugin Version', 'kuetemeier-essentials').':</b> '.esc_html($plugin->getVersion());
 		echo '<p><strong>'.__('Version Type', 'kuetemeier-essentials').':</strong> '.esc_html($stable).'</p>';
-		echo '</p><p><b>'.__('License', 'kuetemeier-essentials').':</b> Beta Test Version - limitied license</p>';
+		echo '</p><p><b>'.__('License', 'kuetemeier-essentials').':</b> '.__('GPL (Standard, free)', 'kuetemeier-essentials').'</p>';
+
+		echo '<p>'.__('Did you know? There is a Pro Version of this plugin available. You can get it here:', 'kuetemeier-essentials').
+		  ' <a href="https://kuetemeier.de/kuetemeier-essentials">https://kuetemeier.de/kuetemeier-essentials</a></p>.';
 	}
 
 	public function contentModules($section)

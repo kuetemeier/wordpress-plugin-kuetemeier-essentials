@@ -103,7 +103,8 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 					'title'       => __('URL to data privacy statement', 'kuetemeier-essentials'),
 					'type'        => 'Text',
 					'label'	      => __('', 'kuetemeier-essentials'),
-					'description' => __( 'A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/.\nPoint this to you privacy statement URL (A link to it is shown in the notice).', 'kuetemeier-essentials'),
+					'description' => __('A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/.', 'kuetemeier-essentials').'\n'.
+					                 __('Point this to you privacy statement URL (a link to it is shown in the notice).', 'kuetemeier-essentials'),
 				)
 			)
 		);
@@ -151,7 +152,7 @@ final class Dataprivacy extends \Kuetemeier\WordPress\PluginModule {
 			$statement = '<a target="blank" href="' . $url . '">'.__('Data Privacy Statement', 'kuetemeier_essentials').'</a>';
 		}
 
-		$label = sprintf(__('I have read and accept the %s.', 'kuetemeier-essentials'), $statement);
+		$label = sprintf(__('I have read the %s and accept the it.', 'kuetemeier-essentials'), $statement);
 		$commentField .= '<p class="pprivacy"><input type="checkbox" name="privacy" value="privacy-key" class="privacyBox" aria-req="true"> '.$label.'</p>';
 
 		return $commentField;

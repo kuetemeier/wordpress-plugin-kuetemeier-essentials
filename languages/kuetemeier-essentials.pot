@@ -25,7 +25,7 @@ msgstr ""
 msgid "Reset to Defaults"
 msgstr ""
 
-#: src/Modules/Analytics.php:45, src/Modules/Analytics.php:65, src/Modules/Analytics.php:66
+#: src/Modules/Analytics.php:45, src/Modules/Analytics.php:67, src/Modules/Analytics.php:68
 msgid "Analytics"
 msgstr ""
 
@@ -33,55 +33,79 @@ msgstr ""
 msgid "Kuetemeier Essentials Analytics Module."
 msgstr ""
 
-#: src/Modules/Analytics.php:74
-msgid "Google"
+#: src/Modules/Analytics.php:76
+msgid "Google Analytics"
 msgstr ""
 
-#: src/Modules/Analytics.php:86
+#: src/Modules/Analytics.php:88
 msgid "Header & Footer Code"
 msgstr ""
 
-#: src/Modules/Analytics.php:93
-msgid "Google Tag Manger"
+#: src/Modules/Analytics.php:101
+msgid "Google Analytics (Simple Version)"
 msgstr ""
 
-#: src/Modules/Analytics.php:94
-msgid "Google Analytics and Google Tag Manger Support - Comming soon."
+#: src/Modules/Analytics.php:102
+msgid "This is the quick start for your Google Analytics Tracking, just add your GA_TRACKING_ID and done."
 msgstr ""
 
-#: src/Modules/Analytics.php:99
+#: src/Modules/Analytics.php:107
 msgid "Insert custom HTML Code into your Website"
 msgstr ""
 
-#: src/Modules/Analytics.php:112
+#: src/Modules/Analytics.php:120
 msgid "Code to insert into Header"
 msgstr ""
 
-#: src/Modules/Analytics.php:113
+#: src/Modules/Analytics.php:121
 msgid "Valid HTML Code, that will be placed as close as possibe after the opening <head> tag (global, on every post and page). Shortcodes will be parsed and executed."
 msgstr ""
 
-#: src/Modules/Analytics.php:114
+#: src/Modules/Analytics.php:122
 msgid "Note: The Theme has to support the `wp_head` code for this to work - most themes do."
 msgstr ""
 
-#: src/Modules/Analytics.php:125
+#: src/Modules/Analytics.php:133
 msgid "Code to insert into Footer"
 msgstr ""
 
-#: src/Modules/Analytics.php:126
+#: src/Modules/Analytics.php:134
 msgid "Valid HTML Code, that will be directly inserted just before the closing </body> tag (global, on every post and page). Shortcodes will be parsed and executed."
 msgstr ""
 
+#: src/Modules/Analytics.php:142
+msgid "Google Analytics Tracking ID"
+msgstr ""
+
+#: src/Modules/Analytics.php:143
+msgid "(e.g. UA-12345678-90)"
+msgstr ""
+
+#: src/Modules/Analytics.php:144
+msgid "Your Google Analytics Tracking-ID, found in the property settings."
+msgstr ""
+
+#: src/Modules/Analytics.php:151
+msgid "Anonymize IP"
+msgstr ""
+
 #: src/Modules/Analytics.php:152
+msgid "(highly recommended)"
+msgstr ""
+
+#: src/Modules/Analytics.php:153
+msgid "Check to anonymize the IP of the visitor, before it is send to Google."
+msgstr ""
+
+#: src/Modules/Analytics.php:181
 msgid "Here you can place code, that will be inserted into the header and footer of your Website."
 msgstr ""
 
-#: src/Modules/Analytics.php:154
+#: src/Modules/Analytics.php:183
 msgid "Some themes will already support this feature. Netherless, this fields are theme independent and useful for the ones, that don't."
 msgstr ""
 
-#: src/Modules/Analytics.php:156
+#: src/Modules/Analytics.php:185
 msgid "If you don't need them, just leave them blank."
 msgstr ""
 
@@ -149,19 +173,27 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: src/Modules/Core.php:141
+#: src/Modules/Core.php:133
+msgid "GPL (Standard, free)"
+msgstr ""
+
+#: src/Modules/Core.php:135
+msgid "Did you know? There is a Pro Version of this plugin available. You can get it here:"
+msgstr ""
+
+#: src/Modules/Core.php:144
 msgid "Module"
 msgstr ""
 
-#: src/Modules/Core.php:141
+#: src/Modules/Core.php:144
 msgid "Description"
 msgstr ""
 
-#: src/Modules/Core.php:160
+#: src/Modules/Core.php:163
 msgid "yes"
 msgstr ""
 
-#: src/Modules/Core.php:160
+#: src/Modules/Core.php:163
 msgid "no"
 msgstr ""
 
@@ -221,22 +253,26 @@ msgstr ""
 msgstr ""
 
 #: src/Modules/Dataprivacy.php:106
-msgid "A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/.\nPoint this to you privacy statement URL (A link to it is shown in the notice)."
+msgid "A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/."
 msgstr ""
 
-#: src/Modules/Dataprivacy.php:148
-msgid "I have read and accept the"
+#: src/Modules/Dataprivacy.php:107
+msgid "Point this to you privacy statement URL (a link to it is shown in the notice)."
 msgstr ""
 
-#: src/Modules/Dataprivacy.php:151
+#: src/Modules/Dataprivacy.php:150
 msgid "Data Privacy Statement"
+msgstr ""
+
+#: src/Modules/Dataprivacy.php:155
+msgid "I have read the %s and accept the it."
 msgstr ""
 
 #: src/Modules/Dataprivacy.php:163
 msgid "You must agree to our privacy term by checking the box..."
 msgstr ""
 
-#: src/Modules/Dataprivacy.php:194, src/Modules/Media.php:102
+#: src/Modules/Dataprivacy.php:194
 msgstr ""
 
 #: src/Modules/Media.php:45, src/Modules/Media.php:65
@@ -256,7 +292,7 @@ msgid "Common Media Library Options"
 msgstr ""
 
 #: src/Modules/Media.php:74
-msgid "\nOn this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there."
+msgid "On this tab you find some enhancements for the WordPress Media Library."
 msgstr ""
 
 #: src/Modules/Media.php:79, src/Modules/Media.php:101
@@ -283,19 +319,15 @@ msgstr ""
 msgid "This is usefull for [S3](https://aws.amazon.com/s3), CDN or [imgix](https://imgix.com) integration."
 msgstr ""
 
-#: src/Modules/Media.php:110
-msgid "imgix Source Settings"
+#: src/Modules/Media.php:102
+msgid "[imgix](https://imgix.com) is a \"Powerful image processing,  simple API - Optimize, deliver, and cache your entire image library for fast, stress-free websites and apps TRY IT FREE\"."
 msgstr ""
 
-#: src/Modules/Media.php:111
-msgid "Default imgix source settings."
-msgstr ""
-
-#: src/Modules/Media.php:116
+#: src/Modules/Media.php:114
 msgid "\"kimg\" - Kuetemeier Image Shortcode"
 msgstr ""
 
-#: src/Modules/Media.php:117
+#: src/Modules/Media.php:115
 msgid "Usefull Shortcut to create image tags with imgix support and copyright informations."
 msgstr ""
 
@@ -512,5 +544,5 @@ msgid "Dates"
 msgstr ""
 
 #: src/Modules/Toolkit.php:81
-msgid "Use `[ke-current-year]` to display the current year. Very helpful in Copyright notices."
+msgid "Use the Shortcode `[ke-current-year]` to display the current year. Very helpful in Copyright notices."
 msgstr ""

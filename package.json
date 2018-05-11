@@ -1,12 +1,12 @@
 {
   "name": "kuetemeier-essentials",
-  "version": "0.7.1-beta",
-  "version_stable": "not released yet",
+  "version": "1.0.0",
+  "version_stable": "1.0.0",
   "author": "Jörg Kütemeier (https://kuetemeier.de/kontakt/)",
   "license": "GPL-3.0",
   "description": "WordPress PlugIn with essential extensions for speed, data privacy and optimization.",
   "wordpress": {
-    "tags": "test, data, privacy, speed, optimiziation, optimize, data, quick, fast, data-privacy",
+    "tags": "data, privacy, speed, optimiziation, optimize, data, quick, fast, data-privacy",
     "requires_at_least": "4.9",
     "tested_up_to": "4.9.5",
     "minimal_php_version": "5.6"

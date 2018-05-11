@@ -1,7 +1,7 @@
 === Kuetemeier Essentials ===
 Contributors: Jörg Kütemeier
 Donate link:
-Tags: test, data, privacy, speed, optimiziation, optimize, data, quick, fast, data-privacy
+Tags: data, privacy, speed, optimiziation, optimize, data, quick, fast, data-privacy
 License: GNU General Public License v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires at least: 4.9

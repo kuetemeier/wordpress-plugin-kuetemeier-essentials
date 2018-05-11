@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kuetemeier Essentials\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-09 23:14+0000\n"
-"PO-Revision-Date: 2018-05-09 23:53+0000\n"
+"POT-Creation-Date: 2018-05-11 09:44+0000\n"
+"PO-Revision-Date: 2018-05-11 09:45+0000\n"
 "Last-Translator: admin <jk@kuetemeier.net>\n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -26,8 +26,8 @@ msgstr ""
 msgid "Reset to Defaults"
 msgstr "Auf Standardwerte zurücksetzten"
 
-#: src/Modules/Analytics.php:45, src/Modules/Analytics.php:65,
-#: src/Modules/Analytics.php:66
+#: src/Modules/Analytics.php:45, src/Modules/Analytics.php:67,
+#: src/Modules/Analytics.php:68
 msgid "Analytics"
 msgstr "Analytics"
 
@@ -35,31 +35,35 @@ msgstr "Analytics"
 msgid "Kuetemeier Essentials Analytics Module."
 msgstr "Kuetemeier Essentials Analytics Modul"
 
-#: src/Modules/Analytics.php:74
-msgid "Google"
-msgstr "Google"
+#: src/Modules/Analytics.php:76
+msgid "Google Analytics"
+msgstr "Google Analytics"
 
-#: src/Modules/Analytics.php:86
+#: src/Modules/Analytics.php:88
 msgid "Header & Footer Code"
 msgstr "Kopf & Fuß Code"
 
-#: src/Modules/Analytics.php:93
-msgid "Google Tag Manger"
-msgstr "Google Tag Manager"
+#: src/Modules/Analytics.php:101
+msgid "Google Analytics (Simple Version)"
+msgstr "Google Analytics (Einfache Version)"
 
-#: src/Modules/Analytics.php:94
-msgid "Google Analytics and Google Tag Manger Support - Comming soon."
-msgstr "Google Analytics und Google Tag Manger Support - Bald verfügbar."
+#: src/Modules/Analytics.php:102
+msgid ""
+"This is the quick start for your Google Analytics Tracking, just add your "
+"GA_TRACKING_ID and done."
+msgstr ""
+"Dies ist der Schnellstart für Dein Google Analytics Tracking. Füge einfach "
+"Deine GA_TRACKING_ID ein und fertig."
 
-#: src/Modules/Analytics.php:99
+#: src/Modules/Analytics.php:107
 msgid "Insert custom HTML Code into your Website"
 msgstr "Füge benutzerdefinierten HTML Code in deine Website ein"
 
-#: src/Modules/Analytics.php:112
+#: src/Modules/Analytics.php:120
 msgid "Code to insert into Header"
 msgstr "Code der in den Kopf-Bereich (Header) eingefügt wird"
 
-#: src/Modules/Analytics.php:113
+#: src/Modules/Analytics.php:121
 msgid ""
 "Valid HTML Code, that will be placed as close as possibe after the opening "
 "<head> tag (global, on every post and page). Shortcodes will be parsed and "
@@ -69,7 +73,7 @@ msgstr ""
 "wird (global, in jeden Post und auf jeder Seite). Shortcodes werden "
 "ausgeführt."
 
-#: src/Modules/Analytics.php:114
+#: src/Modules/Analytics.php:122
 msgid ""
 "Note: The Theme has to support the `wp_head` code for this to work - most "
 "themes do."
@@ -77,11 +81,11 @@ msgstr ""
 "Hinweis: Das Theme muss den `wp_head`Code unterstützen, damit dies "
 "funktioniert - die meisten Themes tun dies."
 
-#: src/Modules/Analytics.php:125
+#: src/Modules/Analytics.php:133
 msgid "Code to insert into Footer"
 msgstr "Code zum Einfügen in den Fuß-Bereich (Footer)"
 
-#: src/Modules/Analytics.php:126
+#: src/Modules/Analytics.php:134
 msgid ""
 "Valid HTML Code, that will be directly inserted just before the closing "
 "</body> tag (global, on every post and page). Shortcodes will be parsed and "
@@ -91,7 +95,35 @@ msgstr ""
 "eingefügt (global, auf jedem Post und jeder Seite). Enthaltene Shortcodes "
 "werden vorher ausgeführt."
 
+#: src/Modules/Analytics.php:142
+msgid "Google Analytics Tracking ID"
+msgstr "Google Analytics Tracking ID"
+
+#: src/Modules/Analytics.php:143
+msgid "(e.g. UA-12345678-90)"
+msgstr "(z.B. UA-12345678-90)"
+
+#: src/Modules/Analytics.php:144
+msgid "Your Google Analytics Tracking-ID, found in the property settings."
+msgstr ""
+"Deine Google Analytics Tracking-ID, diese findest Du in den Property "
+"Einstellungen."
+
+#: src/Modules/Analytics.php:151
+msgid "Anonymize IP"
+msgstr "IP Anonymisieren"
+
 #: src/Modules/Analytics.php:152
+msgid "(highly recommended)"
+msgstr "(sehr empfehlenswert)"
+
+#: src/Modules/Analytics.php:153
+msgid "Check to anonymize the IP of the visitor, before it is send to Google."
+msgstr ""
+"Anhaken, um die IP des Besuchers zu anonymisieren, bevor sie an Google "
+"gesendet wird."
+
+#: src/Modules/Analytics.php:181
 msgid ""
 "Here you can place code, that will be inserted into the header and footer of "
 "your Website."
@@ -99,7 +131,7 @@ msgstr ""
 "Hier kannst Du Code einfügen, der im Kopf- und Fuß-Bereich Deiner Website "
 "hinzugefügt wird."
 
-#: src/Modules/Analytics.php:154
+#: src/Modules/Analytics.php:183
 msgid ""
 "Some themes will already support this feature. Netherless, this fields are "
 "theme independent and useful for the ones, that don't."
@@ -107,7 +139,7 @@ msgstr ""
 "Einige Themes unterstützen diese Funktion bereits. Allerdings sind diese "
 "Felder Theme übergreifend und nützlich bei denen, die es nicht unterstützten."
 
-#: src/Modules/Analytics.php:156
+#: src/Modules/Analytics.php:185
 msgid "If you don't need them, just leave them blank."
 msgstr "Wenn Du sie nicht benötigst, lass sei einfach leer."
 
@@ -181,23 +213,36 @@ msgstr "Versions Typ"
 msgid "License"
 msgstr "Lizenz"
 
-#: src/Modules/Core.php:141
+#: src/Modules/Core.php:133
+msgid "GPL (Standard, free)"
+msgstr "GPL (Standard, frei)"
+
+#: src/Modules/Core.php:135
+msgid ""
+"Did you know? There is a Pro Version of this plugin available. You can get "
+"it here:"
+msgstr ""
+"Wusstest Du schon? Von diesem Plugin gibt es eine Pro Version, diese findest "
+"Du hier:"
+
+#: src/Modules/Core.php:144
 msgid "Module"
 msgstr "Modul"
 
-#: src/Modules/Core.php:141
+#: src/Modules/Core.php:144
 msgid "Description"
 msgstr "Beschreibung"
 
-#: src/Modules/Core.php:160
+#: src/Modules/Core.php:163
 msgid "yes"
 msgstr "ja"
 
-#: src/Modules/Core.php:160
+#: src/Modules/Core.php:163
 msgid "no"
 msgstr "nein"
 
-#: src/Modules/Dataprivacy.php:45
+#: src/Modules/Dataprivacy.php:45, src/Modules/Dataprivacy.php:64,
+#: src/Modules/Dataprivacy.php:65
 msgid "Data Privacy"
 msgstr "Datenschutz"
 
@@ -210,6 +255,10 @@ msgstr ""
 msgid "/data-privacy/"
 msgstr "/datenschutz/"
 
+#: src/Modules/Dataprivacy.php:66
+msgid "Helps you with some GDPR requirements."
+msgstr "Hilft Dir mit einigen DSGVO Anforderungen"
+
 #: src/Modules/Dataprivacy.php:74
 msgid "General Data Privacy"
 msgstr "Allgemeiner Datenschutz"
@@ -221,7 +270,7 @@ msgstr "Einführung"
 #: src/Modules/Dataprivacy.php:82
 msgid "An introduction and more help to data privacy. (Comming soon)."
 msgstr ""
-"Eine Einführung und weitere Hilfe zum Thema Datenschutz steht hier bald zur "
+"Eine Einführung und weitere Hilfe zum Thema Datenschutz stehen hier bald zur "
 "Verfügung."
 
 #. title
@@ -254,15 +303,25 @@ msgid "URL to data privacy statement"
 msgstr "URL zur Datenschutz Seite"
 
 #: src/Modules/Dataprivacy.php:106
+msgid "A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/."
+msgstr ""
+"Eine gültie URL, z.B. /datenschutz/ oder https://deinedomain.de/datenschutz/."
+
+#: src/Modules/Dataprivacy.php:107
 msgid ""
-"A valid URL, e.g. /privacy/ or https://yourdomain.com/privacy/.\n"
-"Point this to you privacy statement URL (A link to it is shown in the notice)"
+"Point this to you privacy statement URL (a link to it is shown in the notice)"
 "."
 msgstr ""
-"Eine gültige URL, z.B. /datenschutz/ oder https://deinedomain."
-"de/datenschutz/.\n"
-"Dies sollte auf Deine Datenschutzerklärung zeigen (ein Link wird im "
-"Hinweistext angezeigt)."
+"Lass dies auf deine Datenschutzerklärung zeigen (ein Link wird im Hinweis "
+"angezeigt)."
+
+#: src/Modules/Dataprivacy.php:150
+msgid "Data Privacy Statement"
+msgstr "Datenschutzerklärung"
+
+#: src/Modules/Dataprivacy.php:155
+msgid "I have read the %s and accept the it."
+msgstr "Ich habe die %s gelesen und akzeptiere sie."
 
 #: src/Modules/Dataprivacy.php:163
 msgid "You must agree to our privacy term by checking the box..."
@@ -287,68 +346,81 @@ msgid "Common Media Library Options"
 msgstr "Allgemeine Medien Optionen"
 
 #: src/Modules/Media.php:74
-msgid ""
-"\n"
-"On this tab you find some enhancements for the WordPress Media Library. Also "
-"look at the other tabs, you will find some fancy stuff there."
+msgid "On this tab you find some enhancements for the WordPress Media Library."
 msgstr ""
+"Auf diesem Tab findest Du einige Erweiterungen für die WordPress Media "
+"Gallerie."
 
 #: src/Modules/Media.php:79, src/Modules/Media.php:101
 msgid "imgix Support"
-msgstr ""
+msgstr "imgix Unterstützung"
 
 #: src/Modules/Media.php:84
 msgid "kimg Shortcode"
-msgstr ""
+msgstr "img Shortcode"
 
 #: src/Modules/Media.php:92
 msgid "Add external Media to the Library"
-msgstr ""
+msgstr "Füge externe Medien zur Medien-Gallerie hinzu."
 
 #: src/Modules/Media.php:93
 msgid ""
 "If activated, this feature will allow you to add external Media (by it's URL)"
 " to the Media Library."
 msgstr ""
+"Wenn es aktiviert ist, erlaubt Dir dieses Feature externe Medien (per URL) "
+"zu deine Medien-Gallerie hinzuzufügen"
 
 #: src/Modules/Media.php:94
 msgid ""
 "The media is NOT imported, but you can use it like \"normal\" media and "
 "enhance it with custom fields (like captions or copyright informations)."
 msgstr ""
+"Die Medien-Datei wird NICHT importiert, dennoch kannst Du sie wie eine "
+"\"normale\" Medien-Datei benutzten und mit Benutzerdefinierten Eigenschaften "
+"und Feldern anreichern."
 
 #: src/Modules/Media.php:95
 msgid ""
 "This is usefull for [S3](https://aws.amazon.com/s3), CDN or [imgix](https:"
 "//imgix.com) integration."
 msgstr ""
+"Nützlich für [S3](https://aws.amazon.com/s3), CDN oder [imgix](https://imgix."
+"com) Integrationen."
 
-#: src/Modules/Media.php:110
-msgid "imgix Source Settings"
+#: src/Modules/Media.php:102
+msgid ""
+"[imgix](https://imgix.com) is a \"Powerful image processing,  simple API - "
+"Optimize, deliver, and cache your entire image library for fast, stress-free "
+"websites and apps TRY IT FREE\"."
 msgstr ""
+"[imgix](https://imgix.com) ist ein Mächtiges Tool zur Bild-Bearbeitung und "
+"Auslieferung: \"Powerful image processing,  simple API - Optimize, deliver, "
+"and cache your entire image library for fast, stress-free websites and apps "
+"TRY IT FREE\"."
 
-#: src/Modules/Media.php:111
-msgid "Default imgix source settings."
-msgstr ""
-
-#: src/Modules/Media.php:116
+#: src/Modules/Media.php:114
 msgid "\"kimg\" - Kuetemeier Image Shortcode"
-msgstr ""
+msgstr "\"kimg\" - Kuetemeier Image Shortcode"
 
-#: src/Modules/Media.php:117
+#: src/Modules/Media.php:115
 msgid ""
 "Usefull Shortcut to create image tags with imgix support and copyright "
 "informations."
 msgstr ""
+"Nützlicher Shortcode um Bild-Tags (<img>) mit imgix und Copyright-"
+"Informationen zu erzeugen."
 
 #: src/Modules/Media.php:125
 msgid "Enable external Media"
-msgstr ""
+msgstr "Aktiviere externe Medien"
 
 #: src/Modules/Media.php:127
 msgid ""
 "Check to be able to reference external Media and add it to the Media Library."
 msgstr ""
+"Anhaken um externe Medien referenzieren und zur Media-Gallerie hinzufügen zu "
+"können."
 
 #: src/Modules/Media.php:131
 msgid "Enable IMGIX JavaScript"
@@ -376,6 +448,9 @@ msgid ""
 "blank (or 0 for width/height), the plugin will try to resolve them "
 "automatically"
 msgstr ""
+"Bitte fülle die folgenden Eigenschaften manuell aus. Wenn Du die Felder leer "
+"läßt (oder 0 für Höhe/Breite eingibst), versucht das Plugin sie automatisch "
+"zu erkennen."
 
 #: src/Modules/Media.php:276
 msgid "Width"
@@ -399,19 +474,19 @@ msgstr "Abbrechen"
 
 #: src/Modules/Media.php:325
 msgid "Reference Media by URL"
-msgstr ""
+msgstr "Referenziere Medien über URL"
 
 #: src/Modules/Media.php:330
 msgid "Add External Media without Import"
-msgstr ""
+msgstr "Füge externe Medien ohne Import hinzu"
 
 #: src/Modules/Media.php:388, src/Modules/Media.php:395
 msgid "Width and height must be non-negative integers."
-msgstr ""
+msgstr "Breite und Höhe dürfen nicht negativ sein."
 
 #: src/Modules/Media.php:429
 msgid "Unable to get the image size."
-msgstr ""
+msgstr "Die Bildgröße konnte nicht ermittelt werden."
 
 #: src/Modules/Optimization.php:45, src/Modules/Optimization.php:64
 msgid "Optimization"
@@ -522,43 +597,43 @@ msgstr "Test"
 
 #: src/Modules/Test.php:47
 msgid "Test module for development - Not recommended!."
-msgstr ""
+msgstr "Test Modul für Entwicklungen - Nicht empfohlen!."
 
 #: src/Modules/Test.php:79
 msgid "Test General"
-msgstr ""
+msgstr "Allgemeiner Test"
 
 #: src/Modules/Test.php:97
 msgid "Test 2"
-msgstr ""
+msgstr "Test 2"
 
 #: src/Modules/Test.php:103
 msgid "Test 3"
-msgstr ""
+msgstr "Test 3"
 
 #: src/Modules/Test.php:113, src/Modules/Test.php:121,
 #: src/Modules/Test.php:134, src/Modules/Test.php:142,
 #: src/Modules/Test.php:150, src/Modules/Test.php:163
 msgid "A Label"
-msgstr ""
+msgstr "Ein Label"
 
 #: src/Modules/Test.php:114, src/Modules/Test.php:122,
 #: src/Modules/Test.php:135, src/Modules/Test.php:143,
 #: src/Modules/Test.php:151, src/Modules/Test.php:164
 msgid "A Description"
-msgstr ""
+msgstr "Eine Beschreibung"
 
 #: src/Modules/Test.php:132
 msgid "Number"
-msgstr ""
+msgstr "Nummer"
 
 #: src/Modules/Test.php:140
 msgid "Email"
-msgstr ""
+msgstr "E-Mail"
 
 #: src/Modules/Test.php:148, src/Modules/Test.php:161
 msgid "Select"
-msgstr ""
+msgstr "Auswahl"
 
 #: src/Modules/Toolkit.php:45, src/Modules/Toolkit.php:63
 msgid "Toolkit"
@@ -583,8 +658,8 @@ msgstr "Datum"
 
 #: src/Modules/Toolkit.php:81
 msgid ""
-"Use `[ke-current-year]` to display the current year. Very helpful in "
-"Copyright notices."
+"Use the Shortcode `[ke-current-year]` to display the current year. Very "
+"helpful in Copyright notices."
 msgstr ""
-"Benutzer `[ke-current-year]` um das aktuelle Jahr anzuzeigen. Sehr hilfreich "
-"z.B. in Urheberrechts Hinweisen."
+"Benutze den Shortcode `[ke-current-year]` um das aktuelle Jahr auszugeben. "
+"Sehr nützlich in Copyright-Hinweisen."

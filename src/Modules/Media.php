@@ -71,7 +71,7 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 					'id'         => 'media-common',
 					'page'       => 'kuetemeier-media',
 					'title'      => __('Common Media Library Options', 'kuetemeier-essentials'),
-					'content'	 => __( '\nOn this tab you find some enhancements for the WordPress Media Library. Also look at the other tabs, you will find some fancy stuff there.', 'kuetemeier-essentials' )
+					'content'	 => __('On this tab you find some enhancements for the WordPress Media Library.', 'kuetemeier-essentials' )
 				),
 				array(
 					'id'         => 'media-imgix',
@@ -98,23 +98,23 @@ final class Media extends \Kuetemeier\WordPress\PluginModule {
 				array(
 					'id'         => 'media-imgix',
 					'tab'        => 'media-imgix',
-					'title'      => __( 'imgix Support', 'kuetemeier-essentials' ),
-					'content'    => __( '[imgix](https://imgix.com) is a "Powerful image processing,'.
-						' simple API - Optimize, deliver, and cache your entire image library for fast, stress-free '.
-						'websites and apps TRY IT FREE"', 'kuetemeier-essentials' ),
+					'title'      => __('imgix Support', 'kuetemeier-essentials' ),
+					'content'    => __('[imgix](https://imgix.com) is a "Powerful image processing,  simple API - Optimize, deliver, and cache your entire image library for fast, stress-free websites and apps TRY IT FREE".', 'kuetemeier-essentials'),
 					'markdown'   => 1
 				),
-				array(
+				/*array(
 					'id'         => 'media-imgix-source',
 					'tab'        => 'media-imgix',
 					'title'      => __( 'imgix Source Settings', 'kuetemeier-essentials' ),
 					'content'    => __( 'Default imgix source settings.', 'kuetemeier-essentials' )
-				),
+				),*/
 				array(
 					'id'         => 'media-kimg',
 					'tab'        => 'media-kimg',
-					'title'      => __( '"kimg" - Kuetemeier Image Shortcode', 'kuetemeier-essentials' ),
-					'content'    => __( 'Usefull Shortcut to create image tags with imgix support and copyright informations.', 'kuetemeier-essentials' ),
+					'title'      => __('"kimg" - Kuetemeier Image Shortcode', 'kuetemeier-essentials'),
+					'content'    => __('Usefull Shortcut to create image tags with imgix support and copyright informations.', 'kuetemeier-essentials')."\n\n".
+					                __('Beta Test - More information will be available soon', 'kuetemeier -essentials')."\n",
+					'markdown'   => 1
 				),
 
 			),

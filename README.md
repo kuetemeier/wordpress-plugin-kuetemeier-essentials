@@ -49,9 +49,27 @@ $ npm install-dev
 
 Install the dependencies with composer:
 
+WARNING: Do NOT install the dev dependencies locally on this repo, as they would get included into the plugin-distribution.zip and make
+it much much bigger - and worst: slower. Composer would try to autoload all dev dependencies in production. Instead install them globally.
+You would also save some disk space if you develeop more than one PHP application or plugin.
+
 ```bash
-$ composer update
+$ composer update --no-dev
+$
+$ composer global require squizlabs/php_codesniffer
+$ composer global require wp-coding-standards/wpcs
+$ composer global require phpdocumentor/phpdocumentor
+$ composer global require phpunit/phpunit
+$ composer global require wimg/php-compatibility
 ```
+
+If you do not have it already, add `.composer/vendor/bin/` to your `PATH`, e.g. add
+
+```bash
+export PATH=~/.composer/vendor/bin/:$PATH
+```
+
+to your `.profile` file on Mac or Linux.
 
 Install WordPress Coding Standards:
 

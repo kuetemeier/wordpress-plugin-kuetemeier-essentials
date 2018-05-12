@@ -14,4 +14,3 @@ node_modules
 assets/
 .vscode
 package-lock.json
-release

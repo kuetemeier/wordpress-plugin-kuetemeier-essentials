@@ -34,9 +34,9 @@ namespace KuetemeierEssentials\Config;
 defined( 'ABSPATH' ) || die( 'No direct call!' );
 
 // DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.
-const PLUGIN_VERSION = '1.0.0';
+const PLUGIN_VERSION = '1.0.1';
 // DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.
-const PLUGIN_VERSION_STABLE = '1.0.0';
+const PLUGIN_VERSION_STABLE = '1.0.1';
 
 /**
  * List of available modules, that will be registered by Modules

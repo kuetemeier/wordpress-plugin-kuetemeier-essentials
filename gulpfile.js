@@ -226,6 +226,10 @@ gulp.task('assets-index', function() {
   	.pipe(gulp.dest('./assets/'));
 });
 
+gulp.task('assets-banner-icon', function() {
+  return gulp.src('./assets-src/*.{png,jpg,svg}')
+  	.pipe(gulp.dest('./assets/'));
+});
 
 gulp.task('sass-lint', function() {
   return gulp.src(paths.styles.src)
@@ -306,7 +310,7 @@ gulp.task('test', ['lint']);
 gulp.task('lint', ['sass-lint', 'es-lint']);
 
 
-gulp.task('assets', ['styles', 'scripts', 'images', 'assets-index']);
+gulp.task('assets', ['styles', 'scripts', 'images', 'assets-index', 'assets-banner-icon']);
 
 
 gulp.task('build-without-release', gulpSequence('replace', 'assets'));

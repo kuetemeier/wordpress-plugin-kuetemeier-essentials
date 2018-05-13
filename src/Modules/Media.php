@@ -1,16 +1,13 @@
 <?php
 
 /**
- * Vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
+ * Kuetemeier-Essentials - Media Module
  *
  * @package   kuetemeier-essentials
  * @author    Jörg Kütemeier (https://kuetemeier.de/kontakt)
  * @license   GNU General Public License 3
  * @link      https://kuetemeier.de
  * @copyright 018 Jörg Kütemeier
- *
- *
- * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,10 +25,7 @@
 
 namespace KuetemeierEssentials\Modules;
 
-/*********************************
- * KEEP THIS for security reasons
- * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
- */
+// KEEP THIS for security reasons - blocking direct access to the PHP files by checking for the ABSPATH constant.
 defined('ABSPATH') || die('No direct call!');
 
 /**
@@ -162,8 +156,10 @@ final class Media extends \Kuetemeier\WordPress\PluginModule
 
     public function addScripts()
     {
-        //wp_register_script('kuetemeier_essentials_media_public', plugins_url('assets/scripts/imgix.min.js', dirname(__FILE__).'/../..' ) );
-        wp_register_script('kuetemeier_essentials_media_public', plugins_url('assets/scripts/imgix.min.js', str_replace('src/plugin_modules/frontend', '', __FILE__)));
+        wp_register_script(
+            'kuetemeier_essentials_media_public',
+            plugins_url('assets/scripts/imgix.min.js', str_replace('src/Modules', '', __FILE__))
+        );
 
         wp_enqueue_script('kuetemeier_essentials_media_public');
     }
@@ -414,9 +410,9 @@ final class Media extends \Kuetemeier\WordPress\PluginModule
 
     public function sanitizeAndValidateInput()
     {
-            // Don't call sanitize_text_field on url because it removes '%20'.
-            // Always use esc_url/esc_url_raw when sanitizing URLs. See:
-            // https://codex.wordpress.org/Function_Reference/esc_url
+        // Don't call sanitize_text_field on url because it removes '%20'.
+        // Always use esc_url/esc_url_raw when sanitizing URLs. See:
+        // https://codex.wordpress.org/Function_Reference/esc_url
         $input = array(
             'url' => esc_url_raw($_POST['url']),
             'width' => sanitize_text_field($_POST['width']),

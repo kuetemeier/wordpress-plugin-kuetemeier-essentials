@@ -1,16 +1,13 @@
 <?php
 
 /**
- * Vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
+ * Kuetemeier-Essentials - Analytics Module
  *
  * @package   kuetemeier-essentials
  * @author    Jörg Kütemeier (https://kuetemeier.de/kontakt)
  * @license   GNU General Public License 3
  * @link      https://kuetemeier.de
  * @copyright 2018 Jörg Kütemeier
- *
- *
- * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,10 +25,7 @@
 
 namespace KuetemeierEssentials\Modules;
 
-/*********************************
- * KEEP THIS for security reasons
- * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
- */
+// KEEP THIS for security reasons - blocking direct access to the PHP files by checking for the ABSPATH constant.
 defined('ABSPATH') || die('No direct call!');
 
 /**
@@ -79,12 +73,6 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule
                     'title' => __('Google Analytics', 'kuetemeier-essentials'),
                     'noButtons' => 0
                 ),
-                /*
-                array(
-                    'id'           => 'analytics-active-campaign',
-                    'page'         => 'kuetemeier-analytics',
-                    'title'        => __('Active Campaign', 'kuetemeier-essentials')
-                ),*/
                 array(
                     'id' => 'analytics-header-footer',
                     'page' => 'kuetemeier-analytics',
@@ -92,12 +80,6 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule
                 ),
             ),
             'sections' => array(
-                /*array(
-                    'id'           => 'analytics-google-tag-manager',
-                    'tab'          => 'analytics-google',
-                    'title'        => __('Google Tag Manger', 'kuetemeier-essentials'),
-                    'content'      => __('Google Analytics and Google Tag Manger Support - Comming soon.', 'kuetemeier-essentials'),
-                ),*/
                 array(
                     'id' => 'analytics-google-simple',
                     'tab' => 'analytics-google',

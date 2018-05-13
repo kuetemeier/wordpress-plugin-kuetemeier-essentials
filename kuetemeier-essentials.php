@@ -1,8 +1,6 @@
 <?php
 
 /**
- * Vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
- *
  * Plugin Name: Kuetemeier Essentials
  * Plugin URI: http://wordpress.org/extend/plugins/kuetemeier-essentials/
  * Description: WordPress PlugIn with usefull extensions for speed, data privacy and optimization.
@@ -22,8 +20,6 @@
  * @link      https://kuetemeier.de
  * @copyright 2018 Jörg Kütemeier
  *
- * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
- *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -38,14 +34,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/*********************************
- * KEEP THIS for security reasons
- * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
- */
+// KEEP THIS for security reasons - blocking direct access to the PHP files by checking for the ABSPATH constant.
 defined('ABSPATH') || die('No direct call!');
 
+// composer autoload
 require __DIR__ . '/vendor/autoload.php';
+// PlugIn Updater
 require 'src/vendor/plugin-update-checker-4.4/plugin-update-checker.php';
+
 
 /********************************************************
  * Define constants, use old style for php version check
@@ -56,9 +52,9 @@ define('KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6');
 define('KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 
-/***************************************
+/* ------------------------------------------------------------------------------------------------------------------
  * Helper functions for initialisation
- */
+ * ------------------------------------------------------------------------------------------------------------------ */
 
 /**
  * Initialize internationalization (i18n) for this plugin.
@@ -73,7 +69,6 @@ define('KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path(__FILE__));
  */
 function kuetemeier_essentials_hook_i18n_init()
 {
-
     load_plugin_textdomain('kuetemeier-essentials', false, basename(dirname(__FILE__)) . '/languages');
 }
 
@@ -88,7 +83,6 @@ function kuetemeier_essentials_hook_i18n_init()
  */
 function kuetemeier_essentials_hook_display_admin_notice()
 {
-
     printf(
         '<div class="error fade">' .
         /* translators: %1$s Plugin Version */
@@ -113,7 +107,6 @@ function kuetemeier_essentials_hook_display_admin_notice()
  */
 function kuetemeier_essentials_is_php_version_requirements_fulfilled()
 {
-
     if (version_compare(phpversion(), KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION) < 0) {
         add_action('admin_notices', 'kuetemeier_essentials_hook_display_admin_notice');
         return false;
@@ -178,7 +171,6 @@ function kuetemeier_essentials_callback_admin_init()
  */
 function kuetemeier_essentials_init()
 {
-
     // Initialize i18n.
     add_action('plugins_loaded', 'kuetemeier_essentials_hook_i18n_init');
 

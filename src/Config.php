@@ -1,16 +1,13 @@
 <?php
 
 /**
- * Vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
+ * Kuetemeier-Essentials - Plugin Config
  *
  * @package   kuetemeier-essentials
  * @author    Jörg Kütemeier (https://kuetemeier.de/kontakt)
  * @license   GNU General Public License 3
  * @link      https://kuetemeier.de
  * @copyright 2018 Jörg Kütemeier
- *
- *
- * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,10 +25,7 @@
 
 namespace KuetemeierEssentials\Config;
 
-/*********************************
- * KEEP THIS for security reasons
- * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
- */
+// KEEP THIS for security reasons - blocking direct access to the PHP files by checking for the ABSPATH constant.
 defined('ABSPATH') || die('No direct call!');
 
 // DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.

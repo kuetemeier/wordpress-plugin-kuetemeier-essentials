@@ -43,6 +43,8 @@
     <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
     <rule ref="Generic.Commenting.Todo"/>
     <rule ref="Generic.Commenting"/>
+    <!-- Verify that operators have valid spacing surrounding them -->
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
     <!--
 	#############################################################################
 	USE THE PHPCompatibility RULESET

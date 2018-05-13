@@ -1,8 +1,8 @@
 # This file is for unifying the coding style for different editors and IDEs
 # editorconfig.org
 
-# WordPress Coding Standards
-# https://make.wordpress.org/core/handbook/coding-standards/
+# PHP PSR-2 Coding Standards
+# http://www.php-fig.org/psr/psr-2/
 
 root = true
 
@@ -34,3 +34,11 @@ tab_width = 2
 insert_final_newline = false
 indent_size = 2
 tab_width = 2
+
+[*.php]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4

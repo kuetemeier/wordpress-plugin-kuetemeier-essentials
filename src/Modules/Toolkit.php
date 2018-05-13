@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
  *
- * @package    kuetemeier-essentials
- * @author     Jörg Kütemeier (https://kuetemeier.de/kontakt)
- * @license    GNU General Public License 3
- * @link       https://kuetemeier.de
- * @copyright  2018 Jörg Kütemeier
+ * @package   kuetemeier-essentials
+ * @author    Jörg Kütemeier (https://kuetemeier.de/kontakt)
+ * @license   GNU General Public License 3
+ * @link      https://kuetemeier.de
+ * @copyright 2018 Jörg Kütemeier
  *
  *
  * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
@@ -31,88 +32,85 @@ namespace KuetemeierEssentials\Modules;
  * KEEP THIS for security reasons
  * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
  */
-defined( 'ABSPATH' ) || die( 'No direct call!' );
+defined('ABSPATH') || die('No direct call!');
 
 /**
  * Toolkit Module of the Kuetemeier-Essentials Plugin.
  */
-final class Toolkit extends \Kuetemeier\WordPress\PluginModule {
+final class Toolkit extends \Kuetemeier\WordPress\PluginModule
+{
 
-	public static function manifest()
-	{
-		return array(
-			'id'          => 'toolkit',
-			'short'		  => __( 'Toolkit', 'kuetemeier-essentials' ),
-			'description' => __( 'Little helper and tools for enriching your WordPress installation.', 'kuetemeier-essentials' ),
-			'page'        => 'kuetemeier-toolkit',
+    public static function manifest()
+    {
+        return array(
+            'id' => 'toolkit',
+            'short' => __('Toolkit', 'kuetemeier-essentials'),
+            'description' => __('Little helper and tools for enriching your WordPress installation.', 'kuetemeier-essentials'),
+            'page' => 'kuetemeier-toolkit',
 
-			'config'      => array(
-			)
-		);
-	}
-
-
-	public function getAdminOptionSettings()
-	{
-
-		return array(
-			'subpages' => array(
-				array(
-					'id'        	=> 'kuetemeier-toolkit',
-					'parentSlug'	=> 'kuetemeier',
-					'title'			=> __('Toolkit', 'kuetemeier-essentials'),
-					'content'		=> __('Little helper and tools for enriching your WordPress installation.', 'kuetemeier-essentials'),
-				)
-			),
-			'tabs' => array(
-				array(
-					'id'         => 'toolkit-shortcodes',
-					'page'       => 'kuetemeier-toolkit',
-					'title'      => __('Shortcodes', 'kuetemeier-essentials'),
-					'content'	 => __('The Toolkit section comes with some handy Shortcodes:', 'kuetemeier-essentials' ),
-					'noButtons'  => 1
-				),
-			),
-			'sections' => array(
-				array(
-					'id'        => 'toolkit-shortcodes-dates',
-					'tab'       => 'toolkit-shortcodes',
-					'title'     => __('Dates', 'kuetemeier-essentials'),
-					'content'   => __('Use the Shortcode `[ke-current-year]` to display the current year. Very helpful in Copyright notices.', 'kuetemeier-essentials')."\n\n".
-					               __('', 'kuetemeier-essentials')."\n\n".
-								   __('', 'kuetemeier-essentials'),
-					'markdown'  => 1,
-				),
-			),
-			'options' => array(
-			)
-		);
-	}
+            'config' => array()
+        );
+    }
 
 
-	public function frontendInit()
-	{
-		parent::frontendInit();
+    public function getAdminOptionSettings()
+    {
 
-		add_shortcode('ke-current-year', array( &$this, 'callback__ShortCodeCurrentYear'));
-	}
+        return array(
+            'subpages' => array(
+                array(
+                    'id' => 'kuetemeier-toolkit',
+                    'parentSlug' => 'kuetemeier',
+                    'title' => __('Toolkit', 'kuetemeier-essentials'),
+                    'content' => __('Little helper and tools for enriching your WordPress installation.', 'kuetemeier-essentials'),
+                )
+            ),
+            'tabs' => array(
+                array(
+                    'id' => 'toolkit-shortcodes',
+                    'page' => 'kuetemeier-toolkit',
+                    'title' => __('Shortcodes', 'kuetemeier-essentials'),
+                    'content' => __('The Toolkit section comes with some handy Shortcodes:', 'kuetemeier-essentials'),
+                    'noButtons' => 1
+                ),
+            ),
+            'sections' => array(
+                array(
+                    'id' => 'toolkit-shortcodes-dates',
+                    'tab' => 'toolkit-shortcodes',
+                    'title' => __('Dates', 'kuetemeier-essentials'),
+                    'content' => __('Use the Shortcode `[ke-current-year]` to display the current year. Very helpful in Copyright notices.', 'kuetemeier-essentials') . "\n\n" .
+                        __('', 'kuetemeier-essentials') . "\n\n" .
+                        __('', 'kuetemeier-essentials'),
+                    'markdown' => 1,
+                ),
+            ),
+            'options' => array()
+        );
+    }
+
+
+    public function frontendInit()
+    {
+        parent::frontendInit();
+
+        add_shortcode('ke-current-year', array(&$this, 'callbackShortCodeCurrentYear'));
+    }
 
 
 
-	/* ------------------------------------------------------------------------------------------------------------------------
-	 * BEGIN - ShortCut 'kimg'
-	 * ------------------------------------------------------------------------------------------------------------------------ */
+    /* ------------------------------------------------------------------------------------------------------------------------
+     * BEGIN - ShortCut 'kimg'
+     * ------------------------------------------------------------------------------------------------------------------------ */
 
 
-	public function callback__ShortCodeCurrentYear($atts)
-	{
-		return esc_html(date("Y"));
-	}
+    public function callbackShortCodeCurrentYear()
+    {
+        return esc_html(date("Y"));
+    }
 
 
-	/* ------------------------------------------------------------------------------------------------------------------------
-	 * END - ShortCut 'kimg'
-	 * ------------------------------------------------------------------------------------------------------------------------ */
-
-
+    /* ------------------------------------------------------------------------------------------------------------------------
+     * END - ShortCut 'kimg'
+     * ------------------------------------------------------------------------------------------------------------------------ */
 }

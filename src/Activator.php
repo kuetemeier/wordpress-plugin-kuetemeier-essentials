@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
  *
- * @package    kuetemeier-essentials
- * @author     Jörg Kütemeier (https://kuetemeier.de/kontakt)
- * @license    GNU General Public License 3
- * @link       https://kuetemeier.de
- * @copyright  2018 Jörg Kütemeier
+ * @package   kuetemeier-essentials
+ * @author    Jörg Kütemeier (https://kuetemeier.de/kontakt)
+ * @license   GNU General Public License 3
+ * @link      https://kuetemeier.de
+ * @copyright 2018 Jörg Kütemeier
  *
  *
  * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
@@ -31,20 +32,21 @@ namespace Kuetemeier_Essentials;
  * KEEP THIS for security reasons
  * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
  */
-defined( 'ABSPATH' ) || die( 'No direct call!' );
+defined('ABSPATH') || die('No direct call!');
 
 /**
  * Activator
  */
-final class Activator {
+final class Activator
+{
 
-	/**
-	 * This function is called, when the plugin is activated.
-	 *
-	 * @since 0.1.0
-	 */
-	public static function activate() {
-		// Intentionally empty for now.
-	}
-
+    /**
+     * This function is called, when the plugin is activated.
+     *
+     * @since 0.1.0
+     */
+    public static function activate()
+    {
+        // Intentionally empty for now.
+    }
 }

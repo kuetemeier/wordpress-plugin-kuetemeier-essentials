@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
  *
- * @package    kuetemeier-essentials
- * @author     Jörg Kütemeier (https://kuetemeier.de/kontakt)
- * @license    GNU General Public License 3
- * @link       https://kuetemeier.de
- * @copyright  2018 Jörg Kütemeier
+ * @package   kuetemeier-essentials
+ * @author    Jörg Kütemeier (https://kuetemeier.de/kontakt)
+ * @license   GNU General Public License 3
+ * @link      https://kuetemeier.de
+ * @copyright 2018 Jörg Kütemeier
  *
  *
  * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
@@ -31,7 +32,7 @@ namespace KuetemeierEssentials\Config;
  * KEEP THIS for security reasons
  * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
  */
-defined( 'ABSPATH' ) || die( 'No direct call!' );
+defined('ABSPATH') || die('No direct call!');
 
 // DON'T TOUCH THIS - AUTOREPLACED BY GULP - YOU HAVE BEEN WARNED.
 const PLUGIN_VERSION = '1.0.1';
@@ -46,12 +47,12 @@ const PLUGIN_VERSION_STABLE = '1.0.1';
  * @see Modules
  */
 const AVAILABLE_MODULES = array(
-/*	'core'         => 'Core',
-	'optimization' => 'Optimization',
-	'media'        => 'Media',
-	'analytics'    => 'Analytics',
-	'data-privacy' => 'Data_Privacy',
-	// 'develop'      => 'Develop',*/
+/*  'core'         => 'Core',
+    'optimization' => 'Optimization',
+    'media'        => 'Media',
+    'analytics'    => 'Analytics',
+    'data-privacy' => 'Data_Privacy',
+    // 'develop'      => 'Develop',*/
 );
 
 /**
@@ -78,39 +79,39 @@ const ADMIN_PAGE_SLUG = 'kuetemeier-essentials';
 const DB_OPTION_TABLE_BASE_KEY = 'kuetemeier-essentials';
 
 const PLUGIN_CONFIG = array(
-	'_plugin' => array (
-		'id' => 'KuetemeierEssentials',
-		'version' => array (
-			'this'   => PLUGIN_VERSION,
-			'stable' => PLUGIN_VERSION_STABLE
-		),
-		'options' => array(
-			'key' => DB_OPTION_TABLE_BASE_KEY,
-		),
-		'modules' => array(
-			// numer is init priority, smaller means priority, load before higher numbers
-			'available' => array(
-				'core' => 0,
-				'optimization' => 50,
-				'media' => 100,
-				'analytics' => 150,
-				'dataprivacy' => 200,
-				'security' => 250,
-				'toolkit' => 300,
-				//'test' => 1,
-			),
-			'always-enabled' => array(
-				'core'
-			),
-			'default-enabled' => array(
-				'optimization',
-				'media',
-				'analytics',
-				'dataprivacy',
-				'toolkit',
-				'security',
-				//'test',
-			)
-		)
-	)
+    '_plugin' => array(
+        'id' => 'KuetemeierEssentials',
+        'version' => array(
+            'this' => PLUGIN_VERSION,
+            'stable' => PLUGIN_VERSION_STABLE
+        ),
+        'options' => array(
+            'key' => DB_OPTION_TABLE_BASE_KEY,
+        ),
+        'modules' => array(
+            // numer is init priority, smaller means priority, load before higher numbers
+            'available' => array(
+                'core' => 0,
+                'optimization' => 50,
+                'media' => 100,
+                'analytics' => 150,
+                'dataprivacy' => 200,
+                'security' => 250,
+                'toolkit' => 300,
+                //'test' => 1,
+            ),
+            'always-enabled' => array(
+                'core'
+            ),
+            'default-enabled' => array(
+                'optimization',
+                'media',
+                'analytics',
+                'dataprivacy',
+                'toolkit',
+                'security',
+                //'test',
+            )
+        )
+    )
 );

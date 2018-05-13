@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4:
  *
- * @package    kuetemeier-essentials
- * @author     Jörg Kütemeier (https://kuetemeier.de/kontakt)
- * @license    GNU General Public License 3
- * @link       https://kuetemeier.de
- * @copyright  2018 Jörg Kütemeier
+ * @package   kuetemeier-essentials
+ * @author    Jörg Kütemeier (https://kuetemeier.de/kontakt)
+ * @license   GNU General Public License 3
+ * @link      https://kuetemeier.de
+ * @copyright 2018 Jörg Kütemeier
  *
  *
  * Copyright 2018 Jörg Kütemeier (https://kuetemeier.de/kontakt)
@@ -31,105 +32,101 @@ namespace KuetemeierEssentials\Modules;
  * KEEP THIS for security reasons
  * blocking direct access to our plugin PHP files by checking for the ABSPATH constant
  */
-defined( 'ABSPATH' ) || die( 'No direct call!' );
+defined('ABSPATH') || die('No direct call!');
 
 /**
  * Security Module of the Kuetemeier-Essentials Plugin.
  */
-final class Security extends \Kuetemeier\WordPress\PluginModule {
+final class Security extends \Kuetemeier\WordPress\PluginModule
+{
 
-	public static function manifest()
-	{
-		return array(
-			'id'          => 'security',
-			'short'		  => __('Security', 'kuetemeier-essentials'),
-			'description' => __('Increase the Security of your WordPress installation.', 'kuetemeier-essentials'),
-			'page'        => 'kuetemeier-security',
+    public static function manifest()
+    {
+        return array(
+            'id' => 'security',
+            'short' => __('Security', 'kuetemeier-essentials'),
+            'description' => __('Increase the Security of your WordPress installation.', 'kuetemeier-essentials'),
+            'page' => 'kuetemeier-security',
 
-			'config'      => array(
-				'remove-wp-version' => 0
-			)
-		);
-	}
-
-
-	public function getAdminOptionSettings()
-	{
-
-		return array(
-			'subpages' => array(
-				array(
-					'id'        	=> 'kuetemeier-security',
-					'parentSlug'	=> 'kuetemeier',
-					'title'			=> __('Security', 'kuetemeier-essentials'),
-					'content'		=> __('Increase the Security of your WordPress installation.', 'kuetemeier-essentials'),
-				)
-			),
-			'tabs' => array(
-				array(
-					'id'        => 'security-common',
-					'page'      => 'kuetemeier-security',
-					'title'     => __('Common', 'kuetemeier-essentials'),
-				),
-			),
-			'sections' => array(
-				array(
-					'id'        => 'security-common',
-					'tab'       => 'security-common',
-					'title'     => __('IT-Security', 'kuetemeier-essentials'),
-					'content'	=> array(&$this, 'contentSecurityCommon')
-				),
-				array(
-					'id'        => 'security-remove-version',
-					'tab'       => 'security-common',
-					'title'     => __('Remove Version Informations', 'kuetemeier-essentials'),
-				),
-			),
-			'options' => array(
-				array(
-					'id'          => 'remove-wp-version',
-					'section'     => 'security-remove-version',
-					'title'       => __('Remove WordPress Version', 'kuetemeier-essentials'),
-					'type'        => 'CheckBox',
-					'label'       => __('Check to remove the WordPress Version from the HTML Code and RSS.', 'kuetemeier-essentials' ),
-					'description' => __('(recommended)', 'kuetemeier-essentials'),
-				),
-			)
-		);
-	}
+            'config' => array(
+                'remove-wp-version' => 0
+            )
+        );
+    }
 
 
-	public function frontendInit()
-	{
-		parent::frontendInit();
+    public function getAdminOptionSettings()
+    {
+        return array(
+            'subpages' => array(
+                array(
+                    'id' => 'kuetemeier-security',
+                    'parentSlug' => 'kuetemeier',
+                    'title' => __('Security', 'kuetemeier-essentials'),
+                    'content' => __('Increase the Security of your WordPress installation.', 'kuetemeier-essentials'),
+                )
+            ),
+            'tabs' => array(
+                array(
+                    'id' => 'security-common',
+                    'page' => 'kuetemeier-security',
+                    'title' => __('Common', 'kuetemeier-essentials'),
+                ),
+            ),
+            'sections' => array(
+                array(
+                    'id' => 'security-common',
+                    'tab' => 'security-common',
+                    'title' => __('IT-Security', 'kuetemeier-essentials'),
+                    'content' => array(&$this, 'contentSecurityCommon')
+                ),
+                array(
+                    'id' => 'security-remove-version',
+                    'tab' => 'security-common',
+                    'title' => __('Remove Version Informations', 'kuetemeier-essentials'),
+                ),
+            ),
+            'options' => array(
+                array(
+                    'id' => 'remove-wp-version',
+                    'section' => 'security-remove-version',
+                    'title' => __('Remove WordPress Version', 'kuetemeier-essentials'),
+                    'type' => 'CheckBox',
+                    'label' => __('Check to remove the WordPress Version from the HTML Code and RSS.', 'kuetemeier-essentials'),
+                    'description' => __('(recommended)', 'kuetemeier-essentials'),
+                ),
+            )
+        );
+    }
 
-		if ($this->getOption('remove-wp-version')) {
-			add_filter('the_generator', array(&$this, 'callback__RemoveWPVersion'), PHP_INT_MAX);
-		}
-	}
+
+    public function frontendInit()
+    {
+        parent::frontendInit();
+
+        if ($this->getOption('remove-wp-version')) {
+            add_filter('the_generator', array(&$this, 'callbackRemoveWPVersion'), PHP_INT_MAX);
+        }
+    }
 
 
-	public function contentSecurityCommon()
-	{
-		echo '<p>'.__('IT security requires a complete concept that goes beyond the scope of this module.', 'kuetemeier-essentials').'<br />';
-		echo __('But a few useful features help you to better secure your WordPress installation (more features coming soon):', 'kuetemeier-essentials').'</p>';
-	}
+    public function contentSecurityCommon()
+    {
+        echo '<p>' . __('IT security requires a complete concept that goes beyond the scope of this module.', 'kuetemeier-essentials') . '<br />';
+        echo __('But a few useful features help you to better secure your WordPress installation (more features coming soon):', 'kuetemeier-essentials') . '</p>';
+    }
 
 
-	/* ------------------------------------------------------------------------------------------------------------------------
-	 * BEGIN - Remove WP Version
-	 * ------------------------------------------------------------------------------------------------------------------------ */
+    /* --------------------------------------------------------------------------------------------------------------
+     * BEGIN - Remove WP Version
+     * -------------------------------------------------------------------------------------------------------------- */
 
+    public function callbackRemoveWPVersion()
+    {
+        return '';
+    }
 
-	function callback__RemoveWPVersion()
-	{
-		return '';
-	}
-
-
-	/* ------------------------------------------------------------------------------------------------------------------------
-	 * END - Remove WP Version
-	 * ------------------------------------------------------------------------------------------------------------------------ */
-
-
+    /* --------------------------------------------------------------------------------------------------------------
+     * END - Remove WP Version
+     * -------------------------------------------------------------------------------------------------------------- */
 }

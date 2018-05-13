@@ -56,6 +56,7 @@ const release = require('gulp-octorelease').default;
 
 // get config
 var pkg = JSON.parse(fs.readFileSync('./package.json'));
+pkg.versionDash = pkg.version.replace('.','-').replace('.','-');
 
 // generate sourcemaps only if we are 'watching' (use `gulp watch` and clean with `gulp clean`)
 var scripts_sourcemaps = false;
@@ -172,7 +173,7 @@ gulp.task('zip', function () {
     '!./vendor/**/tests/**/*',
     '!./vendor/**/tests'
   ], { base: '..' })
-    .pipe(zip('kuetemeier-essentials-v'+pkg.version+'.zip'))
+    .pipe(zip('kuetemeier-essentials.zip'))
     .pipe(gulp.dest('./release/'));
 });
 
@@ -295,13 +296,15 @@ gulp.task('watch', ['pre-watch'], function () {
 
 
 gulp.task('github', function () {
-  gulp.src('./release/kuetemeier-essentials.zip')
+  var fileName = 'kuetemeier-essentials.zip';
+  var filePath = './release/' + fileName;
+  gulp.src(fileName)
     .pipe(release({
       token: process.env.GITHUB_TOKEN,
       tag: 'v' + pkg.version,
       name: pkg.name + ' v' + pkg.version,
       body: 'New ' + pkg.name + ' release v' + pkg.version + '!',
-      assetName: 'kuetemeier-essentials-v'+pkg.version+'.zip',
+      assetName: fileName,
       manifest: pkg
     }));
 });

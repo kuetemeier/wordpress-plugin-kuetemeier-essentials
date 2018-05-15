@@ -173,7 +173,7 @@ gulp.task('zip', function () {
     '!./vendor/**/tests/**/*',
     '!./vendor/**/tests'
   ], { base: '..' })
-    .pipe(zip('kuetemeier-essentials.zip'))
+    .pipe(zip('kuetemeier-essentials-v' + pkg.versionDash +'.zip'))
     .pipe(gulp.dest('./release/'));
 });
 

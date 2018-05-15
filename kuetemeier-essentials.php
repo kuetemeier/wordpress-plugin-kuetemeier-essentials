@@ -4,7 +4,7 @@
  * Plugin Name: Kuetemeier Essentials
  * Plugin URI: http://wordpress.org/extend/plugins/kuetemeier-essentials/
  * Description: WordPress PlugIn with usefull extensions for speed, data privacy and optimization.
- * Version: 1.2.0
+ * Version: 1.2.2
  * Author: Jörg Kütemeier
  * Author URI: https://kuetemeier.de
  *
@@ -39,15 +39,13 @@ defined('ABSPATH') || die('No direct call!');
 
 // composer autoload
 require __DIR__ . '/vendor/autoload.php';
-// PlugIn Updater
-require 'src/vendor/plugin-update-checker-4.4/plugin-update-checker.php';
 
 
 /********************************************************
  * Define constants, use old style for php version check
  */
 define('KUETEMEIER_ESSENTIALS_NAME', 'Kuetemeier Essentials');
-define('KUETEMEIER_ESSENTIALS_VERSION', '1.2.0');
+define('KUETEMEIER_ESSENTIALS_VERSION', '1.2.2');
 define('KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6');
 define('KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
@@ -176,14 +174,6 @@ function kuetemeier_essentials_init()
 
     // Check PHP version requirements.
     if (kuetemeier_essentials_is_php_version_requirements_fulfilled()) {
-        $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-            'https://github.com/kuetemeier/wordpress-plugin-kuetemeier-essentials/',
-            __FILE__,
-            'kuetemeier-essentials'
-        );
-        $myUpdateChecker->getVcsApi()->enableReleaseAssets();
-
-
         // register activation and deactivation hooks
         add_action('admin_init', 'kuetemeier_essentials_callback_admin_init');
 

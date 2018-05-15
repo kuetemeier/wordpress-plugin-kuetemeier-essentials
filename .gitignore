@@ -16,3 +16,4 @@ assets/
 .vscode
 package-lock.json
 release
+deploy

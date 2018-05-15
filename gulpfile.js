@@ -232,12 +232,6 @@ gulp.task('assets-index', function () {
 });
 
 
-gulp.task('assets-banner', function () {
-  return gulp.src('./assets-src/*.{png,jpg,svg}')
-    .pipe(gulp.dest('./assets/'));
-});
-
-
 gulp.task('sass-lint', function () {
   return gulp.src(paths.styles.src)
     .pipe(sassLint())
@@ -319,7 +313,7 @@ gulp.task('test', ['lint']);
 gulp.task('lint', ['sass-lint', 'es-lint']);
 
 
-gulp.task('assets', ['styles', 'scripts', 'images', 'assets-index', 'assets-banner']);
+gulp.task('assets', ['styles', 'scripts', 'images', 'assets-index']);
 
 
 gulp.task('build-without-release', gulpSequence('replace', 'assets'));
@@ -329,3 +323,55 @@ gulp.task('build', gulpSequence('clean', 'build-without-release', 'zip'));
 
 
 gulp.task('default', ['build-without-release']);
+
+gulp.task('deploy-clean', function() {
+  return del(['deploy/trunk']);
+});
+
+gulp.task('deploy-assets-banner', function () {
+  return gulp.src('./wordpress/banner/*.{png,jpg,svg}')
+    .pipe(gulp.dest('./deploy/assets/'));
+});
+
+gulp.task('deploy-screenshots', function () {
+  return gulp.src('./wordpress/screenshots/*.{png,jpg,svg}')
+    .pipe(gulp.dest('./deploy/assets/'));
+});
+
+gulp.task('deploy-before', gulpSequence('deploy-clean', 'replace', 'assets', 'deploy-assets-banner', 'deploy-screenshots'));
+
+gulp.task('deploy-prepare', ['deploy-before'], function() {
+  return gulp.src([
+    './{src,assets,languages}/**/*',
+    './index.php',
+    './LICENSE.txt',
+    './readme.txt',
+    './uninstall.php',
+    './kuetemeier-essentials.php',
+    '!./languages/*backup*',
+    './vendor/{composer,kuetemeier}/**/*',
+    './vendor/autoload.php',
+    '!./vendor/**/node_modules',
+    '!./vendor/**/node_modules/**/*',
+    '!./vendor/**/.*',
+    '!./vendor/**/composer.lock',
+    '!./vendor/**/gulpfile.js',
+    '!./vendor/**/phpcs.xml*',
+    '!./vendor/**/phpunit.xml*',
+    '!./vendor/**/tests/**/*',
+    '!./vendor/**/tests'
+  ], { base: '.' })
+    .pipe(gulp.dest('./deploy/trunk/'));
+});
+
+
+
+
+gulp.task('deploy', function () {
+  exec('', function (err, stdout, stderr) {
+    //console.log(stdout);
+    console.log(stderr);
+    //cb(err);
+  });
+});
+

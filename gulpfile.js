@@ -84,6 +84,41 @@ var paths = {
   images: {
     src: 'assets-src/images/**/*',
     dest: 'assets/images/'
+  },
+  package: {
+    vendor: [
+      './vendor/{composer,kuetemeier,matthiasmullie}/**/*',
+      './vendor/autoload.php',
+      '!./vendor/**/node_modules',
+      '!./vendor/**/node_modules/**/*',
+      '!./vendor/**/.*',
+      '!./vendor/**/composer.lock',
+      '!./vendor/**/gulpfile.js',
+      '!./vendor/**/phpcs.xml*',
+      '!./vendor/**/phpunit.xml*',
+      '!./vendor/**/tests/**/*',
+      '!./vendor/**/tests'
+    ],
+    files: [
+      './index.php',
+      './LICENSE.txt',
+      './readme.txt',
+      './uninstall.php',
+      './kuetemeier-essentials.php'
+    ],
+    languages: [
+      './languages/**/*',
+      '!./languages/*backup*',
+      ],
+    src: [
+      './src/**/*'
+    ],
+    assets: [
+      './assets/**/*'
+    ]
+  },
+  deploy: {
+    dest: 'deploy/trunk'
   }
 };
 
@@ -286,6 +321,12 @@ gulp.task('watch', ['pre-watch'], function () {
     gulp.start('replace');
   });
   gulp.watch(['./kuetemeier-essentials.php', './src/**/*.php'], ['phpdoc']);
+
+  gulp.watch(paths.package.vendor, ['deploy-vendor']);
+  gulp.watch(paths.package.files, ['deploy-files']);
+  gulp.watch(paths.package.langauges, ['deploy-languages']);
+  gulp.watch(paths.package.src, ['deploy-src']);
+  gulp.watch(paths.package.assets, ['deploy-assets']);
 });
 
 
@@ -338,40 +379,39 @@ gulp.task('deploy-screenshots', function () {
     .pipe(gulp.dest('./deploy/assets/'));
 });
 
+
 gulp.task('deploy-before', gulpSequence('deploy-clean', 'replace', 'assets', 'deploy-assets-banner', 'deploy-screenshots'));
 
-gulp.task('deploy-prepare', ['deploy-before'], function() {
-  return gulp.src([
-    './{src,assets,languages}/**/*',
-    './index.php',
-    './LICENSE.txt',
-    './readme.txt',
-    './uninstall.php',
-    './kuetemeier-essentials.php',
-    '!./languages/*backup*',
-    './vendor/{composer,kuetemeier}/**/*',
-    './vendor/autoload.php',
-    '!./vendor/**/node_modules',
-    '!./vendor/**/node_modules/**/*',
-    '!./vendor/**/.*',
-    '!./vendor/**/composer.lock',
-    '!./vendor/**/gulpfile.js',
-    '!./vendor/**/phpcs.xml*',
-    '!./vendor/**/phpunit.xml*',
-    '!./vendor/**/tests/**/*',
-    '!./vendor/**/tests'
-  ], { base: '.' })
-    .pipe(gulp.dest('./deploy/trunk/'));
+
+gulp.task('deploy-vendor', function() {
+  return gulp.src(paths.package.vendor, { base: '.' })
+  .pipe(gulp.dest(paths.deploy.dest));
 });
 
 
-
-
-gulp.task('deploy', function () {
-  exec('', function (err, stdout, stderr) {
-    //console.log(stdout);
-    console.log(stderr);
-    //cb(err);
-  });
+gulp.task('deploy-files', function() {
+  return gulp.src(paths.package.files, { base: '.' })
+  .pipe(gulp.dest(paths.deploy.dest));
 });
 
+
+gulp.task('deploy-languages', function() {
+  return gulp.src(paths.package.languages, { base: '.' })
+  .pipe(gulp.dest(paths.deploy.dest));
+});
+
+
+gulp.task('deploy-src', function() {
+  return gulp.src(paths.package.src, { base: '.' })
+  .pipe(gulp.dest(paths.deploy.dest));
+});
+
+
+gulp.task('deploy-assets', function() {
+  return gulp.src(paths.package.assets, { base: '.' })
+  .pipe(gulp.dest(paths.deploy.dest));
+});
+
+
+gulp.task('deploy-prepare', gulpSequence('deploy-before', 'deploy-vendor',
+  'deploy-files', 'deploy-languages', 'deploy-src', 'deploy-assets'));

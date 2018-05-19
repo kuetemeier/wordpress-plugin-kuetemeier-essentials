@@ -4,7 +4,7 @@
  * Plugin Name: Kuetemeier Essentials
  * Plugin URI: http://wordpress.org/extend/plugins/kuetemeier-essentials/
  * Description: WordPress PlugIn with usefull extensions for speed, data privacy and optimization.
- * Version: 1.2.2
+ * Version: 1.2.4
  * Author: Jörg Kütemeier
  * Author URI: https://kuetemeier.de
  *
@@ -45,9 +45,32 @@ require __DIR__ . '/vendor/autoload.php';
  * Define constants, use old style for php version check
  */
 define('KUETEMEIER_ESSENTIALS_NAME', 'Kuetemeier Essentials');
-define('KUETEMEIER_ESSENTIALS_VERSION', '1.2.2');
+define('KUETEMEIER_ESSENTIALS_VERSION', '1.2.4');
 define('KUETEMEIER_ESSENTIALS_MINIMAL_PHP_VERSION', '5.6');
 define('KUETEMEIER_ESSENTIALS_PLUGIN_DIR', plugin_dir_path(__FILE__));
+
+// WP-content dir name (automagically set, should not be needed),
+// Dirname of KE cache dir and KE-prefix can be overridden in wp-config.php
+// Inspired by autopitimize plugin.
+if (!defined('KUETEMEIER_ESSENTIALS_WP_CONTENT_NAME')) {
+    define('KUETEMEIER_ESSENTIALS_WP_CONTENT_NAME', '/'.wp_basename(WP_CONTENT_DIR));
+}
+if (!defined('KUETEMEIER_ESSENTIALS_CACHE_CHILD_DIR')) {
+    define('KUETEMEIER_ESSENTIALS_CACHE_CHILD_DIR', '/cache/autoptimize/');
+}
+if (!defined('KUETEMEIER_ESSENTIALS_CACHEFILE_PREFIX')) {
+    define('KUETEMEIER_ESSENTIALS_CACHEFILE_PREFIX', 'kuetemeier-essentials-');
+}
+
+// Plugin dir constants (plugin url's defined later to accomodate domain mapped sites)
+if (!defined('KUETEMEIER_ESSENTIALS_CACHE_DIR')) {
+    if (is_multisite() && apply_filters('kuetemeier_essentials_separate_blog_caches', true)) {
+        $blog_id = get_current_blog_id();
+        define('KUETEMEIER_ESSENTIALS_CACHE_DIR', WP_CONTENT_DIR.KUETEMEIER_ESSENTIALS_CACHE_CHILD_DIR.$blog_id.'/');
+    } else {
+        define('KUETEMEIER_ESSENTIALS_CACHE_DIR', WP_CONTENT_DIR.KUETEMEIER_ESSENTIALS_CACHE_CHILD_DIR);
+    }
+}
 
 
 /* ------------------------------------------------------------------------------------------------------------------

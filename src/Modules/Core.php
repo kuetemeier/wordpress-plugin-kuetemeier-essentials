@@ -42,7 +42,9 @@ final class Core extends \Kuetemeier\WordPress\PluginModule
             'description' => __('Kuetemeier Essentials Core Module.', 'kuetemeier-essentials'),
             'page' => 'kuetemeier',
 
-            'config' => array()
+            'config' => array(
+                'rebuild-js' => 1
+            )
         );
     }
 
@@ -221,6 +223,14 @@ final class Core extends \Kuetemeier\WordPress\PluginModule
     }
 
 
+    public function commonInit()
+    {
+        parent::commonInit();
+
+        $this->checkRebuildJS();
+    }
+
+
     /**
      * This function returns the maximum files size that can be uploaded in PHP
      *
@@ -267,5 +277,14 @@ final class Core extends \Kuetemeier\WordPress\PluginModule
                 break;
         }
         return (int)$iValue;
+    }
+
+
+    public function checkRebuildJS()
+    {
+        if ($this->getOption('rebuild-js')) {
+            // wp_die('Is set rebuild-js');
+            $this->setOption('rebuild-js', 0);
+        }
     }
 }

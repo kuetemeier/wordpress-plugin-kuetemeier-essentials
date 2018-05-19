@@ -29,38 +29,38 @@ jQuery(function ( $ ) {
 	var isAdding = false;
 
 	function clear() {
-		$( '#emwi-url' ).val( '' );
-		$( '#emwi-hidden' ).hide();
-		$( '#emwi-error' ).text( '' );
-		$( '#emwi-width' ).val( '' );
-		$( '#emwi-height' ).val( '' );
-		$( '#emwi-mime-type' ).val( '' );
+		$( '#kuetemeier-url' ).val( '' );
+		$( '#kuetemeier-hidden' ).hide();
+		$( '#kuetemeier-error' ).text( '' );
+		$( '#kuetemeier-width' ).val( '' );
+		$( '#kuetemeier-height' ).val( '' );
+		$( '#kuetemeier-mime-type' ).val( '' );
 	}
 
-	$( 'body' ).on( 'click', '#emwi-clear', function ( e ) {
+	$( 'body' ).on( 'click', '#kuetemeier-clear', function ( e ) {
 		clear();
 	});
 
-	$( 'body' ).on( 'click', '#emwi-show', function ( e ) {
-		$( '#emwi-media-new-panel' ).show();
+	$( 'body' ).on( 'click', '#kuetemeier-show', function ( e ) {
+		$( '#kuetemeier-media-new-panel' ).show();
 		e.preventDefault();
 	});
 
-	$( 'body' ).on( 'click', '#emwi-in-upload-ui #emwi-add', function ( e ) {
+	$( 'body' ).on( 'click', '#kuetemeier-in-upload-ui #kuetemeier-add', function ( e ) {
 		if ( isAdding ) {
 			return;
 		}
 		isAdding = true;
 
-		$('#emwi-in-upload-ui #emwi-add').prop('disabled', true);
+		$('#kuetemeier-in-upload-ui #kuetemeier-add').prop('disabled', true);
 
 		var postData = {
-			'url': $( '#emwi-url' ).val(),
-			'width': $( '#emwi-width' ).val(),
-			'height': $( '#emwi-height' ).val(),
-			'mime-type': $( '#emwi-mime-type' ).val()
+			'url': $( '#kuetemeier-url' ).val(),
+			'width': $( '#kuetemeier-width' ).val(),
+			'height': $( '#kuetemeier-height' ).val(),
+			'mime-type': $( '#kuetemeier-mime-type' ).val()
 		};
-		wp.media.post( 'add_external_media_without_import', postData )
+		wp.media.post('kuetemeier_add_external_media_without_import', postData )
 			.done(function ( response ) {
 				var attachment = wp.media.model.Attachment.create( response );
 				attachment.fetch();
@@ -85,29 +85,29 @@ jQuery(function ( $ ) {
 
 				// Reset the input.
 				clear();
-				$( '#emwi-hidden' ).hide();
-				$( '#emwi-buttons-row .spinner' ).css( 'visibility', 'hidden' );
-				$( '#emwi-in-upload-ui #emwi-add').prop('disabled', false);
+				$( '#kuetemeier-hidden' ).hide();
+				$( '#kuetemeier-buttons-row .spinner' ).css( 'visibility', 'hidden' );
+				$( '#kuetemeier-in-upload-ui #kuetemeier-add').prop('disabled', false);
 				isAdding = false;
 			}).fail(function (response ) {
-				$( '#emwi-error' ).text( response['error'] );
-				$( '#emwi-width' ).val( response['width'] );
-				$( '#emwi-height' ).val( response['height'] );
-				$( '#emwi-mime-type' ).val( response['mime-type'] );
-				$( '#emwi-hidden' ).show();
-				$( '#emwi-buttons-row .spinner' ).css( 'visibility', 'hidden' );
-				$( '#emwi-in-upload-ui #emwi-add' ).prop('disabled', false);
+				$( '#kuetemeier-error' ).text( response['error'] );
+				$( '#kuetemeier-width' ).val( response['width'] );
+				$( '#kuetemeier-height' ).val( response['height'] );
+				$( '#kuetemeier-mime-type' ).val( response['mime-type'] );
+				$( '#kuetemeier-hidden' ).show();
+				$( '#kuetemeier-buttons-row .spinner' ).css( 'visibility', 'hidden' );
+				$( '#kuetemeier-in-upload-ui #kuetemeier-add' ).prop('disabled', false);
 				isAdding = false;
 			});
 		e.preventDefault();
-		$( '#emwi-buttons-row .spinner' ).css( 'visibility', 'visible' );
+		$( '#kuetemeier-buttons-row .spinner' ).css( 'visibility', 'visible' );
 	});
 
-	$( 'body' ).on( 'click', '#emwi-in-upload-ui #emwi-cancel', function (e ) {
+	$( 'body' ).on( 'click', '#kuetemeier-in-upload-ui #kuetemeier-cancel', function (e ) {
 		clear();
-		$( '#emwi-media-new-panel' ).hide();
-		$( '#emwi-buttons-row .spinner' ).css( 'visibility', 'hidden' );
-		$( '#emwi-in-upload-ui #emwi-add' ).prop('disabled', false);
+		$( '#kuetemeier-media-new-panel' ).hide();
+		$( '#kuetemeier-buttons-row .spinner' ).css( 'visibility', 'hidden' );
+		$( '#kuetemeier-in-upload-ui #kuetemeier-add' ).prop('disabled', false);
 		isAdding = false;
 		e.preventDefault();
 	});

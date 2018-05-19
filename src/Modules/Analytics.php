@@ -136,6 +136,7 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule
                     'title' => __('Anonymize IP', 'kuetemeier-essentials'),
                     'label' => __('(highly recommended)', 'kuetemeier-essentials'),
                     'description' => __('Check to anonymize the IP of the visitor, before it is send to Google.', 'kuetemeier-essentials'),
+                    'onChange' => array(&$this, 'onChange'),
                 ),
             )
         );
@@ -159,6 +160,11 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule
         }
     }
 
+
+    public function adminInit($options)
+    {
+        parent::adminInit($options);
+    }
 
     public function contentAnalyticsHeaderFooter()
     {
@@ -229,5 +235,11 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule
         </script>
         <?php
         */
+    }
+
+    public function onChange($validInput)
+    {
+        $this->config->setOption('rebuild-js', 'TEST', 'core');
+        return $anitized;
     }
 }

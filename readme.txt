@@ -128,6 +128,12 @@ Coming soon.
 
 == Changelog ==
 
+= 1.2.4 = 
+
+- Bugfixes
+- Enhancements for External Add Media
+- New Kuetemeier/Collection v1.2.0 - Fixes Problems with PHP 5.6
+
 = 1.2.1 =
 - First public version in the WordPress PlugIn-Directory
 

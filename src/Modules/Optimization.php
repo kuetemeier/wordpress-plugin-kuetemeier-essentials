@@ -98,10 +98,16 @@ final class Optimization extends \Kuetemeier\WordPress\PluginModule
     }
 
 
+    public function commonInit()
+    {
+        parent::commonInit();
+        $this->frontendInitDisableEmojis();
+    }
+
+
     public function frontendInit()
     {
         parent::frontendInit();
-        $this->frontendInitDisableEmojis();
         $this->frontendInitDisableEmbeds();
     }
 

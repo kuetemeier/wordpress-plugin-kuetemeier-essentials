@@ -25,17 +25,17 @@
 }
 
 
-#emwi-in-upload-ui {
+#kuetemeier-in-upload-ui {
   margin: 1.2em auto;
   text-align: center;
 }
 
-#emwi-in-upload-ui .row1 {
+#kuetemeier-in-upload-ui .row1 {
   margin-bottom: .5em;
 }
 
 /*
-#emwi-media-new-panel {
+#kuetemeier-media-new-panel {
   position: relative;
   top: 0;
   width: 100%;
@@ -49,75 +49,79 @@
 }
 */
 
-.media-modal-content #emwi-media-new-panel {
+.media-modal-content #kuetemeier-media-new-panel {
 	background-color: white;
 }
 
-#emwi-media-new-panel .url-row {
+#kuetemeier-media-new-panel .url-row {
 	position: relative;
 	height: 2.5em;
-	margin-bottom: 1.5em;
+    margin-bottom: 1em;
+    margin-top: 1.5em;
 }
 
-#emwi-media-new-panel .url-row label {
-	width: 13em;
+#kuetemeier-media-new-panel .url-row label {
+    /*width: 13em;*/
+    padding-top: 1em;
+    width: 20em;
 	line-height: 2.5em;
 }
 
-#emwi-url-input-wrapper {
+#kuetemeier-url-input-wrapper {
 	display: inline-block;
 	position: absolute;
-	left: 13em;
+	left: 20em;
 	right: 0;
 }
 
-#emwi-url {
+#kuetemeier-url {
 	width: 100%;
 }
 
-#emwi-error {
+#kuetemeier-error {
 	color: red;
 }
 
-#emwi-properties {
+#kuetemeier-properties {
 	margin-top: 1.5em;
 }
 
-#emwi-properties label {
+#kuetemeier-properties label {
 	margin-right: 1em;
 }
 
-#emwi-width {
+#kuetemeier-width {
 	margin-right: 2.5em;
 	width: 6em;
 }
 
-#emwi-height {
+#kuetemeier-height {
 	margin-right: 7em;
 	width: 6em;
 }
 
-#emwi-type {
+#kuetemeier-type {
 	width: 17em;
 }
 
-#emwi-buttons-row {
+#kuetemeier-buttons-row {
 	margin-top: 1.5em;
-	text-align: right;
+    text-align: right;
+    text-align: left;
 }
 
-#emwi-buttons-row .spinner {
+#kuetemeier-buttons-row .spinner {
 	margin-top: 4px;
 	margin-right: 2em;
 	float: none;
 	visibility: hidden;
 }
 
-#emwi-clear {
+#kuetemeier-clear {
 	margin-right: 2.3em;
 }
 
-#emwi-add {
+#kuetemeier-add {
 	margin-right: 1.5em;
 }
 

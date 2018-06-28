@@ -2,9 +2,9 @@
 Contributors: kuetemeier
 Tags: data, privacy, speed, optimiziation, optimize, data, quick, fast, data-privacy
 Requires at least: 4.9
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 Requires PHP: 5.6
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GNU General Public License v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -127,6 +127,11 @@ Coming soon.
 4. Simply include Google Analytics code with IP anonymization
 
 == Changelog ==
+
+= 1.2.5 =
+
+- Bugfix: Use correct Google Analytics ID in Tag Manager URL
+- Change: do not filter header and footer code (Analytics Module)
 
 = 1.2.4 = 
 

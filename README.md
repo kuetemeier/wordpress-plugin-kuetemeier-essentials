@@ -5,15 +5,15 @@ Description: WordPress PlugIn with usefull extensions for speed, data privacy an
 ## Version Information ##
 
 #### This source code ####
-Version: 1.2.4
+Version: 1.2.5
 
 #### Latest stable ####
-Latest stable version: 1.2.4
+Latest stable version: 1.2.5
 
 #### WordPress Version ####
 
 Requires at least: 4.9
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 
 #### PHP Version ####
 

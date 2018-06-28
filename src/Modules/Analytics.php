@@ -206,7 +206,7 @@ final class Analytics extends \Kuetemeier\WordPress\PluginModule
 
         ?>
         <link rel="dns-prefetch" href="//www.googletagmanager.com">
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27563916-14"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo urlencode($trackingID) ?>"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

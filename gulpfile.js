@@ -133,6 +133,7 @@ gulp.task('replace_readme_txt', function () {
     .pipe(replace(/(Tags: )(.*)/, '$1' + pkg.wordpress.tags))
     .pipe(replace(/(Requires at least: )(.*)/, '$1' + pkg.wordpress.requires_at_least))
     .pipe(replace(/(Tested up to: )(.*)/, '$1' + pkg.wordpress.tested_up_to))
+    .pipe(replace(/(Stable tag: )(.*)/, '$1' + pkg.version_stable))
     .pipe(gulp.dest('./'));
 });
 

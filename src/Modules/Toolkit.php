@@ -42,7 +42,10 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule
             'description' => __('Little helper and tools for enriching your WordPress installation.', 'kuetemeier-essentials'),
             'page' => 'kuetemeier-toolkit',
 
-            'config' => array()
+            'config' => array(
+                'custom-excerpt-read-more' => 0,
+                'custom-excerpt-read-more-content' => '%1$s <p class="read-more-button-container"><a class="button" href="%2$s">Read more</a></p>'
+            )
         );
     }
 
@@ -61,6 +64,12 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule
             ),
             'tabs' => array(
                 array(
+                    'id' => 'toolkit-common',
+                    'page' => 'kuetemeier-toolkit',
+                    'title' => __('Common functions', 'kuetemeier-essentials'),
+                    'content' => __('A collection of small helper functions.', 'kuetemeier-essentials'),
+                ),
+                array(
                     'id' => 'toolkit-shortcodes',
                     'page' => 'kuetemeier-toolkit',
                     'title' => __('Shortcodes', 'kuetemeier-essentials'),
@@ -69,6 +78,12 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule
                 ),
             ),
             'sections' => array(
+                array(
+                    'id' => 'toolkit-common-more',
+                    'tab' => 'toolkit-common',
+                    'title' => __('Read more', 'kuetemeier-essentials'),
+                    'content' => __('By default, WordPress skips all of the excerpt_length and excerpt_more filters when the custom excerpt is used. If you would like to use the read more links or read more buttons with custom excerpt, you can activate it here:', 'kuetemeier-essentials'),
+                ),
                 array(
                     'id' => 'toolkit-shortcodes-dates',
                     'tab' => 'toolkit-shortcodes',
@@ -79,7 +94,27 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule
                     'markdown' => 1,
                 ),
             ),
-            'options' => array()
+            'options' => array(
+                array(
+                    'id' => 'custom-excerpt-read-more',
+                    'section' => 'toolkit-common-more',
+                    'type' => 'CheckBox',
+                    'code' => 1,
+                    'title' => __('Activate "read more" with custom excerpt', 'kuetemeier-essentials'),
+                    'label' => __('(recommended)', 'kuetemeier-essentials'),
+                    'description' => __('Check to place a "read more" notice after custom exceprts.', 'kuetemeier-essentials'),
+                ),
+                array(
+                    'id' => 'custom-excerpt-read-more-content',
+                    'section' => 'toolkit-common-more',
+                    'type' => 'Text',
+                    'code' => 1,
+                    'title' => __('Content of the "read more" link.', 'kuetemeier-essentials'),
+                    //'label' => __('(e.g. UA-12345678-90)', 'kuetemeier-essentials'),
+                    'doNotFilter' => 1,
+                    'description' => __('You can use %1$s for the excerpt and %2$s for the link to the article.', 'kuetemeier-essentials'),
+                ),
+            )
         );
     }
 
@@ -89,6 +124,10 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule
         parent::frontendInit();
 
         add_shortcode('ke-current-year', array(&$this, 'callbackShortCodeCurrentYear'));
+
+        if ($this->getOption('custom-excerpt-read-more')) {
+            add_filter('wp_trim_excerpt', array(&$this, 'callbackCustomExcerptAddReadMore'));
+        }
     }
 
 
@@ -107,4 +146,22 @@ final class Toolkit extends \Kuetemeier\WordPress\PluginModule
     /* ------------------------------------------------------------------------------------------------------------------------
      * END - ShortCut 'kimg'
      * ------------------------------------------------------------------------------------------------------------------------ */
+
+
+    public function callbackCustomExcerptAddReadMore($excerpt)
+    {
+        $output = $excerpt;
+
+        $content = '%1$s <a href="%2$s">Read more</a>';
+        $content = $this->getOption('custom-excerpt-read-more-content');
+        //wp_die($content);
+        if (has_excerpt()) {
+            $output = sprintf(
+                $content,
+                $excerpt,
+                get_permalink()
+            );
+        }
+        return $output;
+    }
 }

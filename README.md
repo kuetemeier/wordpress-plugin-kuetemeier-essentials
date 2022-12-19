@@ -1,3 +1,11 @@
+# Archived
+
+I completly switched to [Hugo](https://gohugo.io/), so this project is no longer actively maintained by me.
+
+So I archived this repo and set it to read-only. The source code however is still available here.
+
+But I can't recommend using it without manual updates. Due to time constraints I cannot offer support for this.
+
 # WordPress Plugin Kuetemeier Essentials#
 
 Description: WordPress PlugIn with usefull extensions for speed, data privacy and optimization.
